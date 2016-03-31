@@ -13,8 +13,11 @@ To add data from file:
 - describe \<dbname\>.\<tablename\>; (ex. describe moviedb.movies;)
 
 
-While *IN* the JDBC folder, to compile:
-javac ./src/MyJDBCConnector.java -d ./bin/
+#### JDBC
+###### You *must* be in the JDBC folder:
 
-to run:
-java -classpath ./bin/:./lib/mysql-connector-java-5.0.8-bin.jar MyJDBCConnector
+To compile:
+- javac ./src/MyJDBCConnector.java -d ./bin/
+
+To run:
+- java -classpath ./bin/:./lib/mysql-connector-java-5.0.8-bin.jar MyJDBCConnector
