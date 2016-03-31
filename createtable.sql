@@ -1,6 +1,8 @@
+drop database if exists moviedb;
 CREATE DATABASE IF NOT EXISTS moviedb;
 
 USE moviedb;
+
 
 -- DROP TABLE IF EXISTS movies;
 CREATE TABLE movies(
