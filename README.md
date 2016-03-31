@@ -11,3 +11,10 @@ To add data from file:
 - show tables;
 - use \<dbname\>;
 - describe \<dbname\>.\<tablename\>; (ex. describe moviedb.movies;)
+
+
+While *IN* the JDBC folder, to compile:
+javac ./src/MyJDBCConnector.java -d ./bin/
+
+to run:
+java -classpath ./bin/:./lib/mysql-connector-java-5.0.8-bin.jar MyJDBCConnector
