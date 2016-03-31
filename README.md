@@ -1,7 +1,5 @@
 # WebDevProj
 
-<s>test</s>
-
 To import schema use: mysql -u root -p < createtable.sql
 
 #### Useful commands:
