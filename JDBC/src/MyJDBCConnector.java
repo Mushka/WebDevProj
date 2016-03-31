@@ -7,12 +7,12 @@ public class MyJDBCConnector
 
 	public static void main(String [] args) throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "root");
-		Statement selectStmt = db_connection.createStatment();
-		ResultSet results = selectStmt.executeQuery("select * from people;");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "");
+		Statement selectStmt = db_connection.createStatement();
+		ResultSet results = selectStmt.executeQuery("select * from stars;");
 
 		while(results.next()){
-			System.out.println("ID:" + results.getInt("id"));
+			System.out.println("Star: " + results.getString("first_name") + " " + results.getString("last_name"));
 		}
 
 		results.close();
