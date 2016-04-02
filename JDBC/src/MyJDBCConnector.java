@@ -84,7 +84,22 @@ public class MyJDBCConnector
 		return input;
 	}
 
-	public static boolean processOption(int option) throws Exception
+	public static String getString(String inputToGet, Scanner in)
+	{
+		System.out.print("Enter " + inputToGet + ": ");
+		String input = "";
+		try{
+			input = in.next();
+		}
+		catch(Exception e)
+		{
+			//input = "";
+		}
+
+		return input;
+	}
+
+	public static boolean processOption(int option, Scanner in) throws Exception
 	{
 		switch(option)
 		{
@@ -92,7 +107,11 @@ public class MyJDBCConnector
 				getMoviesOfStar(872003);
 				break;
 			case 2:
-				getMoviesOfStar("Bruce", "Willis");
+				String first_name = getString("first name", in);
+				String last_name = getString("last name", in);
+				System.out.println();
+				
+				getMoviesOfStar(first_name, last_name);
 				break;
 			case 3:
 				getMoviesOfStar("Bruce", "Willis");
@@ -130,7 +149,7 @@ public class MyJDBCConnector
 
 			printMenu();
 			int option = getresponse(in);
-			running = processOption(option);
+			running = processOption(option, in);
 		}
 
 		
