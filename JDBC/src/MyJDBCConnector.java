@@ -66,7 +66,19 @@ public class MyJDBCConnector
 	public static int getresponse(Scanner in)
 	{
 		System.out.print("Input: ");
-		int input = in.nextInt();
+		
+
+		int input = 0;
+
+		try{
+			input = in.nextInt();
+		}
+		catch(Exception e)
+		{
+			//input = 0;
+		}
+
+
 		System.out.println("");
 		System.out.println("Output: ");
 		return input;
