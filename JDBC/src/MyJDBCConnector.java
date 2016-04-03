@@ -1,5 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class MyJDBCConnector
 {
@@ -30,6 +32,7 @@ public class MyJDBCConnector
 
 
 		// NEED TO UPDATE CREDITCARD TABLE FIRST
+		
 		// 		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration, address, email, password)" + 
 		// CREATE TABLE creditcards(
 		//     id varchar(20) NOT NULL PRIMARY KEY,
@@ -123,61 +126,62 @@ public class MyJDBCConnector
 
 	}
 
-	public static int getresponse(Scanner in)
+	public static int getresponse(BufferedReader in)
 	{
 		System.out.print("Input: ");
 		
 
-		int input = 0;
+		int value = 0;
+		String input = "";
 
 		try{
-			input = in.nextInt();
+			input = in.readLine();
+			value = Integer.parseInt(input);
 		}
 		catch(Exception e)
 		{
-			input = 0;
-			in.reset();
+			value = 0;
 		}
 
 		System.out.println("");
 		System.out.println("Output: ");
-		return input;
+		return value;
 	}
 
-	public static int getInt(String inputToGet, Scanner in)
+	public static int getInt(String inputToGet, BufferedReader in)
 	{
 		System.out.print("Enter " + inputToGet + ": ");
-		int input = -1;
+		int value = -1;
+		String input = "";
 		try{
 
-		    input = in.nextInt();
+		    input = in.readLine();
+		    value = Integer.parseInt(input);
 		}
 		catch(Exception e)
 		{
-			input = -1;
-			in.reset();
+			value = -1;
 		}
 
-		return input;
+		return value;
 	}
 
-	public static String getString(String inputToGet, Scanner in)
+	public static String getString(String inputToGet, BufferedReader in)
 	{
 		System.out.print("Enter " + inputToGet + ": ");
 		String input = "";
 		try{
-			input = in.next();
+			input = in.readLine();
 		}
 		catch(Exception e)
 		{
 			input = "";
-			in.reset();
 		}
 
 		return input;
 	}
 
-	public static boolean processOption(int option, Scanner in) throws Exception
+	public static boolean processOption(int option, BufferedReader in) throws Exception
 	{
 		switch(option)
 		{
@@ -259,16 +263,21 @@ public class MyJDBCConnector
 		// getMoviesOfStar(872003);
 		// getMoviesOfStar("Bruce", "Willis");
 
-		Scanner in = new Scanner(System.in);
+		// Scanner in = new Scanner(System.in);
+
+		BufferedReader inp = new BufferedReader (new InputStreamReader(System.in));
+    	// String x = inp.readLine();
+    	// System.out.println("Output: " + x);
 		boolean running = true;
 		System.out.println("Welcome to the Movie DB.");
 		while(running){
 
 			printMenu();
-			int option = getresponse(in);
-			running = processOption(option, in);
+			int option = getresponse(inp);
+			running = processOption(option, inp);
 		}
 
+    	inp.close();
 		
 
 	}
