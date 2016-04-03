@@ -5,6 +5,62 @@ public class MyJDBCConnector
 {
 
 	// public static List<Map<String, Object>> select (String table)
+	public static void deleteCustomerViaCC(String creditcard) throws Exception
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		// Connect to the test database
+		Connection connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+
+		// create update DB statement -- deleting second record of table; return status
+		Statement update = connection.createStatement();
+		int retID = update.executeUpdate("delete from customers where cc_id = \"" + creditcard + "\"");
+		System.out.println("retID = " + retID);
+	}
+
+	public static void insertCustomer(String first_name, String last_name, String cc_id, String address, String email, String password) throws Exception
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		// Connect to the test database
+		Connection connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+
+		// create update DB statement -- deleting second record of table; return status
+		Statement update = connection.createStatement();
+
+
+		// NEED TO UPDATE CREDITCARD TABLE FIRST
+		// 		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration, address, email, password)" + 
+		// CREATE TABLE creditcards(
+		//     id varchar(20) NOT NULL PRIMARY KEY,
+		//     first_name varchar(50) NOT NULL, 
+		//     last_name varchar(50) NOT NULL,
+		//     expiration date NOT NULL
+		// );
+
+		int retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
+		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + cc_id + "\", \"" + address + "\", \"" + email + "\", \"" + password + "\"); ");
+		System.out.println("retID = " + retID);
+	}
+
+	public static void getCustomerByCC(String cc_id) throws Exception
+	{
+
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "");
+		Statement selectStmt = db_connection.createStatement();
+		ResultSet results = selectStmt.executeQuery("select * from customers where cc_id = \"" + cc_id + "\"");
+
+		while(results.next()){
+			System.out.println("Name: " + results.getString("first_name") + " " + results.getString("last_name") + " CC_ID: " + results.getString("cc_id"));
+		}
+
+		results.close();
+		selectStmt.close();
+		db_connection.close();
+	}
+
+
 
 	public static void getMoviesOfStar(int id) throws Exception
 	{
@@ -59,6 +115,10 @@ public class MyJDBCConnector
 		System.out.println("1: Search by ID");
 		System.out.println("2: Search by first and last name:");
 		System.out.println("3: Search by first or last name");
+		System.out.println("4: Insert customer into the database");
+		System.out.println("5: Delete customer by creditcard");
+		System.out.println("6: View customer by creditcard");
+
 		System.out.println("0: Quit");
 
 	}
@@ -75,12 +135,29 @@ public class MyJDBCConnector
 		}
 		catch(Exception e)
 		{
-			//input = 0;
+			input = 0;
+			in.reset();
 		}
-
 
 		System.out.println("");
 		System.out.println("Output: ");
+		return input;
+	}
+
+	public static int getInt(String inputToGet, Scanner in)
+	{
+		System.out.print("Enter " + inputToGet + ": ");
+		int input = -1;
+		try{
+
+		    input = in.nextInt();
+		}
+		catch(Exception e)
+		{
+			input = -1;
+			in.reset();
+		}
+
 		return input;
 	}
 
@@ -93,7 +170,8 @@ public class MyJDBCConnector
 		}
 		catch(Exception e)
 		{
-			//input = "";
+			input = "";
+			in.reset();
 		}
 
 		return input;
@@ -104,7 +182,12 @@ public class MyJDBCConnector
 		switch(option)
 		{
 			case 1:
-				getMoviesOfStar(872003);
+
+				int id = getInt("id", in); // 872003
+				if(id != -1)
+					getMoviesOfStar(id);
+				else
+					System.out.println("Invalid ID");
 				break;
 			case 2:
 				String first_name = getString("first name", in);
@@ -114,8 +197,42 @@ public class MyJDBCConnector
 				getMoviesOfStar(first_name, last_name);
 				break;
 			case 3:
-				getMoviesOfStar("Bruce", "Willis");
+				//implement another menu :( 
+
+				first_name = getString("first name", in);
+				last_name = getString("last name", in);
+				System.out.println();
+				
+				getMoviesOfStar(first_name, last_name);
 				break;
+			case 4:
+				//implement another menu :( 
+
+				first_name = getString("first name", in);
+				last_name = getString("last name", in);
+				String cc_id = getString("creditcard", in);
+				String address = getString("address", in);
+				String email = getString("email", in);
+				String password = getString("password", in);
+				
+				insertCustomer(first_name, last_name, cc_id, address, email, password);
+				System.out.println();				
+				break;
+			case 5:
+
+				cc_id = getString("creditcard", in);
+				deleteCustomerViaCC(cc_id);
+				System.out.println();				
+				break;
+
+			case 6:
+
+				cc_id = getString("creditcard", in);
+				getCustomerByCC(cc_id);
+				System.out.println();				
+				break;
+
+
 			default:
 				System.out.println("Bye");
 				return false;
