@@ -17,3 +17,12 @@ m.id as 'movie ID'
 from stars_in_movies as sm, stars as s, movies as m
 where sm.star_id = s.id and m.id = sm.movie_id and s.id = 'ENTER ID HERE'
 order by s.first_name, s.last_name, m.title;
+
+-- adds a movie into the movie data movie table
+
+INSERT INTO movies (title, year, director)
+VALUES ('title', 2017, 'Tom B. Erichsen (director)');
+
+-- deletes a movie from the movie table 
+
+DELETE FROM movies WHERE year = 2017
