@@ -6,6 +6,24 @@ import java.io.InputStreamReader;
 public class MyJDBCConnector
 {
 
+	public static String getColumnTypeString(int columnType)
+	{
+
+		// according to: http://docs.oracle.com/javase/6/docs/api/constant-values.html#java.sql.Types.TIME
+
+		switch(columnType)
+		{
+			case 4: 
+				return "Integer";		
+			case 12:
+				return "Varchar";
+			case 91:
+				return "Date";
+			default:
+				return "Unknown";
+		}
+	}
+
 	// public static List<Map<String, Object>> select (String table)
 	public static void deleteCustomerViaCC(String creditcard) throws Exception
 	{
@@ -20,6 +38,89 @@ public class MyJDBCConnector
 		System.out.println("retID = " + retID);
 
 		update.close();
+		db_connection.close();
+	}
+	public static void 	insertStar(String first_name, String last_name, String dob, String photo_url) throws Exception
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		// Connect to the test database
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+
+		// create update DB statement -- deleting second record of table; return status
+		Statement update = db_connection.createStatement();
+
+		int retID = update.executeUpdate("INSERT INTO stars (first_name, last_name, date, photo_url)" + 
+		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + dob + "\", \"" + photo_url + "\"); ");
+
+		
+		// System.out.println("retID = " + retID);
+
+
+		update.close();
+		db_connection.close();
+	}
+
+	// this helped: http://tutorials.jenkov.com/jdbc/databasemetadata.html
+	public static void getMetaData()  throws Exception
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		// Connect to the test database
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+
+		// create update DB statement -- deleting second record of table; return status
+		DatabaseMetaData databaseMetaData = db_connection.getMetaData();
+
+		// String productName    = databaseMetaData.getDatabaseProductName();
+		
+		String   catalog          = null;
+		String   schemaPattern    = null;
+		String   tableNamePattern = null;
+		String[] types            = null;
+		String   columnNamePattern = null;
+
+
+		ResultSet tables = databaseMetaData.getTables(catalog, schemaPattern, tableNamePattern, types);
+
+		while(tables.next()) {
+		    String tableName = tables.getString(3);
+		    System.out.println(tableName+":");
+
+			ResultSet tableMetadata = databaseMetaData.getColumns(catalog, schemaPattern, tableName, columnNamePattern);
+
+			while(tableMetadata.next()){
+			    String columnName = tableMetadata.getString(4);
+			    int    columnType = tableMetadata.getInt(5);  
+
+				String columnTypeString =  getColumnTypeString(columnType);
+
+			    System.out.println("- " + columnName + ": " + columnTypeString);
+			}
+
+			System.out.println();
+
+		}
+
+		// String   catalog           = null;
+		// String   schemaPattern     = null;
+		// String   tableNamePattern  = "stars";
+		// String   columnNamePattern = null;
+
+
+		// ResultSet result = databaseMetaData.getColumns(
+		//     catalog, schemaPattern,  tableNamePattern, columnNamePattern);
+
+		// while(result.next()){
+		//     String columnName = result.getString(4);
+		//     int    columnType = result.getInt(5);  
+
+		// 	String columnTypeEnglish =  getColumnTypeString(columnType);
+
+		//     System.out.println("Table: " + tableNamePattern + " | Column name: " + columnName + " | Column type: " + columnTypeEnglish);
+		// }
+
+		// update.close();
 		db_connection.close();
 	}
 
@@ -48,7 +149,7 @@ public class MyJDBCConnector
 
 		retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
 		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + cc_id + "\", \"" + address + "\", \"" + email + "\", \"" + password + "\"); ");
-		System.out.println("retID = " + retID);
+		// System.out.println("retID = " + retID);
 
 
 		update.close();
@@ -127,9 +228,11 @@ public class MyJDBCConnector
 		System.out.println("1: Search by ID");
 		System.out.println("2: Search by first and last name:");
 		System.out.println("3: Search by first or last name");
-		System.out.println("4: Insert customer into the database");
-		System.out.println("5: Delete customer by creditcard");
-		System.out.println("6: View customer by creditcard");
+		System.out.println("4: Insert a new star into the database");
+		System.out.println("5: Insert customer into the database");
+		System.out.println("6: Delete customer by creditcard");
+		System.out.println("7: View customer by creditcard");
+		System.out.println("8: View database metadata");
 
 		System.out.println("0: Quit");
 
@@ -210,7 +313,7 @@ public class MyJDBCConnector
 				getMoviesOfStar(first_name, last_name);
 				break;
 			case 3:
-				//implement another menu :( 
+				//implement another menu :( TODO
 
 				first_name = getString("first name", in);
 				last_name = getString("last name", in);
@@ -218,8 +321,20 @@ public class MyJDBCConnector
 				
 				getMoviesOfStar(first_name, last_name);
 				break;
+
 			case 4:
-				//implement another menu :( 
+				// If the star has a single name, add it as his last_name and assign an empty string ("") to first_name.
+
+				first_name = getString("first name", in);
+				last_name = getString("last name", in);
+				String dob = getString("dob (yyyy-mm-dd) [not required]", in);
+				String photo_url = getString("photo url [not required]8", in);
+
+				System.out.println();
+				
+				insertStar(first_name, last_name, dob, photo_url);
+				break;
+			case 5:
 
 				first_name = getString("first name", in);
 				last_name = getString("last name", in);
@@ -233,20 +348,23 @@ public class MyJDBCConnector
 				insertCustomer(first_name, last_name, cc_id, address, email, password, date);
 				System.out.println();				
 				break;
-			case 5:
+			case 6:
 
 				cc_id = getString("creditcard", in);
 				deleteCustomerViaCC(cc_id);
 				System.out.println();				
 				break;
 
-			case 6:
+			case 7:
 
 				cc_id = getString("creditcard", in);
 				getCustomerByCC(cc_id);
 				System.out.println();				
 				break;
+			case 8:
 
+				getMetaData();
+				break;
 
 			default:
 				System.out.println("Bye");
