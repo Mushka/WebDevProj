@@ -12,27 +12,30 @@ public class MyJDBCConnector
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		// Connect to the test database
-		Connection connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
 
 		// create update DB statement -- deleting second record of table; return status
-		Statement update = connection.createStatement();
+		Statement update = db_connection.createStatement();
 		int retID = update.executeUpdate("delete from customers where cc_id = \"" + creditcard + "\"");
 		System.out.println("retID = " + retID);
+
+		update.close();
+		db_connection.close();
 	}
 
-	public static void insertCustomer(String first_name, String last_name, String cc_id, String address, String email, String password) throws Exception
+	public static void insertCustomer(String first_name, String last_name, String cc_id, String address, String email, String password, String date) throws Exception
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		// Connect to the test database
-		Connection connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
 
 		// create update DB statement -- deleting second record of table; return status
-		Statement update = connection.createStatement();
+		Statement update = db_connection.createStatement();
 
 
 		// NEED TO UPDATE CREDITCARD TABLE FIRST
-		
+
 		// 		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration, address, email, password)" + 
 		// CREATE TABLE creditcards(
 		//     id varchar(20) NOT NULL PRIMARY KEY,
@@ -40,10 +43,16 @@ public class MyJDBCConnector
 		//     last_name varchar(50) NOT NULL,
 		//     expiration date NOT NULL
 		// );
+		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration)" + 
+		"VALUES (\"" + cc_id + "\", \"" + first_name + "\", \"" + last_name + "\", \"" + date + "\"); ");
 
-		int retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
+		retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
 		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + cc_id + "\", \"" + address + "\", \"" + email + "\", \"" + password + "\"); ");
 		System.out.println("retID = " + retID);
+
+
+		update.close();
+		db_connection.close();
 	}
 
 	public static void getCustomerByCC(String cc_id) throws Exception
@@ -215,11 +224,13 @@ public class MyJDBCConnector
 				first_name = getString("first name", in);
 				last_name = getString("last name", in);
 				String cc_id = getString("creditcard", in);
+				String date = getString("expiration date (yyyy-mm-dd)", in);
 				String address = getString("address", in);
 				String email = getString("email", in);
 				String password = getString("password", in);
+
 				
-				insertCustomer(first_name, last_name, cc_id, address, email, password);
+				insertCustomer(first_name, last_name, cc_id, address, email, password, date);
 				System.out.println();				
 				break;
 			case 5:
