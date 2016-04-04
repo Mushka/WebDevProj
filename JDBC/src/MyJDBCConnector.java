@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -8,6 +9,95 @@ public class MyJDBCConnector
 
 	private static String user = "";
 	private static String password = "";
+
+	public static void insertIntoTable(String tableName, BufferedReader in) throws Exception
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+		DatabaseMetaData databaseMetaData = db_connection.getMetaData();
+		
+		String   catalog          = null;
+		String   schemaPattern    = null;
+		String   columnNamePattern= null;
+		String[] types            = null;
+
+		ResultSet tableMetadata = databaseMetaData.getColumns(catalog, schemaPattern, tableName, columnNamePattern);
+
+		ArrayList<String> cols = new ArrayList<String>();
+		ArrayList<Object> values = new ArrayList<Object>();
+		ArrayList<Integer> type = new ArrayList<Integer>();
+
+		while(tableMetadata.next())
+		{
+		    String columnName = tableMetadata.getString(4);
+		    int    columnType = tableMetadata.getInt(5); 
+
+		    if(tableMetadata.getString(23).equalsIgnoreCase("yes"))
+		    	continue; 
+
+		    
+		    String required = "";
+		    if(tableMetadata.getString(18).equalsIgnoreCase("yes"))
+		    	required = " [not required]";
+			
+			cols.add(columnName);
+			type.add(columnType);
+
+			String inputString = "";
+			int intInt = 0;
+		
+			switch(columnType)
+			{
+				case 4: 
+					intInt = getInt(columnName + required, in);
+					values.add(intInt);
+					break;
+				case 12:
+					inputString = getString(columnName+ required, in);
+					values.add(inputString);
+					break;
+				case 91:
+					inputString = getString(columnName + " (yyyy-mm-dd)" + required, in);
+					values.add(inputString);
+					break;
+			}
+
+		}
+
+// String query = "insert into emps (name, dept, salary) values (?,?,?)";
+
+		String query = "insert into " + tableName + " (";
+
+		for(int i = 0; i < cols.size(); ++i)
+			query += (i < cols.size()-1) ? cols.get(i) + ", " : cols.get(i);
+
+		query += ") values (";
+
+		for(int i = 0; i < values.size(); ++i)
+		{
+
+
+			if(type.get(i) == 4)
+			{
+				query += (i < values.size()-1) ? (int) values.get(i) + ", " : (int) values.get(i);
+			}
+			else if (type.get(i) == 12 || type.get(i) == 91)
+			{
+				if("".equals((String) values.get(i)))
+					query += (i < values.size()-1) ? "NULL" + ", " :  "NULL";
+				else
+					query += (i < values.size()-1) ? "\"" + (String) values.get(i) + "\"" + ", " :  "\"" + (String) values.get(i) + "\"";
+			}
+		}
+
+		query += ");";
+
+		db_connection.close();
+
+		System.out.println("Processing: " + query + "\n");
+
+		processUpdateInsertDelete("Insert", query);
+	}
 
 	public static String getColumnTypeString(int columnType)
 	{
@@ -27,54 +117,88 @@ public class MyJDBCConnector
 		}
 	}
 
-	public static void processCommand(String command) throws Exception
+	public static void processSelect(String command) throws Exception
 	{
-		
-		try{
-
+		try
+		{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 			Statement selectStmt = db_connection.createStatement();
+			ResultSet results = selectStmt.executeQuery(command);
+			ResultSetMetaData metadata = results.getMetaData();
 
-			if(command.toLowerCase().startsWith("select"))
-			{
-				ResultSet results = selectStmt.executeQuery(command);
+			System.out.println();
 
-				ResultSetMetaData metadata = results.getMetaData();
+			while(results.next()){
 
-				System.out.println();
+				for(int i = 1; i <= metadata.getColumnCount(); ++i)
+				{
+					String output = metadata.getColumnName(i) + ": ";
 
-				while(results.next()){
+					if(results.getObject(i) != null)
+						output += results.getObject(i).toString();
+					else
+						output += "NULL";
 
-					for(int i = 1; i <= metadata.getColumnCount(); ++i)
-						System.out.println(metadata.getColumnName(i) + ": " + results.getObject(i).toString());
-					System.out.println();
+					System.out.println(output);
 				}
 
-				results.close();
-			}
-			else if(command.toLowerCase().startsWith("update"))
-			{
-				//do update 
-			}
-			else if(command.toLowerCase().startsWith("insert"))
-			{
-				//do insert
-			}
-			else if(command.toLowerCase().startsWith("delete"))
-			{
-				//do delete
+					
+				System.out.println();
 			}
 
-			else
-			{
-				System.out.println("Invalid SQL Command.");
-			}
-
+			results.close();
 			selectStmt.close();
 			db_connection.close();
+			
+		} catch (Exception e)
+		{
+			System.out.println("234Invalid SQL Command." + e.toString());
 		}
-		catch (Exception e)
+	}
+
+	public static void processUpdateInsertDelete(String type, String command) throws Exception
+	{
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+			Statement update = db_connection.createStatement();
+
+			int n = update.executeUpdate(command); 
+
+			update.close();
+			db_connection.close();
+
+			System.out.println(type + " Successful. Rows Affected: " + n);
+
+			
+		} catch (Exception e)
+		{
+			System.out.println("Invalid SQL Command.");
+		}
+	}
+
+	public static void processCommand(String command) throws Exception
+	{
+		
+		if(command.toLowerCase().startsWith("select"))
+		{
+			processSelect(command);
+		}
+		else if(command.toLowerCase().startsWith("update"))
+		{
+			processUpdateInsertDelete("Update", command);
+		}
+		else if(command.toLowerCase().startsWith("insert"))
+		{
+			processUpdateInsertDelete("Insert", command);
+		}
+		else if(command.toLowerCase().startsWith("delete"))
+		{
+			processUpdateInsertDelete("Delete", command);
+		}
+		else
 		{
 			System.out.println("Invalid SQL Command.");
 		}
@@ -97,26 +221,26 @@ public class MyJDBCConnector
 		update.close();
 		db_connection.close();
 	}
-	public static void 	insertStar(String first_name, String last_name, String dob, String photo_url) throws Exception
-	{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
+	// public static void 	insertStar(String first_name, String last_name, String dob, String photo_url) throws Exception
+	// {
+	// 	Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-		// Connect to the test database
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+	// 	// Connect to the test database
+	// 	Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 
-		// create update DB statement -- deleting second record of table; return status
-		Statement update = db_connection.createStatement();
+	// 	// create update DB statement -- deleting second record of table; return status
+	// 	Statement update = db_connection.createStatement();
 
-		int retID = update.executeUpdate("INSERT INTO stars (first_name, last_name, date, photo_url)" + 
-		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + dob + "\", \"" + photo_url + "\"); ");
+	// 	int retID = update.executeUpdate("INSERT INTO stars (first_name, last_name, date, photo_url)" + 
+	// 	"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + dob + "\", \"" + photo_url + "\"); ");
 
 		
-		// System.out.println("retID = " + retID);
+	// 	// System.out.println("retID = " + retID);
 
 
-		update.close();
-		db_connection.close();
-	}
+	// 	update.close();
+	// 	db_connection.close();
+	// }
 
 	// this helped: http://tutorials.jenkov.com/jdbc/databasemetadata.html
 	public static void getMetaData()  throws Exception
@@ -162,23 +286,23 @@ public class MyJDBCConnector
 		db_connection.close();
 	}
 
-	public static void insertCustomer(String first_name, String last_name, String cc_id, String address, String email, String password, String date) throws Exception
-	{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
-		Statement update = db_connection.createStatement();
+	// public static void insertCustomer(String first_name, String last_name, String cc_id, String address, String email, String password, String date) throws Exception
+	// {
+	// 	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	// 	Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+	// 	Statement update = db_connection.createStatement();
 
-		// NEED TO UPDATE CREDITCARD TABLE FIRST
-		// TODO apparently if it doesn't exist in CC then don't add the person; not insert into both!!!!
-		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration)" + 
-		"VALUES (\"" + cc_id + "\", \"" + first_name + "\", \"" + last_name + "\", \"" + date + "\"); ");
+	// 	// NEED TO UPDATE CREDITCARD TABLE FIRST
+	// 	// TODO apparently if it doesn't exist in CC then don't add the person; not insert into both!!!!
+	// 	int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration)" + 
+	// 	"VALUES (\"" + cc_id + "\", \"" + first_name + "\", \"" + last_name + "\", \"" + date + "\"); ");
 
-		retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
-		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + cc_id + "\", \"" + address + "\", \"" + email + "\", \"" + password + "\"); ");
+	// 	retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
+	// 	"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + cc_id + "\", \"" + address + "\", \"" + email + "\", \"" + password + "\"); ");
 
-		update.close();
-		db_connection.close();
-	}
+	// 	update.close();
+	// 	db_connection.close();
+	// }
 
 	public static void getCustomerByCC(String cc_id) throws Exception
 	{
@@ -323,42 +447,47 @@ public class MyJDBCConnector
 			case 4:
 				// TODO If the star has a single name, add it as his last_name and assign an empty string ("") to first_name. HOW?
 
-				first_name = getString("first name", in);
-				last_name = getString("last name", in);
-				String dob = getString("dob (yyyy-mm-dd) [not required]", in);
-				String photo_url = getString("photo url [not required]8", in);
+				// first_name = getString("first name", in);
+				// last_name = getString("last name", in);
+				// String dob = getString("dob (yyyy-mm-dd) [not required]", in);
+				// String photo_url = getString("photo url [not required]8", in);
 
-				System.out.println();
+				// System.out.println();
 				
-				insertStar(first_name, last_name, dob, photo_url);
+				// insertStar(first_name, last_name, dob, photo_url);
+
+				insertIntoTable("stars", in);
 				break;
 			case 5:
 
-				first_name = getString("first name", in);
-				last_name = getString("last name", in);
-				String cc_id = getString("creditcard", in);
-				String date = getString("expiration date (yyyy-mm-dd)", in);
-				String address = getString("address", in);
-				String email = getString("email", in);
-				String password = getString("password", in);
+				// first_name = getString("first name", in);
+				// last_name = getString("last name", in);
+				// String cc_id = getString("creditcard", in);
+				// String date = getString("expiration date (yyyy-mm-dd)", in);
+				// String address = getString("address", in);
+				// String email = getString("email", in);
+				// String password = getString("password", in);
 
 				
-				insertCustomer(first_name, last_name, cc_id, address, email, password, date);
-				System.out.println();				
+				// insertCustomer(first_name, last_name, cc_id, address, email, password, date);
+				// System.out.println();
+
+				insertIntoTable("customers", in);				
 				break;
+
 			case 6:
 
-				cc_id = getString("creditcard", in);
+				String cc_id = getString("creditcard", in);
 				deleteCustomerViaCC(cc_id);
 				System.out.println();				
 				break;
 
 			case 7:
-
 				cc_id = getString("creditcard", in);
 				getCustomerByCC(cc_id);
 				System.out.println();				
 				break;
+
 			case 8:
 
 				getMetaData();
@@ -368,6 +497,10 @@ public class MyJDBCConnector
 				String command = getString("SQL Command", in);				
 				processCommand(command);
 				break;
+
+			// case 10:
+			// 	insertIntoTable("genres", in);
+			// 	break;
 
 			default:
 				System.out.println("Invalid Response. Try again.");
@@ -505,6 +638,8 @@ public class MyJDBCConnector
 		}
 
     	inp.close();
+
+		
 		
 
 	}
@@ -515,5 +650,11 @@ public class MyJDBCConnector
 	// 	- They input each name 
 	// 2) 
 
+
+// String query = "insert into emps (name, dept, salary) values (?,?,?)";
+//             pstmt = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+//             pstmt.setString(1, "John");
+//             pstmt.setString(2, "Acc Dept");
+//             pstmt.setInt(3, 10000);
 
 }
