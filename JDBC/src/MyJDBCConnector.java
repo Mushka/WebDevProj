@@ -64,7 +64,7 @@ public class MyJDBCConnector
 
 		}
 
-// String query = "insert into emps (name, dept, salary) values (?,?,?)";
+		// String query = "insert into emps (name, dept, salary) values (?,?,?)";
 
 		String query = "insert into " + tableName + " (";
 
@@ -73,9 +73,41 @@ public class MyJDBCConnector
 
 		query += ") values (";
 
+		String first_name = "";
+		String last_name = "";
+
+
 		for(int i = 0; i < values.size(); ++i)
 		{
 
+			String value = (String) values.get(i);
+
+			if("first_name".equals(cols.get(i)))
+				first_name = value;
+
+			if("last_name".equals(cols.get(i)))
+				last_name = value;
+		}
+
+		if("".equals(first_name) && "".equals(last_name))
+		{
+			//this will cause an error
+			first_name = null;
+			last_name = null;
+		}
+		else if("".equals(first_name))
+		{
+			// nothing is needed because single named is already in last name
+		}
+		else if("".equals(last_name))
+		{
+			last_name=first_name;
+			first_name="";
+		}
+
+
+		for(int i = 0; i < values.size(); ++i)
+		{
 
 			if(type.get(i) == 4)
 			{
@@ -83,10 +115,32 @@ public class MyJDBCConnector
 			}
 			else if (type.get(i) == 12 || type.get(i) == 91)
 			{
-				if("".equals((String) values.get(i)))
-					query += (i < values.size()-1) ? "NULL" + ", " :  "NULL";
+
+				String value = (String) values.get(i);
+
+				if("first_name".equals(cols.get(i)))
+				{
+					if(first_name == null)
+						query += (i < values.size()-1) ? "NULL" + ", " :  "NULL";
+					else
+						query += (i < values.size()-1) ? "\"" + first_name + "\"" + ", " :  "\"" + first_name + "\"";
+				}
+
+				else if("last_name".equals(cols.get(i)))
+				{
+					if(last_name == null)
+						query += (i < values.size()-1) ? "NULL" + ", " :  "NULL";
+					else
+						query += (i < values.size()-1) ? "\"" + last_name + "\"" + ", " :  "\"" + last_name + "\"";
+				}
+
 				else
-					query += (i < values.size()-1) ? "\"" + (String) values.get(i) + "\"" + ", " :  "\"" + (String) values.get(i) + "\"";
+				{
+					if("".equals(value))
+						query += (i < values.size()-1) ? "NULL" + ", " :  "NULL";
+					else
+						query += (i < values.size()-1) ? "\"" + value + "\"" + ", " :  "\"" + value + "\"";
+				}
 			}
 		}
 
@@ -153,7 +207,7 @@ public class MyJDBCConnector
 			
 		} catch (Exception e)
 		{
-			System.out.println("234Invalid SQL Command." + e.toString());
+			System.out.println("Invalid SQL Command.");
 		}
 	}
 
@@ -175,7 +229,11 @@ public class MyJDBCConnector
 			
 		} catch (Exception e)
 		{
-			System.out.println("Invalid SQL Command.");
+
+			if(e.toString().contains("FOREIGN KEY (`cc_id`) REFERENCES `creditcards` (`id`)"))
+				System.out.println("Invalid SQL Command: Creditcard not in database.");
+			else
+				System.out.println("Invalid SQL Command.");
 		}
 	}
 
@@ -304,70 +362,70 @@ public class MyJDBCConnector
 	// 	db_connection.close();
 	// }
 
-	public static void getCustomerByCC(String cc_id) throws Exception
-	{
+	// public static void getCustomerByCC(String cc_id) throws Exception
+	// {
 
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
-		Statement selectStmt = db_connection.createStatement();
-		ResultSet results = selectStmt.executeQuery("select * from customers where cc_id = \"" + cc_id + "\"");
+	// 	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	// 	Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
+	// 	Statement selectStmt = db_connection.createStatement();
+	// 	ResultSet results = selectStmt.executeQuery("select * from customers where cc_id = \"" + cc_id + "\"");
 
-		while(results.next()){
-			System.out.println("Name: " + results.getString("first_name") + " " + results.getString("last_name") + " CC_ID: " + results.getString("cc_id"));
-		}
+	// 	while(results.next()){
+	// 		System.out.println("Name: " + results.getString("first_name") + " " + results.getString("last_name") + " CC_ID: " + results.getString("cc_id"));
+	// 	}
 
-		results.close();
-		selectStmt.close();
-		db_connection.close();
-	}
+	// 	results.close();
+	// 	selectStmt.close();
+	// 	db_connection.close();
+	// }
 
 
 
-	public static void getMoviesOfStar(int id) throws Exception
-	{
+	// public static void getMoviesOfStar(int id) throws Exception
+	// {
 
-		String query = 
-		"select s.first_name as 'first', s.last_name as 'last', s.id as 'star ID', m.title, m.year, m.director, m.banner_url as 'banner', m.trailer_url as 'trailer', m.id as 'movie ID' " +  
-		"from stars_in_movies as sm, stars as s, movies as m " +
-		"where sm.star_id = s.id and m.id = sm.movie_id and s.id = " + id + 
-		" order by s.first_name, s.last_name, m.title;";
+	// 	String query = 
+	// 	"select s.first_name as 'first', s.last_name as 'last', s.id as 'star ID', m.title, m.year, m.director, m.banner_url as 'banner', m.trailer_url as 'trailer', m.id as 'movie ID' " +  
+	// 	"from stars_in_movies as sm, stars as s, movies as m " +
+	// 	"where sm.star_id = s.id and m.id = sm.movie_id and s.id = " + id + 
+	// 	" order by s.first_name, s.last_name, m.title;";
 
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
-		Statement selectStmt = db_connection.createStatement();
-		ResultSet results = selectStmt.executeQuery(query);
+	// 	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	// 	Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
+	// 	Statement selectStmt = db_connection.createStatement();
+	// 	ResultSet results = selectStmt.executeQuery(query);
 
-		while(results.next()){
-			System.out.println("Star: " + results.getString("first") + " " + results.getString("last") + " Movie: " + results.getString("title"));
-		}
+	// 	while(results.next()){
+	// 		System.out.println("Star: " + results.getString("first") + " " + results.getString("last") + " Movie: " + results.getString("title"));
+	// 	}
 
-		results.close();
-		selectStmt.close();
-		db_connection.close();
-	}
+	// 	results.close();
+	// 	selectStmt.close();
+	// 	db_connection.close();
+	// }
 
-	public static void getMoviesOfStar(String first_name, String last_name) throws Exception
-	{
+	// public static void getMoviesOfStar(String first_name, String last_name) throws Exception
+	// {
 
-		String query = 
-		"select s.first_name as 'first', s.last_name as 'last', s.id as 'star ID', m.title, m.year, m.director, m.banner_url as 'banner', m.trailer_url as 'trailer', m.id as 'movie ID' " +  
-		"from stars_in_movies as sm, stars as s, movies as m " +
-		"where sm.star_id = s.id and m.id = sm.movie_id and s.first_name like \"" + first_name + "\"" + " and s.last_name like \"" + last_name + "\"" +
-		" order by s.first_name, s.last_name, m.title;";
+	// 	String query = 
+	// 	"select s.first_name as 'first', s.last_name as 'last', s.id as 'star ID', m.title, m.year, m.director, m.banner_url as 'banner', m.trailer_url as 'trailer', m.id as 'movie ID' " +  
+	// 	"from stars_in_movies as sm, stars as s, movies as m " +
+	// 	"where sm.star_id = s.id and m.id = sm.movie_id and s.first_name like \"" + first_name + "\"" + " and s.last_name like \"" + last_name + "\"" +
+	// 	" order by s.first_name, s.last_name, m.title;";
 
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
-		Statement selectStmt = db_connection.createStatement();
-		ResultSet results = selectStmt.executeQuery(query);
+	// 	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	// 	Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
+	// 	Statement selectStmt = db_connection.createStatement();
+	// 	ResultSet results = selectStmt.executeQuery(query);
 
-		while(results.next()){
-			System.out.println("Star: " + results.getString("first") + " " + results.getString("last") + " Movie: " + results.getString("title"));
-		}
+	// 	while(results.next()){
+	// 		System.out.println("Star: " + results.getString("first") + " " + results.getString("last") + " Movie: " + results.getString("title"));
+	// 	}
 
-		results.close();
-		selectStmt.close();
-		db_connection.close();
-	}
+	// 	results.close();
+	// 	selectStmt.close();
+	// 	db_connection.close();
+	// }
 
 	public static int getInt(String inputToGet, BufferedReader in)
 	{
@@ -423,28 +481,49 @@ public class MyJDBCConnector
 			case 1:
 				int id = getInt("id", in); // e.g. 872003
 				if(id != -1)
-					getMoviesOfStar(id);
+				{
+					// getMoviesOfStar(id);
+
+					String query = 
+					"select s.first_name as 'first', s.last_name as 'last', s.id as 'star ID', m.title, m.year, m.director, m.banner_url as 'banner', m.trailer_url as 'trailer', m.id as 'movie ID' " +  
+					"from stars_in_movies as sm, stars as s, movies as m " +
+					"where sm.star_id = s.id and m.id = sm.movie_id and s.id = " + id + 
+					" order by s.first_name, s.last_name, m.title;";
+
+					processSelect(query);
+				}
 				else
 					System.out.println("Invalid ID");
+
+
 				break;
 			case 2:
+
 				String first_name = getString("first name", in);
 				String last_name = getString("last name", in);
-				System.out.println();
-				
-				getMoviesOfStar(first_name, last_name);
+
+				String f_query = "";
+				String l_query = "";
+
+				if(!"".equals(first_name))
+					f_query = "and s.first_name like \"" + first_name + "\"" + " ";
+				if(!"".equals(last_name))
+					f_query =  "and s.last_name like \"" + last_name + "\"";
+
+
+				String query = 
+				"select s.first_name, s.last_name, s.id as 'star_id', m.id as 'movie_id', m.title, m.year, m.director, m.banner_url, m.trailer_url " +  
+				"from stars_in_movies as sm, stars as s, movies as m " +
+				"where sm.star_id = s.id and m.id = sm.movie_id " + f_query + l_query +
+				" order by s.first_name, s.last_name, m.title;";
+
+				System.out.println(query + "\n");
+
+				processSelect(query);
+
 				break;
+
 			case 3:
-				//implement another menu :( TODO
-
-				first_name = getString("first name", in);
-				last_name = getString("last name", in);
-				System.out.println();
-				
-				getMoviesOfStar(first_name, last_name);
-				break;
-
-			case 4:
 				// TODO If the star has a single name, add it as his last_name and assign an empty string ("") to first_name. HOW?
 
 				// first_name = getString("first name", in);
@@ -458,7 +537,7 @@ public class MyJDBCConnector
 
 				insertIntoTable("stars", in);
 				break;
-			case 5:
+			case 4:
 
 				// first_name = getString("first name", in);
 				// last_name = getString("last name", in);
@@ -475,32 +554,40 @@ public class MyJDBCConnector
 				insertIntoTable("customers", in);				
 				break;
 
-			case 6:
+			case 5:
 
 				String cc_id = getString("creditcard", in);
-				deleteCustomerViaCC(cc_id);
+				// deleteCustomerViaCC(cc_id);
+
+				processUpdateInsertDelete("delete", "delete from customers where cc_id = \"" + cc_id + "\"");		
+				break;
+
+			case 6:
+				cc_id = getString("creditcard", in);
+				//getCustomerByCC(cc_id);
+				processSelect("select * from customers where cc_id = \"" + cc_id + "\"");
 				System.out.println();				
 				break;
 
 			case 7:
-				cc_id = getString("creditcard", in);
-				getCustomerByCC(cc_id);
-				System.out.println();				
-				break;
-
-			case 8:
 
 				getMetaData();
 				break;
 
-			case 9:
+			case 8:
 				String command = getString("SQL Command", in);				
 				processCommand(command);
 				break;
 
-			// case 10:
-			// 	insertIntoTable("genres", in);
-			// 	break;
+			case 9:
+				String table = getString("table", in);				
+				insertIntoTable(table, in);
+				break;			
+	
+			case 10:
+				table = getString("table", in);				
+				processSelect("select * from "+ table);
+				break;
 
 			default:
 				System.out.println("Invalid Response. Try again.");
@@ -539,15 +626,15 @@ public class MyJDBCConnector
 	{
 		System.out.println("\nOPTIONS:");
 		System.out.println(" 1: Search by ID");
-		System.out.println(" 2: Search by first and last name:");
-		System.out.println(" 3: Search by first or last name");
-		System.out.println(" 4: Insert a new star into the database");
-		System.out.println(" 5: Insert customer into the database");
-		System.out.println(" 6: Delete customer by creditcard");
-		System.out.println(" 7: View customer by creditcard");
-		System.out.println(" 8: View database metadata");
-		System.out.println(" 9: SQL Command");
-
+		System.out.println(" 2: Search by first and/or last name:");
+		System.out.println(" 3: Insert a new star into the database");
+		System.out.println(" 4: Insert customer into the database");
+		System.out.println(" 5: Delete customer by creditcard");
+		System.out.println(" 6: View customer by creditcard");
+		System.out.println(" 7: View database metadata");
+		System.out.println(" 8: SQL Command");
+		System.out.println(" 9: Insert into [table]");
+		System.out.println("10: View all in [table]");
 
 		System.out.println(" 0: Quit Program");
 		System.out.println("-1: Logout");
@@ -638,9 +725,6 @@ public class MyJDBCConnector
 		}
 
     	inp.close();
-
-		
-		
 
 	}
 
