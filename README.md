@@ -14,10 +14,9 @@ To add data from file:
 
 
 #### JDBC
-###### You *must* be in the JDBC folder:
 
 To compile:
-- javac ./src/MyJDBCConnector.java -d ./bin/
+- javac ./JDBC/src/MyJDBCConnector.java -d ./JDBC/bin/
 
 To run:
-- java -classpath ./bin/:./lib/mysql-connector-java-5.0.8-bin.jar MyJDBCConnector
+- java -classpath ./JDBC/bin/:./JDBC/lib/mysql-connector-java-5.0.8-bin.jar MyJDBCConnector
