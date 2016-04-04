@@ -16,7 +16,10 @@ To add data from file:
 #### JDBC
 
 To compile:
-- javac ./JDBC/src/MyJDBCConnector.java -d ./JDBC/bin/
+- make 
 
 To run:
-- java -classpath ./JDBC/bin/:./JDBC/lib/mysql-connector-java-5.0.8-bin.jar MyJDBCConnector
+- make run
+
+To remove class files:
+- make clean
