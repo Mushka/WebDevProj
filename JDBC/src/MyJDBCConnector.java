@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 public class MyJDBCConnector
 {
 
+	private static String user = "";
+	private static String password = "";
+
 	public static String getColumnTypeString(int columnType)
 	{
 
@@ -30,7 +33,7 @@ public class MyJDBCConnector
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		// Connect to the test database
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 
 		// create update DB statement -- deleting second record of table; return status
 		Statement update = db_connection.createStatement();
@@ -45,7 +48,7 @@ public class MyJDBCConnector
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		// Connect to the test database
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 
 		// create update DB statement -- deleting second record of table; return status
 		Statement update = db_connection.createStatement();
@@ -67,7 +70,7 @@ public class MyJDBCConnector
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		// Connect to the test database
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 
 		// create update DB statement -- deleting second record of table; return status
 		DatabaseMetaData databaseMetaData = db_connection.getMetaData();
@@ -129,7 +132,7 @@ public class MyJDBCConnector
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		// Connect to the test database
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb","root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 
 		// create update DB statement -- deleting second record of table; return status
 		Statement update = db_connection.createStatement();
@@ -160,7 +163,7 @@ public class MyJDBCConnector
 	{
 
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
 		Statement selectStmt = db_connection.createStatement();
 		ResultSet results = selectStmt.executeQuery("select * from customers where cc_id = \"" + cc_id + "\"");
 
@@ -185,7 +188,7 @@ public class MyJDBCConnector
 		" order by s.first_name, s.last_name, m.title;";
 
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
 		Statement selectStmt = db_connection.createStatement();
 		ResultSet results = selectStmt.executeQuery(query);
 
@@ -208,7 +211,7 @@ public class MyJDBCConnector
 		" order by s.first_name, s.last_name, m.title;";
 
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "");
+		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
 		Statement selectStmt = db_connection.createStatement();
 		ResultSet results = selectStmt.executeQuery(query);
 
@@ -221,49 +224,10 @@ public class MyJDBCConnector
 		db_connection.close();
 	}
 
-
-	public static void printMenu()
-	{
-		System.out.println("\nOPTIONS:");
-		System.out.println("1: Search by ID");
-		System.out.println("2: Search by first and last name:");
-		System.out.println("3: Search by first or last name");
-		System.out.println("4: Insert a new star into the database");
-		System.out.println("5: Insert customer into the database");
-		System.out.println("6: Delete customer by creditcard");
-		System.out.println("7: View customer by creditcard");
-		System.out.println("8: View database metadata");
-
-		System.out.println("0: Quit");
-
-	}
-
-	public static int getresponse(BufferedReader in)
-	{
-		System.out.print("Input: ");
-		
-
-		int value = 0;
-		String input = "";
-
-		try{
-			input = in.readLine();
-			value = Integer.parseInt(input);
-		}
-		catch(Exception e)
-		{
-			value = 0;
-		}
-
-		System.out.println("");
-		System.out.println("Output: ");
-		return value;
-	}
-
 	public static int getInt(String inputToGet, BufferedReader in)
 	{
 		System.out.print("Enter " + inputToGet + ": ");
-		int value = -1;
+		int value = -2;
 		String input = "";
 		try{
 
@@ -272,7 +236,7 @@ public class MyJDBCConnector
 		}
 		catch(Exception e)
 		{
-			value = -1;
+			value = -2;
 		}
 
 		return value;
@@ -293,10 +257,21 @@ public class MyJDBCConnector
 		return input;
 	}
 
+
 	public static boolean processOption(int option, BufferedReader in) throws Exception
 	{
 		switch(option)
 		{
+			
+			case -1:
+				System.out.println("Logged out.");
+				tryTologin(in);
+				break;
+
+			case 0:
+				System.out.println("Bye");
+				return false;
+
 			case 1:
 
 				int id = getInt("id", in); // 872003
@@ -367,17 +342,125 @@ public class MyJDBCConnector
 				break;
 
 			default:
-				System.out.println("Bye");
-				return false;
+				System.out.println("Invalid Response. Try again.");
+
 		}
 
 		return true;
 	}
 
+	public static int getresponse(BufferedReader in)
+	{
+		System.out.print("Input: ");
+		
+
+		int value = 0;
+		String input = "";
+
+		try{
+			input = in.readLine();
+			value = Integer.parseInt(input);
+		}
+		catch(Exception e)
+		{
+			value = -2;
+		}
+
+		System.out.println("");
+
+		if(value != -1 && value != -2)
+			System.out.println("Output: ");
+
+		return value;
+	}
+
+	public static void printMenu()
+	{
+		System.out.println("\nOPTIONS:");
+		System.out.println(" 1: Search by ID");
+		System.out.println(" 2: Search by first and last name:");
+		System.out.println(" 3: Search by first or last name");
+		System.out.println(" 4: Insert a new star into the database");
+		System.out.println(" 5: Insert customer into the database");
+		System.out.println(" 6: Delete customer by creditcard");
+		System.out.println(" 7: View customer by creditcard");
+		System.out.println(" 8: View database metadata");
+
+		System.out.println(" 0: Quit Program");
+		System.out.println("-1: Logout");
+
+	}
+
+	public static boolean databaseStatus() throws Exception
+	{
+   		try{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+	   		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb");
+			db_connection.close();
+		}
+		catch (SQLException e) 
+		{
+
+			if(e.toString().contains("com.mysql.jdbc.CommunicationsException"))
+			{
+				System.out.println("Database offline.");
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static boolean login(BufferedReader in) throws Exception
+	{
+		System.out.println("\nLogin:");
+
+		user = getString("user", in);
+		password = getString("password", in);
+
+   		System.out.println("");
+
+   		try{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+	   		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+			db_connection.close();
+		}
+		catch (SQLException e) //
+		{
+
+			if(e.toString().contains("com.mysql.jdbc.CommunicationsException"))
+				System.out.println("Database offline.");
+			else if(e.toString().contains("Access denied"))
+				System.out.println("Invalid Credentials. ");
+			else
+				System.out.println("Unknown Error.");
+			return false;
+
+		}
+
+		return true;
+	}
+
+	public static void tryTologin(BufferedReader in) throws Exception
+	{
+		
+		while(true)
+		{
+			if(login(in))
+			{
+				System.out.println("Logged in.");
+				return;
+			}
+		}
+
+	}
+
+
+
 	public static void main(String [] args) throws Exception
 	{
 		// Class.forName("com.mysql.jdbc.Driver").newInstance();
-		// Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", "root", "");
+		// Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
 		// Statement selectStmt = db_connection.createStatement();
 		// ResultSet results = selectStmt.executeQuery("select * from stars;");
 
@@ -394,11 +477,15 @@ public class MyJDBCConnector
 
 		// Scanner in = new Scanner(System.in);
 
+		if(!databaseStatus())
+			return;
+
 		BufferedReader inp = new BufferedReader (new InputStreamReader(System.in));
-    	// String x = inp.readLine();
-    	// System.out.println("Output: " + x);
+
+		tryTologin(inp);
+
 		boolean running = true;
-		System.out.println("Welcome to the Movie DB.");
+		// System.out.println("Welcome to the Movie DB.");
 		while(running){
 
 			printMenu();
