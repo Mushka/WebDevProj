@@ -27,6 +27,60 @@ public class MyJDBCConnector
 		}
 	}
 
+	public static void processCommand(String command) throws Exception
+	{
+		
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+			Statement selectStmt = db_connection.createStatement();
+
+			if(command.toLowerCase().startsWith("select"))
+			{
+				ResultSet results = selectStmt.executeQuery(command);
+
+				ResultSetMetaData metadata = results.getMetaData();
+
+				System.out.println();
+
+				while(results.next()){
+
+					for(int i = 1; i <= metadata.getColumnCount(); ++i)
+						System.out.println(metadata.getColumnName(i) + ": " + results.getObject(i).toString());
+					System.out.println();
+				}
+
+				results.close();
+			}
+			else if(command.toLowerCase().startsWith("update"))
+			{
+				//do update 
+			}
+			else if(command.toLowerCase().startsWith("insert"))
+			{
+				//do insert
+			}
+			else if(command.toLowerCase().startsWith("delete"))
+			{
+				//do delete
+			}
+
+			else
+			{
+				System.out.println("Invalid SQL Command.");
+			}
+
+			selectStmt.close();
+			db_connection.close();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Invalid SQL Command.");
+		}
+
+	}
+
 	// public static List<Map<String, Object>> select (String table)
 	public static void deleteCustomerViaCC(String creditcard) throws Exception
 	{
@@ -105,55 +159,22 @@ public class MyJDBCConnector
 
 		}
 
-		// String   catalog           = null;
-		// String   schemaPattern     = null;
-		// String   tableNamePattern  = "stars";
-		// String   columnNamePattern = null;
-
-
-		// ResultSet result = databaseMetaData.getColumns(
-		//     catalog, schemaPattern,  tableNamePattern, columnNamePattern);
-
-		// while(result.next()){
-		//     String columnName = result.getString(4);
-		//     int    columnType = result.getInt(5);  
-
-		// 	String columnTypeEnglish =  getColumnTypeString(columnType);
-
-		//     System.out.println("Table: " + tableNamePattern + " | Column name: " + columnName + " | Column type: " + columnTypeEnglish);
-		// }
-
-		// update.close();
 		db_connection.close();
 	}
 
 	public static void insertCustomer(String first_name, String last_name, String cc_id, String address, String email, String password, String date) throws Exception
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-		// Connect to the test database
 		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
-
-		// create update DB statement -- deleting second record of table; return status
 		Statement update = db_connection.createStatement();
 
-
 		// NEED TO UPDATE CREDITCARD TABLE FIRST
-
-		// 		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration, address, email, password)" + 
-		// CREATE TABLE creditcards(
-		//     id varchar(20) NOT NULL PRIMARY KEY,
-		//     first_name varchar(50) NOT NULL, 
-		//     last_name varchar(50) NOT NULL,
-		//     expiration date NOT NULL
-		// );
+		// TODO apparently if it doesn't exist in CC then don't add the person; not insert into both!!!!
 		int retID = update.executeUpdate("INSERT INTO creditcards (id, first_name, last_name, expiration)" + 
 		"VALUES (\"" + cc_id + "\", \"" + first_name + "\", \"" + last_name + "\", \"" + date + "\"); ");
 
 		retID = update.executeUpdate("INSERT INTO customers (first_name, last_name, cc_id, address, email, password)" + 
 		"VALUES (\"" + first_name + "\", \"" + last_name + "\", \"" + cc_id + "\", \"" + address + "\", \"" + email + "\", \"" + password + "\"); ");
-		// System.out.println("retID = " + retID);
-
 
 		update.close();
 		db_connection.close();
@@ -226,6 +247,9 @@ public class MyJDBCConnector
 
 	public static int getInt(String inputToGet, BufferedReader in)
 	{
+
+		//nothing uses -2; this is to give an 'invalid response' and stay in the menu; 0 is to quit
+
 		System.out.print("Enter " + inputToGet + ": ");
 		int value = -2;
 		String input = "";
@@ -273,8 +297,7 @@ public class MyJDBCConnector
 				return false;
 
 			case 1:
-
-				int id = getInt("id", in); // 872003
+				int id = getInt("id", in); // e.g. 872003
 				if(id != -1)
 					getMoviesOfStar(id);
 				else
@@ -298,7 +321,7 @@ public class MyJDBCConnector
 				break;
 
 			case 4:
-				// If the star has a single name, add it as his last_name and assign an empty string ("") to first_name.
+				// TODO If the star has a single name, add it as his last_name and assign an empty string ("") to first_name. HOW?
 
 				first_name = getString("first name", in);
 				last_name = getString("last name", in);
@@ -339,6 +362,11 @@ public class MyJDBCConnector
 			case 8:
 
 				getMetaData();
+				break;
+
+			case 9:
+				String command = getString("SQL Command", in);				
+				processCommand(command);
 				break;
 
 			default:
@@ -385,6 +413,8 @@ public class MyJDBCConnector
 		System.out.println(" 6: Delete customer by creditcard");
 		System.out.println(" 7: View customer by creditcard");
 		System.out.println(" 8: View database metadata");
+		System.out.println(" 9: SQL Command");
+
 
 		System.out.println(" 0: Quit Program");
 		System.out.println("-1: Logout");
@@ -400,7 +430,6 @@ public class MyJDBCConnector
 		}
 		catch (SQLException e) 
 		{
-
 			if(e.toString().contains("com.mysql.jdbc.CommunicationsException"))
 			{
 				System.out.println("Database offline.");
@@ -425,9 +454,8 @@ public class MyJDBCConnector
 	   		Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
 			db_connection.close();
 		}
-		catch (SQLException e) //
+		catch (SQLException e) //this is the only exception that gets thrown
 		{
-
 			if(e.toString().contains("com.mysql.jdbc.CommunicationsException"))
 				System.out.println("Database offline.");
 			else if(e.toString().contains("Access denied"))
@@ -459,23 +487,6 @@ public class MyJDBCConnector
 
 	public static void main(String [] args) throws Exception
 	{
-		// Class.forName("com.mysql.jdbc.Driver").newInstance();
-		// Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb",  user, password);
-		// Statement selectStmt = db_connection.createStatement();
-		// ResultSet results = selectStmt.executeQuery("select * from stars;");
-
-		// while(results.next()){
-		// 	System.out.println("Star: " + results.getString("first_name") + " " + results.getString("last_name"));
-		// }
-
-		// results.close();
-		// selectStmt.close();
-		// db_connection.close();
-
-		// getMoviesOfStar(872003);
-		// getMoviesOfStar("Bruce", "Willis");
-
-		// Scanner in = new Scanner(System.in);
 
 		if(!databaseStatus())
 			return;
@@ -497,6 +508,12 @@ public class MyJDBCConnector
 		
 
 	}
+
+
+	// QUESTIONS:
+	// 1)  If the customer has a single name, add it as his last_name and assign an empty string ("") to first_name.
+	// 	- They input each name 
+	// 2) 
 
 
 }
