@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS moviedb;
-CREATE DATABASE moviedb;
+-- CREATE DATABASE moviedb;
 
-USE moviedb;
+-- USE moviedb;
 
 -- DROP TABLE IF EXISTS movies;
 CREATE TABLE movies(
