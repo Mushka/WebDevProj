@@ -12,13 +12,15 @@ To add data from file:
 - use \<dbname\>;
 - describe \<dbname\>.\<tablename\>; (ex. describe moviedb.movies;)
 
-
 #### JDBC
 
 To compile:
 - make 
 
 To run:
+- make r
+
+To compile and run:
 - make run
 
 To remove class files:
