@@ -549,7 +549,7 @@ public class MyJDBCConnector
 			else if(e.toString().contains("Access denied"))
 				System.out.println("Invalid Credentials. ");
 			else
-				System.out.println("Unknown Error.");
+				System.out.println("Unknown Error.\n\n" + e.toString());
 			return false;
 
 		}
