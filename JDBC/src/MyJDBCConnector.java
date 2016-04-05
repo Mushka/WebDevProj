@@ -350,6 +350,11 @@ public class MyJDBCConnector
 		return input;
 	}
 
+	public static void exit_message()
+	{
+		System.out.println("Bye");
+	}
+
 
 	public static boolean processOption(int option, BufferedReader in) throws Exception
 	{
@@ -358,11 +363,10 @@ public class MyJDBCConnector
 			
 			case -1:
 				System.out.println("Logged out.");
-				tryTologin(in);
-				break;
-
+				if(tryTologin(in)) // if they don't want to login it will 'fall' into the next case and print bye and return
+					break;
 			case 0:
-				System.out.println("Bye");
+				exit_message();
 				return false;
 
 			case 1:
@@ -512,8 +516,20 @@ public class MyJDBCConnector
 		return true;
 	}
 
+	public static boolean askToLogin(BufferedReader in)
+	{
+		System.out.println("\nDo you want to login?");
+		String ans = getString("[Y/N]", in);
+
+		if("yes".equalsIgnoreCase(ans) || "y".equalsIgnoreCase(ans) || "1".equalsIgnoreCase(ans))
+			return true;
+		else
+			return false;
+	}
+
 	public static boolean login(BufferedReader in) throws Exception
 	{
+
 		System.out.println("\nLogin:");
 
 		user = getString("user", in);
@@ -541,18 +557,20 @@ public class MyJDBCConnector
 		return true;
 	}
 
-	public static void tryTologin(BufferedReader in) throws Exception
+	public static boolean tryTologin(BufferedReader in) throws Exception
 	{
 		
 		while(true)
 		{
+			if(!askToLogin(in))
+				return false;
+
 			if(login(in))
 			{
 				System.out.println("Logged in.");
-				return;
+				return true;
 			}
 		}
-
 	}
 
 	public static void main(String [] args) throws Exception
@@ -563,7 +581,11 @@ public class MyJDBCConnector
 
 		BufferedReader inp = new BufferedReader (new InputStreamReader(System.in));
 
-		tryTologin(inp);
+		if(!tryTologin(inp))
+		{
+			exit_message();
+			return;
+		}
 
 		boolean running = true;
 		while(running){
