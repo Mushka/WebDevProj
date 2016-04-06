@@ -200,7 +200,7 @@ public class MyJDBCConnector
 			
 		} catch (Exception e)
 		{
-			System.out.println("Invalid SQL Command.");
+			System.out.println("Invalid SQL Command.\n\n" + e.toString());
 		}
 	}
 
@@ -229,7 +229,7 @@ public class MyJDBCConnector
 			if(e.toString().contains("FOREIGN KEY (`cc_id`) REFERENCES `creditcards` (`id`)"))
 				System.out.println("Invalid SQL Command: Creditcard not in database.");
 			else
-				System.out.println("Invalid SQL Command.");
+				System.out.println("Invalid SQL Command.\n\n" + e.toString());
 		}
 	}
 
