@@ -84,7 +84,7 @@ public class MyJDBCConnector
 		for(int i = 0; i < values.size(); ++i)
 		{
 
-			String value = (String) values.get(i);
+			String value = values.get(i).toString();
 
 			if("first_name".equals(cols.get(i)))
 				first_name = value;
