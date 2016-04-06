@@ -1,8 +1,8 @@
 Setting up mysql database via mysql
 (1) Create database moviedb
-	- mysql> create database moviedb3;
+	- mysql> create database moviedb;
 (2) Use database
-	- mysql> use moviedb3;
+	- mysql> use moviedb;
 (3) Import schema
 	- mysql> source ./createtable.sql
 (4) Populate database
