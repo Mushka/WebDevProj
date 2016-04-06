@@ -1,27 +1,41 @@
 # WebDevProj
 
-To import schema use: mysql -u root -p < createtable.sql
+##### Setting up mysql database via mysql
 
-To add data from file:
-- use \<dbname\>;
-- source ./data.sql
+1. Create database moviedb
+	- mysql> create database moviedb3;
+2. Use database
+	- mysql> use moviedb3;
+3. Import schema
+	- mysql> source ./createtable.sql
+4. Populate database
+	- mysql> source ./data.sql;
 
-#### Useful commands:
+##### Setting up mysql database via shell
+1. Create database moviedb
+	- shell> echo "create database moviedb;" | mysql -u root -p
+2. Import schema
+	- shell> mysql -u root -p -D moviedb < createtable.sql
+3. Populate database
+	- shell> mysql -u root -p -D moviedb < data.sql
+
+
+##### Useful mysql commands:
 - show databases;
 - show tables;
 - use \<dbname\>;
 - describe \<dbname\>.\<tablename\>; (ex. describe moviedb.movies;)
 
-#### JDBC
 
-To compile:
-- make 
+##### Commands to use terminal interface
+1. To compile:
+	- shell> make 
 
-To run:
-- make r
+2. To run:
+	- shell> make r
 
-To compile and run:
-- make run
+3. To compile and run:
+	- shell> make run
 
-To remove class files:
-- make clean
+4. To remove class files:
+	- shell> make clean
