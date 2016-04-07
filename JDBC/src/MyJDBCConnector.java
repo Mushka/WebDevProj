@@ -314,6 +314,52 @@ public class MyJDBCConnector
 		db_connection.close();
 	}
 
+	public static void tryToLoginCustomer(String email, String user_pass) throws Exception
+	{
+		String query = "select * from customers where email like '"+email+"' and password like '"+user_pass+"'";
+
+		try
+		{
+
+			// System.out.println("Processing: " + command);
+
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection db_connection = DriverManager.getConnection("jdbc:mysql:///moviedb", user, password);
+			Statement selectStmt = db_connection.createStatement();
+			ResultSet results = selectStmt.executeQuery(query);
+			ResultSetMetaData metadata = results.getMetaData();
+
+			System.out.println();
+
+			boolean empty = true;
+
+			String user_name = "";
+
+			while(results.next()){
+
+				empty = false;
+
+				user_name = results.getString("first_name");
+
+				break;
+			}
+
+			results.close();
+			selectStmt.close();
+			db_connection.close();
+
+			if(empty)
+				System.out.println("Invalid Credentials. ");
+			else
+				System.out.println("Welcome "+ user_name + ".");				
+			
+		} catch (Exception e)
+		{
+			System.out.println("Invalid SQL Command.\n\n" + e.toString());
+		}
+	
+	}
+
 	public static int getInt(String inputToGet, BufferedReader in)
 	{
 
@@ -445,6 +491,11 @@ public class MyJDBCConnector
 				table = getString("table", in);				
 				processSelect("select * from "+ table);
 				break;
+			case 11:
+				String user_email = getString("email", in);	
+				String user_pass = getString("password", in);	
+				tryToLoginCustomer(user_email, user_pass);			
+				break;
 
 			default:
 				System.out.println("Invalid Response. Try again.");
@@ -491,6 +542,7 @@ public class MyJDBCConnector
 		System.out.println(" 8: SQL Command");
 		System.out.println(" 9: Insert into [table]");
 		System.out.println("10: View all in [table]");
+		System.out.println("11: Log in as a customer");
 
 		System.out.println(" 0: Quit Program");
 		System.out.println("-1: Logout");
