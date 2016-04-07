@@ -18,8 +18,8 @@ input[type="submit"] {
 	padding: 5px;
 	border-radius: 5px;
 	margin: 3px 0px 15px 0px;
-	border: 2px solid #62AAF3;
-	background-color: #62AAF3;
+	border: 2px solid white;
+	background-color: #C70404;
 	font-size: 18px;
 	font-family: "Merriweather", serif;
 	color: white;
@@ -29,7 +29,7 @@ input[type="submit"] {
 	display: flex;
 	flex-direction: row;
 	height: 100%;
-	background-color: #B6DAFF;
+	background-color: #C70404;
 }
 
 #logoBox {
@@ -56,13 +56,13 @@ input[type="submit"] {
 	border-radius: 25px;
 	border: 10px solid #FFFFFF;
 	padding: 0px 25px 0px 25px;
-	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 3px 6px rgba(98, 170, 243, 0.5);
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 3px 6px rgba(0, 0, 0, 0.5);
 
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 
-	background-color: #DFEFFF;
+	background-color: #7C0202;
 }
 
 #loginHeader {
@@ -75,7 +75,7 @@ input[type="submit"] {
 #loginHeaderText {
 	font-size: 48px;
 	font-family: "Merriweather", serif;
-	color: #62AAF3;
+	color: white;
 }
 
 #loginCredentials {
@@ -89,7 +89,7 @@ input[type="submit"] {
 	text-align: left;
 	font-size: 18px;
 	font-family: "Merriweather", serif;
-	color: #62AAF3;
+	color: white;
 }
 
 #loginField {

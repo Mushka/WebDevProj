@@ -3,12 +3,20 @@
 <head>
 	<title>FlabFix - Login</title>
 	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Oleo+Script' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="mainStyle.css">
+	<link id="pagestyle" rel="stylesheet" type="text/css" href="mainStyle.css">
+	<script type="text/javascript">
+	function swapStyleSheet(){
+		if(window.getComputedStyle(document.getElementById('wrapper')).getPropertyValue('background-color') == 'rgb(182, 218, 255)')
+			document.getElementById('pagestyle').setAttribute('href', 'netflixStyle.css');
+		else
+			document.getElementById('pagestyle').setAttribute('href', 'mainStyle.css');
+	}
+	</script>
 </head>
 <body>
 	<div id="wrapper">
 		<div id="logoBox">
-			<span id="logoFont">FlabFix</span>
+			<span id="logoFont" onclick="swapStyleSheet()">FlabFix</span>
 		</div>
 		<div id="loginBox">
 			<div id="loginHeader">
