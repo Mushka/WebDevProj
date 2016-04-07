@@ -1,4 +1,4 @@
-//slight change
+//slight change 2
 /* A servlet to display the contents of the MySQL movieDB database */
 
 import java.io.*;
@@ -36,12 +36,56 @@ public class TomcatTest extends HttpServlet
 
         try
            {
-              //Class.forName("org.gjt.mm.mysql.Driver");
+              Class.forName("org.gjt.mm.mysql.Driver");
               // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-              // Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+              // Connection dbcon = 
               // // Declare our statement
               // Statement statement = dbcon.createStatement();
+
+
+              String username = request.getParameter("username");
+              String password = request.getParameter("password");
+
+
+              String query = "select * from customers where email like '"+username+"' and password like '"+password+"'";
+
+
+                // out.println("Processing: " + command);
+
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                Statement selectStmt = db_connection.createStatement();
+                ResultSet results = selectStmt.executeQuery(query);
+
+                // out.println();
+
+                boolean empty = true;
+
+                String user_name = "";
+
+                while(results.next()){
+
+                  empty = false;
+
+                  user_name = results.getString("first_name");
+
+                  break;
+                }
+
+                results.close();
+                selectStmt.close();
+                db_connection.close();
+
+                if(empty)
+                  out.println("Invalid Credentials. ");
+                else
+                  out.println("Welcome "+ user_name + ".");        
+                
+              } catch (Exception e)
+              {
+                out.println("Invalid SQL Command.\n\n" + e.toString());
+              }
 
               // String query = "SELECT * from creditcards";
 
@@ -65,53 +109,57 @@ public class TomcatTest extends HttpServlet
 
               // out.println("</TABLE>");
 
+
+
               // rs.close();
               // statement.close();
               // dbcon.close();
 
 
-            Enumeration paramNames = request.getParameterNames();
+
+
+            // Enumeration paramNames = request.getParameterNames();
             
-            while(paramNames.hasMoreElements()) {
-               String paramName = (String)paramNames.nextElement();
-               out.print("<tr><td>" + paramName + "</td>\n<td>");
-               String[] paramValues =
-                      request.getParameterValues(paramName);
-               // Read single valued data
-               if (paramValues.length == 1) {
-                 String paramValue = paramValues[0];
-                 if (paramValue.length() == 0)
-                   out.println("<i>No Value</i>");
-                 else
-                   out.println(paramValue);
-               } else {
-                   // Read multiple valued data
-                   out.println("<ul>");
-                   for(int i=0; i < paramValues.length; i++) {
-                      out.println("<li>" + paramValues[i]);
-                   }
-                   out.println("</ul>");
-               }
-            }
-            out.println("</tr>\n</table>\n</body></html>");
-            }
+            // while(paramNames.hasMoreElements()) {
+            //    String paramName = (String)paramNames.nextElement();
+            //    out.print("<tr><td>" + paramName + "</td>\n<td>");
+            //    String[] paramValues =
+            //           request.getParameterValues(paramName);
+            //    // Read single valued data
+            //    if (paramValues.length == 1) {
+            //      String paramValue = paramValues[0];
+            //      if (paramValue.length() == 0)
+            //        out.println("<i>No Value</i>");
+            //      else
+            //        out.println(paramValue);
+            //    } else {
+            //        // Read multiple valued data
+            //        out.println("<ul>");
+            //        for(int i=0; i < paramValues.length; i++) {
+            //           out.println("<li>" + paramValues[i]);
+            //        }
+            //        out.println("</ul>");
+            //    }
+            // }
+            // out.println("</tr>\n</table>\n</body></html>");
+            // }
         // catch (SQLException ex) {
         //       while (ex != null) {
-        //             System.out.println ("SQL Exception:  " + ex.getMessage ());
+        //             out.println ("SQL Exception:  " + ex.getMessage ());
         //             ex = ex.getNextException ();
         //         }  // end while
         //     }  // end catch SQLException
 
-        catch(java.lang.Exception ex)
-            {
-                out.println("<HTML>" +
-                            "<HEAD><TITLE>" +
-                            "MovieDB: Error" +
-                            "</TITLE></HEAD>\n<BODY>" +
-                            "<P>SQL error in doGet: " +
-                            ex.getMessage() + "</P></BODY></HTML>");
-                return;
-            }
+        // catch(java.lang.Exception ex)
+        //     {
+        //         out.println("<HTML>" +
+        //                     "<HEAD><TITLE>" +
+        //                     "MovieDB: Error" +
+        //                     "</TITLE></HEAD>\n<BODY>" +
+        //                     "<P>SQL error in doGet: " +
+        //                     ex.getMessage() + "</P></BODY></HTML>");
+        //         return;
+        //     }
          out.close();
     }
 
