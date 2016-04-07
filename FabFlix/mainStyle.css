@@ -1,0 +1,45 @@
+body,html {
+	height: 100%;
+	/*margin: 0;*/
+	/*background-color: red;*/
+}
+
+input {
+	width: 80%;
+}
+
+#wrapper {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+#loginBox {
+	width: 500px;
+	height: 300px;
+	margin: auto;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	/*background-color: blue;*/
+}
+
+#loginHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+
+}
+
+#loginHeaderText {
+	font-size: 48px;
+	font-family: "Merriweather", serif;
+}
+
+
+#loginText {
+	font-size: 18px;
+	font-family: "Merriweather", serif;
+}
