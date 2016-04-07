@@ -95,12 +95,12 @@ public class TomcatTest extends HttpServlet
             }
             out.println("</tr>\n</table>\n</body></html>");
             }
-        catch (SQLException ex) {
-              while (ex != null) {
-                    System.out.println ("SQL Exception:  " + ex.getMessage ());
-                    ex = ex.getNextException ();
-                }  // end while
-            }  // end catch SQLException
+        // catch (SQLException ex) {
+        //       while (ex != null) {
+        //             System.out.println ("SQL Exception:  " + ex.getMessage ());
+        //             ex = ex.getNextException ();
+        //         }  // end while
+        //     }  // end catch SQLException
 
         catch(java.lang.Exception ex)
             {
