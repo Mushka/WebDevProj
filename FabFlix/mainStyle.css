@@ -1,11 +1,16 @@
 body,html {
 	height: 100%;
-	/*margin: 0;*/
+	margin: 0;
 	/*background-color: red;*/
 }
 
-input {
-	width: 80%;
+input[type="text"] {
+	/*width: 100%;*/
+}
+
+input[type="submit"] {
+	width: 80px;
+	height: 30px;
 }
 
 #wrapper {
@@ -15,7 +20,7 @@ input {
 }
 
 #loginBox {
-	width: 500px;
+	width: 450px;
 	height: 300px;
 	margin: auto;
 
@@ -38,8 +43,29 @@ input {
 	font-family: "Merriweather", serif;
 }
 
+#loginCredentials {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#loginField {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
 
 #loginText {
+	width: 20%;
+	text-align: left;
 	font-size: 18px;
 	font-family: "Merriweather", serif;
+}
+
+#loginSubmit {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
 }
