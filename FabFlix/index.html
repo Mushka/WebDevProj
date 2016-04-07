@@ -2,11 +2,14 @@
 <html>
 <head>
 	<title>FlabFix - Login</title>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Oleo+Script' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="mainStyle.css">
 </head>
 <body>
 	<div id="wrapper">
+		<div id="logoBox">
+			<span id="logoFont">FabFlix</span>
+		</div>
 		<div id="loginBox">
 			<div id="loginHeader">
 				<span id="loginHeaderText">Login</span>
@@ -14,15 +17,13 @@
 			<br>
 			<form id="loginCredentials" action="/TomcatTest/servlet/TomcatTest" method="POST">
 				<div id="loginField">
-  					<span id="loginText">Username:</span>
+  					<span id="loginText">Username</span>
   					<input type="text" name="firstname">
   				</div>
-  				<br>
   				<div id="loginField">
-  					<span id="loginText">Password:</span>
+  					<span id="loginText">Password</span>
   					<input type="text" name="lastname">
   				</div>
-  				<br><br>
   				<div id="loginSubmit">
   					<input type="submit" value="Submit">
 				</div>
