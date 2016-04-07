@@ -6,11 +6,24 @@ body,html {
 
 input[type="text"] {
 	/*width: 100%;*/
+	padding: 5px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 3px rgba(98, 170, 243, 0.2);
+	margin: 3px 0px 15px 0px;
+	border: 2px solid white;
 }
 
 input[type="submit"] {
-	width: 80px;
-	height: 30px;
+	width: 90px;
+	height: 35px;
+	padding: 5px;
+	border-radius: 5px;
+	margin: 3px 0px 15px 0px;
+	border: 2px solid #62AAF3;
+	background-color: #62AAF3;
+	font-size: 18px;
+	font-family: "Merriweather", serif;
+	color: white;
 }
 
 #wrapper {
@@ -19,14 +32,31 @@ input[type="submit"] {
 	height: 100%;
 }
 
+#logoBox {
+	width: 100%;
+	position: absolute;
+	height: 150px;
+	/*background-color: #62AAF3;*/
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#logoFont {
+	font-size: 120px;
+	text-shadow: 1px 1px 0px rgba(0,0,0,1), 2px 2px 0px rgba(0,0,0,1), 3px 3px 0px rgba(0,0,0,1), 4px 4px 0px rgba(0,0,0,1), 5px 5px 0px rgba(0,0,0,1);
+	font-family: 'Oleo Script', cursive;
+	color: white;
+}
+
 #loginBox {
 	width: 450px;
-	height: 275px;
+	height: 290px;
 	margin: auto;
 	border-radius: 25px;
 	border: 10px solid #FFFFFF;
 	padding: 0px 25px 0px 25px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.0);
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 3px 6px rgba(98, 170, 243, 0.5);
 
 	display: flex;
 	flex-direction: column;
@@ -39,7 +69,7 @@ input[type="submit"] {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-
+	margin-top: 10px;
 }
 
 #loginHeaderText {
@@ -54,13 +84,6 @@ input[type="submit"] {
 	justify-content: center;
 }
 
-#loginField {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-}
-
 #loginText {
 	width: 20%;
 	text-align: left;
@@ -69,8 +92,16 @@ input[type="submit"] {
 	color: #62AAF3;
 }
 
+#loginField {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
 #loginSubmit {
 	width: 100%;
+	margin-top: 5px;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
