@@ -9,8 +9,6 @@ body,html {
 }
 
 input {
-	/*height: 56px;*/
-	margin-top: 40px;
 	padding: 0;
 	border-radius: 3px;
 }
@@ -36,8 +34,8 @@ input[type="submit"]:hover {
 	background: #46749D;
 }
 
-.bgChanger {
-	background: #1C5588;
+.margin40T {
+	margin-top: 25px;
 }
 
 #wrapper {
@@ -74,7 +72,7 @@ input[type="submit"]:hover {
 	flex-direction: column;
 	justify-content: center;
 	width:350px;
-	padding: 0px 40px 40px 40px;
+	padding: 40px 40px 40px 40px;
 	margin-top: 20px;
 	border-radius: 3px;
 	background: white;
