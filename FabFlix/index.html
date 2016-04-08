@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>FlabFix - Login</title>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Oleo+Script' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
 	<link id="pagestyle" rel="stylesheet" type="text/css" href="mainStyle.css">
 	<script type="text/javascript">
 	function swapStyleSheet(){
@@ -14,29 +14,47 @@
 	</script>
 </head>
 <body>
-	<div id="wrapper">
+<!-- 	<div id="wrapper">
 		<div id="logoBox">
-			<span id="logoFont" onclick="swapStyleSheet()">FlabFix</span>
+			<span id="logoFont" onclick="swapStyleSheet()">FabFlix</span>
 		</div>
 		<div id="loginBox">
 			<div id="loginHeader">
-				<span id="loginHeaderText">Login</span>
+				<span id="loginHeaderText">Log In</span>
 			</div>
 			<br>
 			<form id="loginCredentials" action="/TomcatTest/servlet/TomcatTest" method="POST">
 				<div id="loginField">
-  					<span id="loginText">Username</span>
   					<input type="text" name="firstname">
   				</div>
   				<div id="loginField">
-  					<span id="loginText">Password</span>
   					<input type="text" name="lastname">
   				</div>
   				<div id="loginSubmit">
-  					<input type="submit" value="Submit">
+  					<input type="submit" value="Log In">
 				</div>
 			</form>
 		</div>
+	</div> -->
+
+
+	<div id="wrapper">
+		<div id="content">
+			<div id="logoBox">
+				<span id="logoFont" onclick="swapStyleSheet()">FabFlix</span>
+			</div>
+			<div id="loginBox">
+				<!-- <div id="loginHeader"> -->
+					<!-- <span id="loginHeaderFont">Log In</span> -->
+				<!-- </div> -->
+				<form id="loginCredentials" action="/TomcatTest/servlet/TomcatTest" method="POST">
+					<input type="text" name="username" placeholder="Username">
+					<input type="text" name="password" placeholder="Password">
+					<input type="submit" value="Log In">
+				</form>
+			</div>
+		</div>
 	</div>
+
 </body>
 </html>
