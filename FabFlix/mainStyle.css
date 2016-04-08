@@ -1,42 +1,61 @@
+@font-face {
+    font-family: 'Proxima Nova';
+    src: local('Proxima Nova Regular'), url(/fonts/ProximaNova-Regular.ttf);
+}
+
 body,html {
 	height: 100%;
 	margin: 0;
 }
 
+input {
+	/*height: 56px;*/
+	margin-top: 40px;
+	padding: 0;
+	border-radius: 3px;
+}
+
 input[type="text"] {
-	/*width: 100%;*/
-	padding: 5px;
-	border-radius: 5px;
-	box-shadow: 0px 0px 3px rgba(98, 170, 243, 0.2);
-	margin: 3px 0px 15px 0px;
-	border: 2px solid white;
+	padding: 15px;
+	border: 2px solid #D8D8D8;
+	background: #F7F7F7;
+	font-size: 18px;
+	font-family: 'Proxima Nova', helvetica;
 }
 
 input[type="submit"] {
-	width: 90px;
-	height: 37px;
-	padding: 5px;
-	border-radius: 5px;
-	margin: 3px 0px 15px 0px;
-	border: 2px solid #62AAF3;
-	background-color: #62AAF3;
-	font-size: 18px;
-	font-family: "Merriweather", serif;
+	height: 56px;
+	background: #1C5588;
+	border: 0;
+	font-size: 22px;
+	font-family: 'Proxima Nova', helvetica;
 	color: white;
+}
+
+input[type="submit"]:hover {
+	background: #46749D;
+}
+
+.bgChanger {
+	background: #1C5588;
 }
 
 #wrapper {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 	height: 100%;
-	background-color: #B6DAFF;
+	background: #1C5588;
+}
+
+#content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
 }
 
 #logoBox {
-	width: 100%;
-	position: absolute;
-	height: 150px;
-	/*background-color: #62AAF3;*/
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -44,65 +63,37 @@ input[type="submit"] {
 
 #logoFont {
 	font-size: 120px;
-	text-shadow: 1px 1px 0px rgba(0,0,0,1), 2px 2px 0px rgba(0,0,0,1), 3px 3px 0px rgba(0,0,0,1), 4px 4px 0px rgba(0,0,0,1), 5px 5px 0px rgba(0,0,0,1);
-	font-family: 'Oleo Script', cursive;
+	font-weight: bold;
+	font-family: 'Proxima Nova', helvetica;
+	-webkit-font-smoothing: antialiased;
 	color: white;
 }
 
 #loginBox {
-	width: 450px;
-	height: 290px;
-	margin: auto;
-	border-radius: 25px;
-	border: 10px solid #FFFFFF;
-	padding: 0px 25px 0px 25px;
-	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 3px 6px rgba(98, 170, 243, 0.5);
-
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-
-	background-color: #DFEFFF;
+	width:350px;
+	padding: 0px 40px 40px 40px;
+	margin-top: 20px;
+	border-radius: 3px;
+	background: white;
+	box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4)
 }
 
 #loginHeader {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	margin-top: 10px;
-}
-
-#loginHeaderText {
-	font-size: 48px;
-	font-family: "Merriweather", serif;
-	color: #62AAF3;
+	text-transform: none;
+    letter-spacing: 0;
+	font-size: 35px;
+	font-family: 'Proxima Nova', helvetica;
+	letter-spacing: -1.5px;
 }
 
 #loginCredentials {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-}
-
-#loginText {
-	width: 20%;
-	text-align: left;
-	font-size: 18px;
-	font-family: "Merriweather", serif;
-	color: #62AAF3;
-}
-
-#loginField {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-}
-
-#loginSubmit {
-	width: 100%;
-	margin-top: 5px;
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
 }
