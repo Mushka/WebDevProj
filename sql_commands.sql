@@ -42,3 +42,8 @@ from stars_in_movies as sm, stars as s, movies as m
 where sm.star_id = s.id and m.id = sm.movie_id
 group by s.last_name
 having (cnt > 1);
+
+-- shows titles in alphabetical order: shows 10 movies and starts at location 0 (should increment by 10, if the limit is 10)
+
+SELECT title FROM movies order by title LIMIT 10 OFFSET 0;
+
