@@ -51,73 +51,76 @@
 	    $(div).animate({ left: 0},interval);
 	}
 
-	$('#logoFont').on('click', function(){
-		shake($('#loginBox'));
-	});
+	$(document).ready(function() {
+
+		$('#logoFont').on('click', function(){
+			shake($('#loginBox'));
+		});
 
 
- 	$("form").on('submit', function (e) {
+	 	$("form").on('submit', function (e) {
 
-	 	$.ajax({
-	 		/*url is the location of the servlet, i believe */
-            url : 'TryToLoginCustomer',
-            data : $(this).serialize(),
-            success : function(responseText) {
-            	
-            	/* if(responseText.includes('false bitch')) */
-	            if(responseText === "false") {		
+		 	$.ajax({
+		 		/*url is the location of the servlet, i believe */
+	            url : 'TryToLoginCustomer',
+	            data : $(this).serialize(),
+	            success : function(responseText) {
+	            	
+	            	/* if(responseText.includes('false bitch')) */
+		            if(responseText === "false") {		
 
-	            	shake($('#loginBox'));
+		            	shake($('#loginBox'));
 
-	            	// toastr.options = {
-            		// 		  "closeButton": false,
-            		// 		  "debug": false,
-            		// 		  "newestOnTop": false,
-            		// 		  "progressBar": false,
-            		// 		  "positionClass": "toast-top-center",
-            		// 		  "preventDuplicates": true,
-            		// 		  "onclick": null,
-            		// 		  "showDuration": "300",
-            		// 		  "hideDuration": "300",
-            		// 		  "timeOut": "2000",
-            		// 		  "extendedTimeOut": "1000",
-            		// 		  "showEasing": "swing",
-            		// 		  "hideEasing": "linear",
-            		// 		  "showMethod": "slideDown",
-            		// 		  "hideMethod": "slideUp"
-            		// 		}
+		            	// toastr.options = {
+	            		// 		  "closeButton": false,
+	            		// 		  "debug": false,
+	            		// 		  "newestOnTop": false,
+	            		// 		  "progressBar": false,
+	            		// 		  "positionClass": "toast-top-center",
+	            		// 		  "preventDuplicates": true,
+	            		// 		  "onclick": null,
+	            		// 		  "showDuration": "300",
+	            		// 		  "hideDuration": "300",
+	            		// 		  "timeOut": "2000",
+	            		// 		  "extendedTimeOut": "1000",
+	            		// 		  "showEasing": "swing",
+	            		// 		  "hideEasing": "linear",
+	            		// 		  "showMethod": "slideDown",
+	            		// 		  "hideMethod": "slideUp"
+	            		// 		}
 
-            		// 		toastr["error"]("<center> Invalid Credentials </center>")
-            	}
-            	// I th
-	            // else
-	            // {
-	            // 	toastr.options = {
-            	// 			  "closeButton": false,
-            	// 			  "debug": false,
-            	// 			  "newestOnTop": false,
-            	// 			  "progressBar": false,
-            	// 			  "positionClass": "toast-top-center",
-            	// 			  "preventDuplicates": true,
-            	// 			  "onclick": null,
-            	// 			  "showDuration": "300",
-            	// 			  "hideDuration": "300",
-            	// 			  "timeOut": "2000",
-            	// 			  "extendedTimeOut": "1000",
-            	// 			  "showEasing": "swing",
-            	// 			  "hideEasing": "linear",
-            	// 			  "showMethod": "slideDown",
-            	// 			  "hideMethod": "slideUp"
-            	// 			}
+	            		// 		toastr["error"]("<center> Invalid Credentials </center>")
+	            	}
+	            	// I th
+		            // else
+		            // {
+		            // 	toastr.options = {
+	            	// 			  "closeButton": false,
+	            	// 			  "debug": false,
+	            	// 			  "newestOnTop": false,
+	            	// 			  "progressBar": false,
+	            	// 			  "positionClass": "toast-top-center",
+	            	// 			  "preventDuplicates": true,
+	            	// 			  "onclick": null,
+	            	// 			  "showDuration": "300",
+	            	// 			  "hideDuration": "300",
+	            	// 			  "timeOut": "2000",
+	            	// 			  "extendedTimeOut": "1000",
+	            	// 			  "showEasing": "swing",
+	            	// 			  "hideEasing": "linear",
+	            	// 			  "showMethod": "slideDown",
+	            	// 			  "hideMethod": "slideUp"
+	            	// 			}
 
-            	// 			toastr["success"]("<center> " + responseText + " </center>")
-	            // }
-            	
-            	
-            }
-        });
-	   
-	   e.preventDefault();
+	            	// 			toastr["success"]("<center> " + responseText + " </center>")
+		            // }
+	            	
+	            	
+	            }
+	        });
+		   
+		   e.preventDefault();
+		});
 	});
  	 
 </script>
