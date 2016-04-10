@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Proxima Nova';
-    src: local('Proxima Nova Regular'), url(/fonts/ProximaNova-Regular.ttf);
+    src: local('Proxima Nova Regular'), url(./fonts/ProximaNova-Regular.ttf);
 }
 
 body,html {
