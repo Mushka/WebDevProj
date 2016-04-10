@@ -69,6 +69,14 @@
 
 		$('#logoFont').on('click', function(){
 			shake($('#loginBox'));
+			$('#wrapper').append('<div id="error" class="errorMessage"><span style="align-self: center;">Invalid Credentials</span></div>');
+			$('#error').animate({top:0+'px'}, {duration: 500, complete: function() {
+				setTimeout(function() {
+					$('#error').animate({top:-60+'px'}, {duration: 500, complete: function() {
+						$('#error').remove();
+					}})
+				},3000);
+			}});
 		});
 
 	 	$("form").on('submit', function (e) {
@@ -81,7 +89,15 @@
 			            	
 		            if(responseText === "false")
 	            	{		      
-	            		shake($('#loginBox'));  
+	            		shake($('#loginBox'));
+	            		$('#wrapper').append('<div id="error" class="errorMessage"><span style="align-self: center;">Invalid Credentials</span></div>');
+						$('#error').animate({top:0+'px'}, {duration: 500, complete: function() {
+							setTimeout(function() {
+								$('#error').animate({top:-60+'px'}, {duration: 500, complete: function() {
+									$('#error').remove();
+								}})
+							},3000);
+						}});
 	            	}
 		            else
 		            {
