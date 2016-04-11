@@ -47,3 +47,18 @@ having (cnt > 1);
 
 SELECT title FROM movies order by title LIMIT 10 OFFSET 0;
 
+-- shows genre of movie given the id if that movie 
+
+select g.name as 'genre'
+from movies as m, genres_in_movies as gm, genres as g
+where m.id = gm.movie_id and g.id = gm.genre_id and m.id = 'ENTER ID HERE'
+order by g.name, m.title, m.year, m.director;
+
+-- shows the actors associated to a given movie based upon the id of that movie (orders by firstname and lastname)
+
+select s.first_name as 'actor firstname', s.last_name as 'actor lastname'
+from movies as m, stars as s, stars_in_movies as sm
+where m.id = sm.movie_id and s.id = sm.star_id and m.id = 'ENTER ID HERE'
+order by s.first_name, s.last_name;
+
+
