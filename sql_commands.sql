@@ -61,4 +61,8 @@ from movies as m, stars as s, stars_in_movies as sm
 where m.id = sm.movie_id and s.id = sm.star_id and m.id = 'ENTER ID HERE'
 order by s.first_name, s.last_name;
 
+-- shows all movie titles from any character 
 
+select m.title
+from movies as m
+where m.title like 'a%';  --change a to any character
