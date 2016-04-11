@@ -66,3 +66,10 @@ order by s.first_name, s.last_name;
 select m.title
 from movies as m
 where m.title like 'a%';  --change a to any character
+
+-- shows all movies for a given genre
+
+select m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url 
+from movies as m, genres_in_movies as gm, genres as g
+where m.id = gm.movie_id and g.id = gm.genre_id and g.name = 'Thriller'
+order by g.name, m.title, m.year, m.director;
