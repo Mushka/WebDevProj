@@ -1,21 +1,24 @@
 #!/bin/bash
 
+GITFOLDER=eclipse
+ECLIPSEFOLDER=../../Session
+
 if [ -d "eclipse" ]; then
-  rm -rf eclipse
+  rm -rf $GITFOLDER
 fi
 
-mkdir eclipse
-mkdir eclipse/src
-mkdir eclipse/src/tester
-mkdir eclipse/WebContent
+mkdir $GITFOLDER
+mkdir $GITFOLDER/src
+mkdir $GITFOLDER/src/tester
+mkdir $GITFOLDER/WebContent
 
-cp -R ../../Session/WebContent/ eclipse/WebContent/
-cp -R ../../Session/src/tester/ eclipse/src/tester/
+cp -R $ECLIPSEFOLDER/WebContent/ $GITFOLDER/WebContent/
+cp -R $ECLIPSEFOLDER/src/tester/ $GITFOLDER/src/tester/
 
-rm -rf eclipse/src/tester/Credentials.java
+rm -rf $GITFOLDER/src/tester/Credentials.java
 
-echo eclipse/src/tester
-ls ./eclipse/src/tester/
+echo $GITFOLDER/src/tester
+ls $GITFOLDER/src/tester/
 
-echo eclipse/WebContent
-ls eclipse/WebContent
+echo $GITFOLDER/WebContent
+ls $GITFOLDER/WebContent

@@ -1,20 +1,23 @@
 #!/bin/bash
 
+GITFOLDER=eclipse
+ECLIPSEFOLDER=../../Session
+
 if [ -d "eclipse" ]; then
-	mkdir ../../Session/src/tmp/
-	mv ../../Session/src/tester/Credentials.java ../../Session/src/tmp/Credentials.java
-	rm -rf ../../Session/WebContent/
-	rm -rf ../../Session/src/tester/
-	mkdir ../../Session/WebContent/
-	mkdir -rf ../../Session/src/tester/
-  	cp -R eclipse/WebContent/ ../../Session/WebContent/
-  	cp -R eclipse/src/tester/ ../../Session/src/tester/
-  	mv ../../Session/src/tmp/Credentials.java ../../Session/src/tester/Credentials.java
-  	rm -rf ../../Session/src/tmp/
+	mkdir $ECLIPSEFOLDER/src/tmp/
+	mv $ECLIPSEFOLDER/src/tester/Credentials.java $ECLIPSEFOLDER/src/tmp/Credentials.java
+	rm -rf $ECLIPSEFOLDER/WebContent/
+	rm -rf $ECLIPSEFOLDER/src/tester/
+	mkdir $ECLIPSEFOLDER/WebContent/
+	mkdir -rf $ECLIPSEFOLDER/src/tester/
+  	cp -R $GITFOLDER/WebContent/ $ECLIPSEFOLDER/WebContent/
+  	cp -R $GITFOLDER/src/tester/ $ECLIPSEFOLDER/src/tester/
+  	mv $ECLIPSEFOLDER/src/tmp/Credentials.java $ECLIPSEFOLDER/src/tester/Credentials.java
+  	rm -rf $ECLIPSEFOLDER/src/tmp/
 fi
 
-echo ../../Session/WebContent/
-ls ../../Session/WebContent/
+echo $ECLIPSEFOLDER/WebContent/
+ls $ECLIPSEFOLDER/WebContent/
 
-echo ../../Session/src/tester/
-ls ../../Session/src/tester/
+echo $ECLIPSEFOLDER/src/tester/
+ls $ECLIPSEFOLDER/src/tester/
