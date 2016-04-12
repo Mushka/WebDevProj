@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -d "eclipse" ]; then
+  rm -rf eclipse
+fi
+
+mkdir eclipse
+mkdir eclipse/src
+mkdir eclipse/src/tester
+mkdir eclipse/WebContent
+
+cp -R ../../Session/WebContent/ eclipse/WebContent/
+cp -R ../../Session/src/tester/ eclipse/src/tester/
+
+rm -rf eclipse/src/tester/Credentials.java
+
+echo eclipse/src/tester
+ls ./eclipse/src/tester/
+
+echo eclipse/WebContent
+ls eclipse/WebContent

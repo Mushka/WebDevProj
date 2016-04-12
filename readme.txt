@@ -1,3 +1,8 @@
+Import / Export Eclipse projects
+- To import project changes from github use: `./import`
+- To export your project updates to github: `./export`
+- Modify the scripts to contain the correct paths to files
+
 Setting up mysql database via mysql
 (1) Create database moviedb
 	- mysql> create database moviedb;
