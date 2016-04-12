@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ -d "eclipse" ]; then
+	mkdir ../../Session/src/tmp/
+	mv ../../Session/src/tester/Credentials.java ../../Session/src/tmp/Credentials.java
+	rm -rf ../../Session/WebContent/
+	rm -rf ../../Session/src/tester/
+	mkdir ../../Session/WebContent/
+	mkdir -rf ../../Session/src/tester/
+  	cp -R eclipse/WebContent/ ../../Session/WebContent/
+  	cp -R eclipse/src/tester/ ../../Session/src/tester/
+  	mv ../../Session/src/tmp/Credentials.java ../../Session/src/tester/Credentials.java
+  	rm -rf ../../Session/src/tmp/
+fi
+
+echo ../../Session/WebContent/
+ls ../../Session/WebContent/
+
+echo ../../Session/src/tester/
+ls ../../Session/src/tester/
