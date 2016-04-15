@@ -69,6 +69,8 @@ public class TryToLoginCustomer extends HttpServlet
 				out.print(user_name); 
 				
 				request.getSession().setAttribute("user_name", user_name);
+				
+//				response.sendRedirect("/home.jsp");
 				//We should probably redirect to another page if they login correctly
 //                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 //                dispatcher.redi
