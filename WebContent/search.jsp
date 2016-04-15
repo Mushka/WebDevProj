@@ -354,110 +354,67 @@ function readCookie(name) {
 
 $(document).ready(function() {
 
-    $('.buyButton').click( function() {
+    $('.buyButton').click( function(e) {
     	
-    	var cart = $('#shoppingCartBtn');
-        var imgtodrag = $(this).parent().find("img").eq(0);
-        if (imgtodrag) {
-            var imgclone = imgtodrag.clone()
-                .offset({
-                top: imgtodrag.offset().top,
-                left: imgtodrag.offset().left
-            })
-                .css({
-                'opacity': '0.5',
-                    'position': 'absolute',
-                    'height': '150px',
-                    'width': '100px',
-                    'z-index': '9000'
-            })
-                .appendTo($('html'))
-                .animate({
-                'top': cart.offset().top + 10,
-                    'left': cart.offset().left + 10,
-                    'width': 50,
-                    'height': 75
-            }, 500, 'easeOutSine');
-
-            imgclone.animate({
-                'width': 0,
-                    'height': 0
-            }, function () {
-                $(this).detach()
-            });
-        }
+    
         
-        shopping_cart = readCookie("shopping_cart");
-         
-        if(shopping_cart != null)
-        {
-            
-            shopping_cart = shopping_cart.toString().split(" ");
-            shopping_cart_new = "";
         
-            console.log("shopping_cart split: " + shopping_cart);
-            console.log("shopping_cart size: " + shopping_cart.length);
-            
-            console.log("------");
-            
-            var newItem = 1;
-            
-            for(i = 0; i < shopping_cart.length; ++i)
-            {
-                
-                items = shopping_cart[i].toString().split("-");
-                
-                item = items[0];
-                qty = items[1];
-                
-                console.log("item: " + item);
-                console.log("qty: " + qty);
-                
-                console.log("------");
-                
-                if(item === this.id)
-                {
-                    qty = parseInt(qty)+1;
-                    newItem = 0;
-                }
-                
-                
-                shopping_cart_new = shopping_cart_new.concat(item + "-" + qty);
-                
-                if(i < shopping_cart.length-1)
-                {
-                    shopping_cart_new = shopping_cart_new.concat(" ");
-                }
-                    
-                
-            }
-            
-            if(newItem === 1)
-            {
-                shopping_cart_new = shopping_cart_new.concat(" "+this.id + "-1");
-            }
-            
-            createCookie("shopping_cart", shopping_cart_new, 0);
-            
-/*          alert(shopping_cart_new);
- */         
-            console.log("new shopping chart: " + shopping_cart_new);
-            console.log("------");
-            
-       
-              console.log("Shopping chart: " + shopping_cart_new);
-              
+        /* shopping_cart = readCookie("shopping_cart"); */
+        
+		
+        
+        
+        /* 	Map<String, Integer> shopping_cart = (Map<String, Integer>) session.getAttribute("offset");  */
+        
+        var cart = $('#shoppingCartBtn');
+		var imgtodrag = $(this).parent().find("img").eq(0);
+        
+        $.ajax({
+	            url : 'ProcessShoppingCart',
+	            data : "id="+this.id,
+	            success : function(responseText) {
+			            	
+		            if(responseText === "false")
+	            	{		      
+	            		console.log("Failed to load");
+	            	}
+		            else
+		            {
+		                if (imgtodrag) {
+		                    var imgclone = imgtodrag.clone()
+		                        .offset({
+		                        top: imgtodrag.offset().top,
+		                        left: imgtodrag.offset().left
+		                    })
+		                        .css({
+		                        'opacity': '0.5',
+		                            'position': 'absolute',
+		                            'height': '150px',
+		                            'width': '100px',
+		                            'z-index': '9000'
+		                    })
+		                        .appendTo($('html'))
+		                        .animate({
+		                        'top': cart.offset().top + 10,
+		                            'left': cart.offset().left + 10,
+		                            'width': 50,
+		                            'height': 75
+		                    }, 500, 'easeInOutExpo');
 
-        }
-        else
-        {
-            createCookie("shopping_cart", this.id+"-1", 0);
-/*          alert(this.id + " added cookie");
- */         
- 			alert("Shopping chart: " + this.id + "-1");
-
-            console.log("new item: " + this.id + "-1");
-        }
+		                    imgclone.animate({
+		                        'width': 0,
+		                            'height': 0
+		                    }, function () {
+		                        $(this).detach()
+		                    });
+		                }
+		            }
+			    }
+			});
+        
+        	
+        e.preventDefault();
+        	
        
     });
  
@@ -535,6 +492,14 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
        
 %>
 
+
+<table border>
+
+    
+            
+</table>
+
+
     <div id="wrapper">
         <div id="navBarTop">
             <div id="searchBar">
@@ -603,7 +568,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
             <div class="movieBox">
                 <div class="imageAndBuy">
-                    <div class="movieImage">
+                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
                     	<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
                     </div>
                     <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 

@@ -3,6 +3,8 @@
 <head>
     <title>Main Page</title>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    
     <style type="text/css">
 
         @font-face {
@@ -348,82 +350,29 @@ function readCookie(name) {
 
 $(document).ready(function() {
 
-    $('.buyButton').click( function() {
+    $('.buyButton').click( function(e) {
         
-        shopping_cart = readCookie("shopping_cart");
-         
-        if(shopping_cart != null)
-        {
-            
-            shopping_cart = shopping_cart.toString().split(" ");
-            shopping_cart_new = "";
+        $.ajax({
+	            url : 'ProcessShoppingCart',
+	            data : "id="+this.id,
+	            success : function(responseText) {
+			            	
+		            if(responseText === "false")
+	            	{		      
+		            	alert("Failed to load");
+	            	}
+		            else
+		            {
+		               alert(responseText);
+		            }
+			    }
+			});
         
-            console.log("shopping_cart split: " + shopping_cart);
-            console.log("shopping_cart size: " + shopping_cart.length);
-            
-            console.log("------");
-            
-            var newItem = 1;
-            
-            for(i = 0; i < shopping_cart.length; ++i)
-            {
-                
-                items = shopping_cart[i].toString().split("-");
-                
-                item = items[0];
-                qty = items[1];
-                
-                console.log("item: " + item);
-                console.log("qty: " + qty);
-                
-                console.log("------");
-                
-                if(item === this.id)
-                {
-                    qty = parseInt(qty)+1;
-                    newItem = 0;
-                }
-                
-                
-                shopping_cart_new = shopping_cart_new.concat(item + "-" + qty);
-                
-                if(i < shopping_cart.length-1)
-                {
-                    shopping_cart_new = shopping_cart_new.concat(" ");
-                }
-                    
-                
-            }
-            
-            if(newItem === 1)
-            {
-                shopping_cart_new = shopping_cart_new.concat(" "+this.id + "-1");
-            }
-            
-            createCookie("shopping_cart", shopping_cart_new, 0);
-            
-/*          alert(shopping_cart_new);
- */         
-            console.log("new shopping chart: " + shopping_cart_new);
-            console.log("------");
-            
-       
-              alert("Shopping chart: " + shopping_cart_new);
-              
-
-        }
-        else
-        {
-            createCookie("shopping_cart", this.id+"-1", 0);
-/*          alert(this.id + " added cookie");
- */         
- 			alert("Shopping chart: " + this.id + "-1");
-
-            console.log("new item: " + this.id + "-1");
-        }
-       
+        	
+        e.preventDefault();
+        	
     });
- 
+        
 
 	$('#byTitle').click( function() {
 		toggleTitle = !toggleTitle;

@@ -72,6 +72,12 @@
     <description></description>
     <servlet-class>servlets.ShowGenre</servlet-class>
 </servlet>
+<servlet>
+	<servlet-name>ProcessShoppingCart</servlet-name>
+	<display-name>ProcessShoppingCart</display-name>
+	<description></description>
+	<servlet-class>servlets.ProcessShoppingCart</servlet-class>
+</servlet>
   
   <servlet-mapping>
     <servlet-name>ShowSessionServlet</servlet-name>
@@ -107,6 +113,10 @@
   <servlet-mapping>
     <servlet-name>ShowGenre</servlet-name>
     <url-pattern>/ShowGenre</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProcessShoppingCart</servlet-name>
+  	<url-pattern>/ProcessShoppingCart</url-pattern>
   </servlet-mapping>
 
 
