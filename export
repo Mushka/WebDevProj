@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GITFOLDER=eclipse
-ECLIPSEFOLDER=../../Session
+ECLIPSEFOLDER=../FabFlix
 
 if [ -d "eclipse" ]; then
   rm -rf $GITFOLDER
@@ -9,16 +9,10 @@ fi
 
 mkdir $GITFOLDER
 mkdir $GITFOLDER/src
-mkdir $GITFOLDER/src/tester
+mkdir $GITFOLDER/src/model
+mkdir $GITFOLDER/src/servlets
 mkdir $GITFOLDER/WebContent
 
 cp -R $ECLIPSEFOLDER/WebContent/ $GITFOLDER/WebContent/
-cp -R $ECLIPSEFOLDER/src/tester/ $GITFOLDER/src/tester/
-
-rm -rf $GITFOLDER/src/tester/Credentials.java
-
-echo $GITFOLDER/src/tester
-ls $GITFOLDER/src/tester/
-
-echo $GITFOLDER/WebContent
-ls $GITFOLDER/WebContent
+cp -R $ECLIPSEFOLDER/src/model/ $GITFOLDER/src/model/
+cp -R $ECLIPSEFOLDER/src/servlets/ $GITFOLDER/src/servlets/

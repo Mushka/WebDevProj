@@ -1,4 +1,4 @@
-package tester;
+package servlets;
 
 //slight change 2
 /* A servlet to display the contents of the MySQL movieDB database */
@@ -10,6 +10,8 @@ import java.text.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import model.*;
 
 public class TryToLoginCustomer extends HttpServlet
 {

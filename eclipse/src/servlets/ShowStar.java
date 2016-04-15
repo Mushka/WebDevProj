@@ -1,4 +1,4 @@
-package tester;
+package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,12 +8,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.*;
 
 /**
  * Servlet implementation class ShowMovie
@@ -36,10 +39,6 @@ public class ShowStar extends HttpServlet {
         // TODO Auto-generated method stub
         response.getWriter().append("Served at: ").append(request.getContextPath());
                 
-        String loginUser = Credentials.admin;
-        String loginPasswd = Credentials.password;
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
         response.setContentType("text/html");    // Response mime type
         PrintWriter out = response.getWriter();
         
@@ -49,31 +48,17 @@ public class ShowStar extends HttpServlet {
             if(star_id==null)
                 star_id = "658017";
             
-                    
         String query = "SELECT * FROM stars WHERE id = " + star_id;
 
-            
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
-        Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        Statement selectStmt = db_connection.createStatement();
-        ResultSet results = selectStmt.executeQuery(query);
-        
+        ArrayList<Map<String, Object>> results = MySQL.select(query);
         
         Star actor = null;
-
         
-        while(results.next()) 
-            actor = new Star(results.getInt("id"), results.getString("first_name"), results.getString("last_name"),results.getString("dob"),results.getString("photo_url"));
-        
+        for(Map<String, Object> row : results)
+            actor = new Star(((Integer)row.get("id")).intValue(), row.get("first_name").toString(), row.get("last_name").toString(), row.get("dob").toString(), row.get("photo_url").toString());
         
         if(actor == null)
-        	System.out.println("DO SOMETHING ABOUT THIS BITCH");
-
-        
-        results.close();
-        selectStmt.close();
-        db_connection.close();
-        
+        	System.out.println("DO SOMETHING ABOUT THIS BITCH"); //TODO
 
         ArrayList<Movie> movies_starred_in = new ArrayList<Movie>();
         
@@ -82,18 +67,11 @@ public class ShowStar extends HttpServlet {
         		+ "where sm.star_id = s.id and m.id = sm.movie_id and s.id = " + actor.getId() + " "
         		+ "order by m.title;";
   
-            
-        db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        selectStmt = db_connection.createStatement();
-        results = selectStmt.executeQuery(query);
-            
-           
-        while(results.next())
-        	movies_starred_in.add(new Movie(results.getInt("id"), results.getString("title"), results.getInt("year"),results.getString("director"),results.getString("banner_url"),results.getString("trailer_url")));
+        results = MySQL.select(query);
         
-        results.close();
-        selectStmt.close();
-        db_connection.close(); 
+        for(Map<String, Object> row : results)
+        	movies_starred_in.add(new Movie(((Integer) row.get("id")).intValue(), row.get("title").toString(), ((Integer)row.get("year")).intValue(),
+					row.get("director").toString(), row.get("banner_url").toString(), row.get("trailer_url").toString()));        
         
         actor.setStarred_in(movies_starred_in);
         

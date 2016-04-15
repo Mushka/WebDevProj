@@ -32,7 +32,7 @@
         #moviesList {
             width: 800px;
 /*          height: 100%;
-*/          margin-top: 40px;
+*/          margin-top: 60px;
             margin-bottom: 20px;
             /*border-left: 4px solid white;*/
             /*border-right: 4px solid white;*/
@@ -204,8 +204,63 @@
             flex-grow: 1;
             align-self: center;
         }
+        
+         .arrow-up {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-bottom: 10px solid #f00;
+			align-self: center;
+		}
+
+		.arrow-down {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-top: 10px solid green;
+			align-self: center;
+		}
+		
+				
+		.arrow-flat {
+	      width: 10px; 
+	      height: 2px; 
+	      margin-left: 10px;
+	      background: grey;
+	      align-self: center;
+	    }
+
+    #arrangeBy {
+			width: 800px;
+			position: fixed;
+			left: 50%;
+			margin-left: -400px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			background: white;
+			z-index: 999;
+			border-bottom: 2px solid black;
+		}
+
+		.arrangeByLink {
+			color: grey;
+			margin-left: 10px;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		#shoppingCartBtn {
+			color: red;
+			cursor: pointer;
+		}
 
     </style>
+    
 
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   
@@ -215,56 +270,52 @@
 <script>
 
 
-<%	
-	int offset = Integer.parseInt((String) session.getAttribute("offset"));
-	int limit = Integer.parseInt((String) session.getAttribute("limit"));
-	int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-	String genre = (String) session.getAttribute("genre");
+<%  
+    int offset = Integer.parseInt((String) session.getAttribute("offset"));
+    int limit = Integer.parseInt((String) session.getAttribute("limit"));
+    int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
+    String pre_title = (String) session.getAttribute("title");
     String orderby = (String) session.getAttribute("orderby");
-
-	
 %>  
 
 
 
     var limit = <%=limit%>;
-    var num_of_movies = <%=num_of_movies%>;
-    var genre = "<%=genre%>"
     var offset = <%=offset%>;
+    var num_of_movies = <%=num_of_movies%>;
+    var pre_title = "<%=pre_title%>";
     var orderby = "<%=orderby%>";
-
-
     
-    
+
 /*     alert(pre_title); */
 
 
-function reload(of, li, ge, orb) {
+function reload(of, li, ti, orb) {
     
-    window.location.href = "./ShowGenre?genre=" + ge + "&limit=" + li + "&offset=" + of + "&orderby=" + orb;
+    window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
 
 }
 
 
 function next() {
     
-/*  ./Search?username=a%40email.com&password=a2
+/*  /FabFlix/Search?username=a%40email.com&password=a2
  */
  
- 	if(num_of_movies > (offset+1)*limit)
-    	reload(offset+1, limit, genre, orderby);
+    if(num_of_movies > (offset+1)*limit)
+        reload(offset+1, limit, pre_title, orderby);
     
-    /* window.location.href = "./Search?limit=" + limit + "&offset=" + (offset+1); */
+    /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 }
 
 
 function prev() {
      
         
-    if(<%=offset%> > 0)
+    if(offset > 0)
     {
-        reload(offset-1, limit, genre, orderby);
-        /* window.location.href = "./Search?limit=" + limit + "&offset=" + (offset-1); */
+        reload(offset-1, limit, pre_title, orderby);
+        /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
     }
 }
 
@@ -341,6 +392,7 @@ $(document).ready(function() {
                     shopping_cart_new = shopping_cart_new.concat(" ");
                 }
                     
+                
             }
             
             if(newItem === 1)
@@ -354,29 +406,83 @@ $(document).ready(function() {
  */         
             console.log("new shopping chart: " + shopping_cart_new);
             console.log("------");
+            
+       
+              alert("Shopping chart: " + shopping_cart_new);
+              
 
         }
         else
         {
             createCookie("shopping_cart", this.id+"-1", 0);
 /*          alert(this.id + " added cookie");
- */     
+ */         
+ 			alert("Shopping chart: " + this.id + "-1");
+
             console.log("new item: " + this.id + "-1");
         }
-        
-         
-         
-         
-        
        
     });
+ 
+
+	$('#byTitle').click( function() {
+		toggleTitle = !toggleTitle;
+		if(toggleTitle)
+			{
+				reload(offset, limit, pre_title, 'asc_t');
+			}
+		else
+			{
+				reload(offset, limit, pre_title, 'desc_t');
+			}
+	});
+
+	$('#byYear').click( function() {
+		toggleYear = !toggleYear;
+		if(toggleYear)
+			{
+				reload(offset, limit, pre_title, 'asc_y');
+			}
+		else
+			{
+				reload(offset, limit, pre_title, 'desc_y');
+			}
+	});
+	
+    var toggleTitle = false;
+	var toggleYear = false;
+    
+    if(orderby === "asc_y")
+    {
+    	toggleYear = true;
+		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
+    }
+    else if(orderby === "desc_y") 
+   	{
+		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
+    }
+    
+    if(orderby === "asc_t")
+	{
+    	toggleTitle = true;
+		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
+	}
+    else if(orderby === "desc_t")
+    {
+		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
+    }
+    
+
 
 });
 
+/* it resets the page, and orderby*/
 function search(text)
 {
-	reload(0, limit, text, orderby);
+    reload(0, limit, text, "asc_t");
 }
+
+
 
 
 </script>
@@ -401,38 +507,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
 
     <div id="wrapper">
-        <div id="navBarTop">
-            <div id="searchBar">
-<!--             	<input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-            	<button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
- -->
-            	
-            </div>
-            <div>
-   
-               <%                  
-               			List<String> all_genres = (ArrayList<String>) session.getAttribute("all_genres");
-
-               			for(int i = 0; i < all_genres.size(); ++i){
-				%>
-                           
-                           <%if(i < all_genres.size()-1){%>
-                               <a href="./ShowGenre?genre=<%=all_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>"><%=all_genres.get(i)%> </a> | 
-                           <%}
-                           else{%>
-                               <a href="./ShowGenre?genre=<%=all_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>"><%=all_genres.get(i)%></a>
-                           <%}%>
-                           
-                                                              
-                            <%if(i % 7 == 0){%>
-                            	<br>
-                            <%}%>
-                   
-                       <%}%>   
-                
-          
-            </div>
-        </div>
+       
         
         
     <div id="moviesList">
@@ -498,18 +573,17 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         
                         
 <%                  
-                        List<String> m_genres = (ArrayList<String>) m.getGenres();
+                        List<String> genres = (ArrayList<String>) m.getGenres();
                         /* for(String g : genres)  */
-                        for(int i = 0; i < m_genres.size(); ++i){
+                        for(int i = 0; i < genres.size(); ++i){
 %>
-                            <%if(i < m_genres.size()-1){%>
-                                <a href="./ShowGenre?genre=<%=m_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>" ><%=m_genres.get(i)%>,</a>
+                            <%if(i < genres.size()-1){%>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
                             <%}
                             else{%>
-                                <a href="./ShowGenre?genre=<%=m_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>" ><%=m_genres.get(i)%></a>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
                             <%}%>
-                            
-                                    
+                                                
                         <%}%>   
 
                         </div>
@@ -533,18 +607,6 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         }
 
 %>  
-        </div>
-        <div id="navBarBottom">
-            <button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
-            <button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
-            <div id="itemsPerPage">
-                <span style="margin: 0px 10px 0px 40px">Items per page:</span>
-                <a href="#" class="pageCount" onclick = "reload(offset, 5, genre, orderby);">5</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 10, genre, orderby);">10</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 15, genre, orderby);">15</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 20, genre, orderby);">20</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 25, genre, orderby);">25</a>
-            </div>
         </div>
     </div>
 </body>
