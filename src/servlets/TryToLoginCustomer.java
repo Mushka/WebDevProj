@@ -23,6 +23,16 @@ public class TryToLoginCustomer extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException
 	{
+		
+		
+		if(request.getQueryString() == null)
+		{
+			RequestDispatcher dispatcher = request.getRequestDispatcher(".");
+			dispatcher.forward(request, response);
+		}
+		
+		
+		
 		String loginUser = Credentials.admin;
 		String loginPasswd = Credentials.password;
 		String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
@@ -36,7 +46,6 @@ public class TryToLoginCustomer extends HttpServlet
 
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-
 
 			String query = "select * from customers where email like '"+username+"' and password like '"+password+"'";
 
@@ -63,7 +72,9 @@ public class TryToLoginCustomer extends HttpServlet
 			db_connection.close();
 
 			if(empty)
+			{
 				out.print("false");
+			}
 			else
 			{
 				out.print(user_name); 
