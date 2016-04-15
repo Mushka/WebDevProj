@@ -56,8 +56,9 @@ public class LoginCheck implements Filter {
 			HttpSession session = request.getSession();
 		
 		    if (session == null || session.getAttribute("user_name") == null) {
-		        RequestDispatcher dispatcher = request.getRequestDispatcher(".");
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
 		        dispatcher.forward(request, response);
+//				response.sendRedirect("login.html");
 		        
 		    }
 		    else

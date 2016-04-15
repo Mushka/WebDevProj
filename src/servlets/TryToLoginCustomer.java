@@ -27,8 +27,10 @@ public class TryToLoginCustomer extends HttpServlet
 		
 		if(request.getQueryString() == null)
 		{
-			RequestDispatcher dispatcher = request.getRequestDispatcher(".");
-			dispatcher.forward(request, response);
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
+//			dispatcher.forward(request, response);
+//			
+			response.sendRedirect("login.html");
 		}
 		
 		
