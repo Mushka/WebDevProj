@@ -292,7 +292,7 @@
 
 function reload(of, li, ti, orb) {
     
-    window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+    window.location.href = "./AdvanceSearch?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
 
 }
 
