@@ -1,6 +1,7 @@
-package tester;
+package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Star {
 	

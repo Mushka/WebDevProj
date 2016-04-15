@@ -40,37 +40,37 @@
   </servlet>
 <servlet>
     <servlet-name>TomcatTestServlet</servlet-name>
-    <servlet-class>tester.TomcatTest</servlet-class>
+    <servlet-class>servlets.TomcatTest</servlet-class>
   </servlet>
 <servlet>
-	<servlet-name>Search</servlet-name>
-	<display-name>Search</display-name>
-	<description></description>
-	<servlet-class>tester.Search</servlet-class>
+    <servlet-name>Search</servlet-name>
+    <display-name>Search</display-name>
+    <description></description>
+    <servlet-class>servlets.Search</servlet-class>
 </servlet>
 <servlet>
-	<servlet-name>TryToLoginCustomer</servlet-name>
-	<display-name>TryToLoginCustomer</display-name>
-	<description></description>
-	<servlet-class>tester.TryToLoginCustomer</servlet-class>
+    <servlet-name>TryToLoginCustomer</servlet-name>
+    <display-name>TryToLoginCustomer</display-name>
+    <description></description>
+    <servlet-class>servlets.TryToLoginCustomer</servlet-class>
 </servlet>
 <servlet>
-	<servlet-name>ShowMovie</servlet-name>
-	<display-name>ShowMovie</display-name>
-	<description></description>
-	<servlet-class>tester.ShowMovie</servlet-class>
+    <servlet-name>ShowMovie</servlet-name>
+    <display-name>ShowMovie</display-name>
+    <description></description>
+    <servlet-class>servlets.ShowMovie</servlet-class>
 </servlet>
 <servlet>
-	<servlet-name>ShowStar</servlet-name>
-	<display-name>ShowStar</display-name>
-	<description></description>
-	<servlet-class>tester.ShowStar</servlet-class>
+    <servlet-name>ShowStar</servlet-name>
+    <display-name>ShowStar</display-name>
+    <description></description>
+    <servlet-class>servlets.ShowStar</servlet-class>
 </servlet>
 <servlet>
-	<servlet-name>ShowGenre</servlet-name>
-	<display-name>ShowGenre</display-name>
-	<description></description>
-	<servlet-class>tester.ShowGenre</servlet-class>
+    <servlet-name>ShowGenre</servlet-name>
+    <display-name>ShowGenre</display-name>
+    <description></description>
+    <servlet-class>servlets.ShowGenre</servlet-class>
 </servlet>
   
   <servlet-mapping>
@@ -89,24 +89,24 @@
     <url-pattern>/TomcatTest</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>Search</servlet-name>
-  	<url-pattern>/Search</url-pattern>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/Search</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>TryToLoginCustomer</servlet-name>
-  	<url-pattern>/TryToLoginCustomer</url-pattern>
+    <servlet-name>TryToLoginCustomer</servlet-name>
+    <url-pattern>/TryToLoginCustomer</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>ShowMovie</servlet-name>
-  	<url-pattern>/ShowMovie</url-pattern>
+    <servlet-name>ShowMovie</servlet-name>
+    <url-pattern>/ShowMovie</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>ShowStar</servlet-name>
-  	<url-pattern>/ShowStar</url-pattern>
+    <servlet-name>ShowStar</servlet-name>
+    <url-pattern>/ShowStar</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>ShowGenre</servlet-name>
-  	<url-pattern>/ShowGenre</url-pattern>
+    <servlet-name>ShowGenre</servlet-name>
+    <url-pattern>/ShowGenre</url-pattern>
   </servlet-mapping>
 
 

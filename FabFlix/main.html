@@ -3,6 +3,7 @@
 <head>
 	<title>Main Page</title>
 	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
 	<style type="text/css">
 
 		@font-face {
@@ -15,6 +16,38 @@
 			margin: 0;
 			background: #1C5588;
 		}
+
+/*NEW STUFF*/
+
+		.arrow-up {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-bottom: 10px solid #f00;
+			align-self: center;
+		}
+
+		.arrow-down {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-top: 10px solid green;
+			align-self: center;
+		}
+
+		.arrow-flat {
+			width: 10px; 
+			height: 2px; 
+			margin-left: 10px;
+			background: grey;
+			align-self: center;
+		}
+
+/*NEW STUFF******/
 
 		.first {
 			margin-top: 0px !important;
@@ -32,7 +65,7 @@
 		#moviesList {
 			width: 800px;
 /*			height: 100%;
-*/			margin-top: 40px;
+*/			margin-top: 60px;
 			margin-bottom: 20px;
 			/*border-left: 4px solid white;*/
 			/*border-right: 4px solid white;*/
@@ -69,6 +102,7 @@
 			height: 150px;
 			overflow: hidden;
 			align-self: center;
+			background-image: url('./image/no-image.jpg');
 		}
 
 		.buyButton {
@@ -100,6 +134,36 @@
 			background: grey;
 			align-self: center;
 		}
+
+/*NEW STUFF*/
+
+		#arrangeBy {
+			width: 800px;
+			position: fixed;
+			left: 50%;
+			margin-left: -400px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			background: white;
+			z-index: 999;
+			border-bottom: 2px solid black;
+		}
+
+		.arrangeByLink {
+			color: grey;
+			margin-left: 10px;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		#shoppingCartBtn {
+			color: red;
+			cursor: pointer;
+			align-self: flex-end;
+		}
+
+/*NEW STUFF******/
 
 		.movieInfo {
 			display: flex;
@@ -151,7 +215,8 @@
 			/*border-top: 2px solid black;*/
 			/*border-bottom: 2px solid black;*/
 			display: flex;
-			flex-flow: row;
+			flex-direction: row;
+			justify-content: space-between;
 			align-self: center;
 			background: white;
 			z-index: 999;
@@ -211,9 +276,64 @@
 
 		$(document).ready(function() {
 
-			$('.buyButton').click( function() {
-				alert(this.id);
+/*NEW STUFF*/
+
+			// ascending (arrow-up) = true , descending (arrow-down) = false
+			var toggleTitle = false;
+			var toggleYear = false;
+
+			$('#byTitle').click( function() {
+				toggleTitle = !toggleTitle;
+				if(toggleTitle)
+					$('#titleArrow').removeClass("arrow-down arrow-up arrow-flat").addClass("arrow-up");
+				else
+					$('#titleArrow').removeClass("arrow-down arrow-up arrow-flat").addClass("arrow-down");
+				$('#yearArrow').removeClass("arrow-down arrow-up arrow-flat").addClass("arrow-flat");
 			});
+
+			$('#byYear').click( function() {
+				toggleYear = !toggleYear;
+				if(toggleYear)
+					$('#yearArrow').removeClass("arrow-down arrow-up arrow-flat").addClass("arrow-up");
+				else
+					$('#yearArrow').removeClass("arrow-down arrow-up arrow-flat").addClass("arrow-down");
+				$('#titleArrow').removeClass("arrow-down arrow-up arrow-flat").addClass("arrow-flat");
+			});
+
+			$('.buyButton').on('click', function () {
+		        var cart = $('#shoppingCartBtn');
+		        var imgtodrag = $(this).parent().find("img").eq(0);
+		        if (imgtodrag) {
+		            var imgclone = imgtodrag.clone()
+		                .offset({
+		                top: imgtodrag.offset().top,
+		                left: imgtodrag.offset().left
+		            })
+		                .css({
+		                'opacity': '0.5',
+		                    'position': 'absolute',
+		                    'height': '150px',
+		                    'width': '100px',
+		                    'z-index': '9000'
+		            })
+		                .appendTo($('html'))
+		                .animate({
+		                'top': cart.offset().top + 10,
+		                    'left': cart.offset().left + 10,
+		                    'width': 50,
+		                    'height': 75
+		            }, 1000, 'easeInOutExpo');
+
+		            imgclone.animate({
+		                'width': 0,
+		                    'height': 0
+		            }, function () {
+		                $(this).detach()
+		            });
+		        }
+		    });
+
+/*NEW STUFF*******/
 
 		});
 
@@ -222,7 +342,9 @@
 <body>
 	<div id="wrapper">
 		<div id="navBarTop">
-			<div id="searchBar">search bar</div>
+			<div id="searchBar">search bar
+				<div id="shoppingCartBtn">Shopping Cart</div>
+			</div>
 			<div id="titleNav">
 				<a href="#" class="titleCat first">0</a>
 				<a href="#" class="titleCat">1</a>
@@ -261,12 +383,30 @@
 				<a href="#" class="titleCat">Y</a>
 				<a href="#" class="titleCat">Z</a>
 			</div>
+
+			<!-- NEW STUFF -->
+
+			<div id="arrangeBy">
+				Sort by:
+				<a id="byTitle" class="arrangeByLink">Title</a>
+				<div id="titleArrow" class="arrow-flat"></div>
+				<a id="byYear" class="arrangeByLink">Year</a>
+				<div id="yearArrow" class="arrow-flat"></div>
+			</div>
+
+			<!-- NEW STUFF **** -->
+
 		</div>
+
+		<!-- shopping cart animation: http://codepen.io/elmahdim/pen/tEeDn -->
+
 
 		<div id="moviesList">
 			<div class="movieBox first">
 				<div class="imageAndBuy">
-					<div class="movieImage" style="background-image: url('http://www.microsoft.com/windows/windowsmedia/images/mediaandent/t2DVD.jpg');"></div>
+					<div class="movieImage">
+						<img src="http://www.microsoft.com/windows/windowsmedia/images/mediaandent/t2DVD.jpg" onerror= "this.src = './images/no-image.jpg';">
+					</div>
 					<button type="button" id="244" class="buyButton">Add to Cart</button> 
 				</div>
 				<div id="movieInfo">

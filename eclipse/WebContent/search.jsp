@@ -32,7 +32,7 @@
         #moviesList {
             width: 800px;
 /*          height: 100%;
-*/          margin-top: 40px;
+*/          margin-top: 60px;
             margin-bottom: 20px;
             /*border-left: 4px solid white;*/
             /*border-right: 4px solid white;*/
@@ -204,6 +204,60 @@
             flex-grow: 1;
             align-self: center;
         }
+        
+         .arrow-up {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-bottom: 10px solid #f00;
+			align-self: center;
+		}
+
+		.arrow-down {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-top: 10px solid green;
+			align-self: center;
+		}
+		
+				
+		.arrow-flat {
+	      width: 10px; 
+	      height: 2px; 
+	      margin-left: 10px;
+	      background: grey;
+	      align-self: center;
+	    }
+
+    #arrangeBy {
+			width: 800px;
+			position: fixed;
+			left: 50%;
+			margin-left: -400px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			background: white;
+			z-index: 999;
+			border-bottom: 2px solid black;
+		}
+
+		.arrangeByLink {
+			color: grey;
+			margin-left: 10px;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		#shoppingCartBtn {
+			color: red;
+			cursor: pointer;
+		}
 
     </style>
     
@@ -233,37 +287,35 @@
     var orderby = "<%=orderby%>";
     
 
-    
-    
 /*     alert(pre_title); */
 
 
 function reload(of, li, ti, orb) {
     
-    window.location.href = "/Session/Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+    window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
 
 }
 
 
 function next() {
     
-/*  /Session/Search?username=a%40email.com&password=a2
+/*  /FabFlix/Search?username=a%40email.com&password=a2
  */
  
     if(num_of_movies > (offset+1)*limit)
         reload(offset+1, limit, pre_title, orderby);
     
-    /* window.location.href = "/Session/Search?limit=" + limit + "&offset=" + (offset+1); */
+    /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 }
 
 
 function prev() {
      
         
-    if(<%=offset%> > 0)
+    if(offset > 0)
     {
         reload(offset-1, limit, pre_title, orderby);
-        /* window.location.href = "/Session/Search?limit=" + limit + "&offset=" + (offset-1); */
+        /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
     }
 }
 
@@ -303,7 +355,7 @@ $(document).ready(function() {
         if(shopping_cart != null)
         {
             
-            shopping_cart = shopping_cart.toString().split("-");
+            shopping_cart = shopping_cart.toString().split(" ");
             shopping_cart_new = "";
         
             console.log("shopping_cart split: " + shopping_cart);
@@ -316,7 +368,7 @@ $(document).ready(function() {
             for(i = 0; i < shopping_cart.length; ++i)
             {
                 
-                items = shopping_cart[i].toString().split(" ");
+                items = shopping_cart[i].toString().split("-");
                 
                 item = items[0];
                 qty = items[1];
@@ -333,18 +385,19 @@ $(document).ready(function() {
                 }
                 
                 
-                shopping_cart_new = shopping_cart_new.concat(item + " " + qty);
+                shopping_cart_new = shopping_cart_new.concat(item + "-" + qty);
                 
                 if(i < shopping_cart.length-1)
                 {
-                    shopping_cart_new = shopping_cart_new.concat("-");
+                    shopping_cart_new = shopping_cart_new.concat(" ");
                 }
                     
+                
             }
             
             if(newItem === 1)
             {
-                shopping_cart_new = shopping_cart_new.concat("-"+this.id + " 1");
+                shopping_cart_new = shopping_cart_new.concat(" "+this.id + "-1");
             }
             
             createCookie("shopping_cart", shopping_cart_new, 0);
@@ -353,22 +406,73 @@ $(document).ready(function() {
  */         
             console.log("new shopping chart: " + shopping_cart_new);
             console.log("------");
+            
+       
+              alert("Shopping chart: " + shopping_cart_new);
+              
 
         }
         else
         {
-            createCookie("shopping_cart", this.id+" 1", 0);
+            createCookie("shopping_cart", this.id+"-1", 0);
 /*          alert(this.id + " added cookie");
- */     
-            console.log("new item: " + this.id + " 1");
+ */         
+ 			alert("Shopping chart: " + this.id + "-1");
+
+            console.log("new item: " + this.id + "-1");
         }
-        
-         
-         
-         
-        
        
     });
+ 
+
+	$('#byTitle').click( function() {
+		toggleTitle = !toggleTitle;
+		if(toggleTitle)
+			{
+				reload(offset, limit, pre_title, 'asc_t');
+			}
+		else
+			{
+				reload(offset, limit, pre_title, 'desc_t');
+			}
+	});
+
+	$('#byYear').click( function() {
+		toggleYear = !toggleYear;
+		if(toggleYear)
+			{
+				reload(offset, limit, pre_title, 'asc_y');
+			}
+		else
+			{
+				reload(offset, limit, pre_title, 'desc_y');
+			}
+	});
+	
+    var toggleTitle = false;
+	var toggleYear = false;
+    
+    if(orderby === "asc_y")
+    {
+    	toggleYear = true;
+		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
+    }
+    else if(orderby === "desc_y") 
+   	{
+		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
+    }
+    
+    if(orderby === "asc_t")
+	{
+    	toggleTitle = true;
+		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
+	}
+    else if(orderby === "desc_t")
+    {
+		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
+    }
+    
+
 
 });
 
@@ -377,6 +481,8 @@ function search(text)
 {
     reload(0, limit, text, "asc_t");
 }
+
+
 
 
 </script>
@@ -388,7 +494,7 @@ function search(text)
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
 
-import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, tester.*" 
+import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*" 
        
 %>
 
@@ -446,6 +552,13 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                 <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
                 <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
             </div>
+             <div id="arrangeBy">
+				Sort by:
+				<a id="byTitle" class="arrangeByLink">Title</a>
+				<div id="titleArrow" class="arrow-flat"></div>
+				<a id="byYear" class="arrangeByLink">Year</a>
+				<div id="yearArrow" class="arrow-flat"></div>
+			</div>
         </div>
         
         

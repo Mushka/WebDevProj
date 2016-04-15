@@ -1,4 +1,4 @@
-package tester;
+package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,12 +8,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.*;
 
 /**
  * Servlet implementation class Search
@@ -90,115 +93,30 @@ public class ShowGenre extends HttpServlet {
 		
 		query += " LIMIT "+ limit +" OFFSET "+offset;
 		
-		
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-        Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        Statement selectStmt = db_connection.createStatement();
-        ResultSet results = selectStmt.executeQuery(query);
-        
-        
-        List<Movie> movies = new ArrayList<Movie>();
+        List<Movie> movies = Movie.getMovies(query);
 
-        
-        while(results.next()) 
-        	movies.add(new Movie(results.getInt("id"), results.getString("title"), results.getInt("year"),results.getString("director"),results.getString("banner_url"),results.getString("trailer_url")));
-        
-        results.close();
-        selectStmt.close();
-        db_connection.close();
-        
         for(Movie m: movies)
         {
-        	
-        	ArrayList<String> genres = new ArrayList<String>();
-        	
-	        query = "select g.name as 'genre' "
-	          		+ "from movies as m, genres_in_movies as gm, genres as g where m.id = gm.movie_id and g.id = gm.genre_id and m.id = "+ m.getId() +" "
-	          		+ "order by g.name, m.title, m.year, m.director;";
-	  
-	        	
-        	db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-            selectStmt = db_connection.createStatement();
-            results = selectStmt.executeQuery(query);
-	            
-	            
-	
-            
-            while(results.next())
-            	genres.add(new String(results.getString("genre"))); 
-            
-            results.close();
-            selectStmt.close();
-            db_connection.close();
-            
-            m.setGenres(genres);
+            m.setGenres(Movie.getGenres(m.getId()));
+            m.setStars(Movie.getStars(m.getId()));
         }
-        
-        for(Movie m: movies)
-        	
-        {
-        	
-        	ArrayList<Star> stars = new ArrayList<Star>();
-        	
-            
-	        query =     		
-	              "select s.id, s.first_name, s.last_name, s.dob, s.photo_url "
-	              + "from movies as m, stars as s, stars_in_movies as sm where m.id = sm.movie_id and s.id = sm.star_id and m.id = "+m.getId()+" "
-	              + "order by s.first_name, s.last_name;";
-	  
-	        	
-        	db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-            selectStmt = db_connection.createStatement();
-            results = selectStmt.executeQuery(query);
-	            
-	
-            while(results.next())
-            	stars.add(new Star(results.getInt("id"),results.getString("first_name"),results.getString("last_name"),results.getString("dob"), results.getString("photo_url"))); 
-            
-            results.close();
-            selectStmt.close();
-            db_connection.close();
-            
-            m.setStars(stars);
-        }
-        
-
-        String num_of_movies = "0";		
-	    
+       
 		query = "SELECT COUNT(*) as count from movies as m, genres_in_movies as gm, genres as g where m.id = gm.movie_id and g.id = gm.genre_id and g.name = '" + genre + "'";
 
-    	db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        selectStmt = db_connection.createStatement();
-        results = selectStmt.executeQuery(query);
-	            
+	    String num_of_movies = MySQL.select(query).get(0).get("count").toString();
 	
-	    while(results.next())
-	    	num_of_movies = results.getString("count"); 
-	    
-	    results.close();
-	    selectStmt.close();
-	    db_connection.close();
 	    
 	    System.out.print(num_of_movies);
 	    
 	    
 	    ArrayList<String> all_genres = new ArrayList<String>();
     	
-        
         query = "select name from genres order by name";
-  
-        	
-    	db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        selectStmt = db_connection.createStatement();
-        results = selectStmt.executeQuery(query);
-            
-
-        while(results.next())
-        	all_genres.add(results.getString("name")); 
         
-        results.close();
-        selectStmt.close();
-        db_connection.close();
+        ArrayList<Map<String, Object>> results = MySQL.select(query);
+    	
+        for(Map<String, Object> row : results)
+        	all_genres.add(row.get("name").toString());
         
         request.getSession().setAttribute("movies", movies);
         request.getSession().setAttribute("offset", offset);
@@ -208,7 +126,6 @@ public class ShowGenre extends HttpServlet {
         request.getSession().setAttribute("num_of_movies", num_of_movies);
         request.getSession().setAttribute("orderby", orderby);
 
-        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/showGenre.jsp");
         dispatcher.forward(request, response);
         
