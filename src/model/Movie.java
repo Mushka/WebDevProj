@@ -185,13 +185,13 @@ public class Movie {
 			
 		for(Map<String, Object> row : results)
 		{
-			System.out.println("key = " + row);
+//			System.out.println("key = " + row);
 			
 		    Iterator it = row.entrySet().iterator();
 			
 		    while (it.hasNext()) {
 		        Map.Entry pair = (Map.Entry)it.next();
-		        System.out.println(pair.getKey() + " = " + pair.getValue());
+//		        System.out.println(pair.getKey() + " = " + pair.getValue());
 		        it.remove(); // avoids a ConcurrentModificationException
 		    }
 			
