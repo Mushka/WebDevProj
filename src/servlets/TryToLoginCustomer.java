@@ -68,15 +68,19 @@ public class TryToLoginCustomer extends HttpServlet
 			{
 				out.print(user_name); 
 				
+				
+				System.out.print(user_name); 
+
 				request.getSession().setAttribute("user_name", user_name);
+//				request.getSession().setAttribute("user_name", user_name);
+
 				
 //				response.sendRedirect("/home.jsp");
 				//We should probably redirect to another page if they login correctly
-//                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-//                dispatcher.redi
+//                RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
+//                dispatcher.forward(request, response);
 //				
 //				request.getSession().setAttribute("user_name", user_name);
-//				response.sendRedirect("/inde.jsp");
 			}
 
 		} catch (Exception e)

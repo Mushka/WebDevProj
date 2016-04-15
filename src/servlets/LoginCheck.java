@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Filter implementation class LoginCheck
@@ -33,13 +34,42 @@ public class LoginCheck implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
 
+		HttpServletRequest request = (HttpServletRequest)req;
+		String uri = request.getRequestURI();
+
+		System.out.println("Uri: " + uri);
+//		System.out.println("Boolean: " + uri.endsWith(request.getContextPath()+"/"));
+
+//		System.out.println("getContextPath: " + request.getContextPath());
+//		System.out.println("getAuthType: " + request.getAuthType());
+//		System.out.println("getRequestURI: " + request.getRequestURI());
+
 		
+		if(uri.endsWith("css") || uri.endsWith("ttf") || uri.endsWith("TryToLoginCustomer"))
+			chain.doFilter(req,res);
+		else
+		{
+		    HttpServletResponse response = (HttpServletResponse) res;
+			HttpSession session = request.getSession();
 		
-		
+		    if (session == null || session.getAttribute("user_name") == null) {
+		        RequestDispatcher dispatcher = request.getRequestDispatcher(".");
+		        dispatcher.forward(request, response);
+		        
+		    }
+		    else
+		    {
+		    	
+		    	System.out.println("YAY");
+				chain.doFilter(req,res);
+		    }
+		}
+
+	
 //		request.getSession()
 		
 //		
@@ -59,7 +89,21 @@ public class LoginCheck implements Filter {
 //			chain.doFilter(request, response);
 //		}
 		
-		chain.doFilter(request, response);
+//		chain.doFilter(req,res);
+		
+//		HttpServletRequest request = (HttpServletRequest) req;
+//	    HttpServletResponse response = (HttpServletResponse) res;
+//	    HttpSession session = request.getSession(false);
+//
+//	    if (session == null || session.getAttribute("user_name") == null) {
+////	        response.sendRedirect("index.html"); // No logged-in user found, so redirect to login page.
+//	        
+//	        RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
+//	        dispatcher.forward(request, response);
+//	        
+//	    } else {
+//	        chain.doFilter(req, res); // Logged-in user found, so just continue request.
+//	    }
 	}
 
 	/**
