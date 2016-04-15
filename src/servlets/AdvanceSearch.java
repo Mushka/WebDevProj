@@ -89,10 +89,10 @@ public class AdvanceSearch extends HttpServlet {
 				query += " order by title DESC";
 				break;
 			case "asc_y":
-				query += " order by year";
+				query += " order by year, title";
 				break;
 			case "desc_y":
-				query += " order by year DESC";
+				query += " order by year DESC, title";
 				break;
 			}
 			
