@@ -5,6 +5,8 @@
 !/src/
 /src/model/Credentials.java
 !/WebContent/
+!/other/
+!README.md
 
 #	export
 #	importCredentials.java
