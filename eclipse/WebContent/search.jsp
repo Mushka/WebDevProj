@@ -408,7 +408,7 @@ $(document).ready(function() {
             console.log("------");
             
        
-              alert("Shopping chart: " + shopping_cart_new);
+              alert(" Lol - Shopping chart: " + shopping_cart_new);
               
 
         }
