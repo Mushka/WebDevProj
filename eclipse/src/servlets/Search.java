@@ -56,7 +56,7 @@ public class Search extends HttpServlet {
 			if(offset == null)
 				offset = "0";
 			if(pre_title == null)
-				pre_title = "a";
+				pre_title = "%";
 			
 			if(orderby == null)
 				orderby = "asc_t";
