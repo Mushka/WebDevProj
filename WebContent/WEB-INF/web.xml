@@ -25,6 +25,16 @@
     <description>
        Session
     </description>
+    <filter>
+    	<filter-name>LoginCheck</filter-name>
+    	<display-name>LoginCheck</display-name>
+    	<description></description>
+    	<filter-class>servlets.LoginCheck</filter-class>
+    </filter>
+    <filter-mapping>
+    	<filter-name>LoginCheck</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 
   <!-- Define servlets that are included in the example application -->
