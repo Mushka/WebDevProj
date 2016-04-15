@@ -78,6 +78,12 @@
 	<description></description>
 	<servlet-class>servlets.ProcessShoppingCart</servlet-class>
 </servlet>
+<servlet>
+	<servlet-name>AdvanceSearch</servlet-name>
+	<display-name>AdvanceSearch</display-name>
+	<description></description>
+	<servlet-class>servlets.AdvanceSearch</servlet-class>
+</servlet>
   
   <servlet-mapping>
     <servlet-name>ShowSessionServlet</servlet-name>
@@ -117,6 +123,10 @@
   <servlet-mapping>
   	<servlet-name>ProcessShoppingCart</servlet-name>
   	<url-pattern>/ProcessShoppingCart</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdvanceSearch</servlet-name>
+  	<url-pattern>/AdvanceSearch</url-pattern>
   </servlet-mapping>
 
 
