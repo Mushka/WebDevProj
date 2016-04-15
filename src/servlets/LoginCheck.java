@@ -44,14 +44,14 @@ public class LoginCheck implements Filter {
 		
 //		
 //		HttpServletRequest req = (HttpServletRequest) request;
-//		
+////		
 //		String user_name = (String)req.getSession().getAttribute("user_name");
-		
+//		
 //		if(user_name == null)
 //		{
 //////			((HttpServletResponse) response).sendRedirect(".");
-////	        RequestDispatcher dispatcher = request.getRequestDispatcher(".");
-////	        dispatcher.forward(request, response);
+//	        RequestDispatcher dispatcher = request.getRequestDispatcher(".");
+//	        dispatcher.forward(request, response);
 //		}
 //		else
 //		{
