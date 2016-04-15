@@ -56,12 +56,12 @@
 				<span id="logoFont">FabFlix</span>
 			</div>
 			<div id="searchBox">
-				<input type="text" id="searchInput" placeholder="Search movies by title">
+				<input type="text"  id="searchInput" placeholder="Search movies by title" onchange="window.location.href = './Search?title='+$(this).val()">
 			</div>
 			<div id="linksBox">
-				<a href="#" class="pageLink" style="margin-left: 0px;">Browse By Genre</a>
-				<a href="#" class="pageLink">Browse By Title</a>
-				<a href="file:///Users/Max/Development/cs122b/WebDevProj/FabFlix/advsearch.html" class="pageLink">Advanced Search</a>
+				<a href="./ShowGenre" class="pageLink" style="margin-left: 0px;">Browse By Genre</a>
+				<a href="./Search" class="pageLink">Browse By Title</a>
+				<a href="./advanceInfo.html" class="pageLink">Advanced Search</a>
 			</div>
 		</div>
 	</div>
