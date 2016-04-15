@@ -3,6 +3,7 @@
 <head>
     <title>Main Page</title>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
     <style type="text/css">
 
         @font-face {
@@ -150,10 +151,16 @@
             /*border-top: 2px solid black;*/
             /*border-bottom: 2px solid black;*/
             display: flex;
-            flex-flow: row;
+            flex-direction: row;
+            justify-content: space-between;;
             align-self: center;
             background: white;
             z-index: 999;
+        }
+        
+        #searchBtn {
+        	align-self: flex-start;
+        	margin-right: auto;
         }
 
         #titleNav {
@@ -234,7 +241,7 @@
 	      align-self: center;
 	    }
 
-    #arrangeBy {
+    	#arrangeBy {
 			width: 800px;
 			position: fixed;
 			left: 50%;
@@ -257,12 +264,11 @@
 		#shoppingCartBtn {
 			color: red;
 			cursor: pointer;
+			align-self: flex-end;
 		}
 
     </style>
     
-
-  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Movies</title>
@@ -349,6 +355,37 @@ function readCookie(name) {
 $(document).ready(function() {
 
     $('.buyButton').click( function() {
+    	
+    	var cart = $('#shoppingCartBtn');
+        var imgtodrag = $(this).parent().find("img").eq(0);
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+                .css({
+                'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '100px',
+                    'z-index': '9000'
+            })
+                .appendTo($('html'))
+                .animate({
+                'top': cart.offset().top + 10,
+                    'left': cart.offset().left + 10,
+                    'width': 50,
+                    'height': 75
+            }, 500, 'easeInOutExpo');
+
+            imgclone.animate({
+                'width': 0,
+                    'height': 0
+            }, function () {
+                $(this).detach()
+            });
+        }
         
         shopping_cart = readCookie("shopping_cart");
          
@@ -408,7 +445,7 @@ $(document).ready(function() {
             console.log("------");
             
        
-              alert("Shopping chart: " + shopping_cart_new);
+              console.log("Shopping chart: " + shopping_cart_new);
               
 
         }
@@ -509,10 +546,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="wrapper">
         <div id="navBarTop">
             <div id="searchBar">
-                <input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-                <button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
-
-                
+                <input type="text" id="" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
+                <button type="button" id="searchBtn" onclick = "search($(search_bar).val())" >-></button>
+                <div id="shoppingCartBtn">Shopping Cart</div>
             </div>
             <div id="titleNav">
                 <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
@@ -575,7 +611,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
             <div class="movieBox">
                 <div class="imageAndBuy">
-                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
+                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
+                    	<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
+                    </div>
                     <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 
                 </div>
                 <div id="movieInfo">
