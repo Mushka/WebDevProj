@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GITFOLDER=eclipse
-ECLIPSEFOLDER=../FabFlix
+ECLIPSEFOLDER=/Users/joshangelsberg/Documents/CS122b/tomcat/FabFlix
 
 if [ -d "eclipse" ]; then
 	mkdir $ECLIPSEFOLDER/src/tmp/
