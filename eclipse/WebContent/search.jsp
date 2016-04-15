@@ -575,7 +575,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
             <div class="movieBox">
                 <div class="imageAndBuy">
-                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
+                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
+                    	<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
+                    </div>
                     <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 
                 </div>
                 <div id="movieInfo">
