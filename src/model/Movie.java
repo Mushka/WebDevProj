@@ -159,7 +159,6 @@ public class Movie {
 
 			e.printStackTrace();
 		     System.out.println("Invalid SQL Command. [Movie.getGenres()]\n\n" + e.toString());
-
 		}
 
 		return genres;

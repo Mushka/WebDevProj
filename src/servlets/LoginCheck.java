@@ -42,7 +42,6 @@ public class LoginCheck implements Filter {
 		String uri = request.getRequestURI();
 
 		System.out.println("Uri: " + uri);
-//		System.out.println("Boolean: " + uri.endsWith(request.getContextPath()+"/"));
 
 //		System.out.println("getContextPath: " + request.getContextPath());
 //		System.out.println("getAuthType: " + request.getAuthType());

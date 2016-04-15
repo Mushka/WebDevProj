@@ -72,7 +72,6 @@ public class TryToLoginCustomer extends HttpServlet
 				System.out.print(user_name); 
 
 				request.getSession().setAttribute("user_name", user_name);
-//				request.getSession().setAttribute("user_name", user_name);
 
 				
 //				response.sendRedirect("/home.jsp");
