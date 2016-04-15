@@ -3,6 +3,7 @@
 /*
 /*/
 !/src/
+/src/model/Credentials.java
 !/WebContent/
 
 #	export

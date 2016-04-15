@@ -112,6 +112,11 @@ public class Movie {
 	{
 		return "Id: " + id + " " + "Title: " + title + " " + "Year: " + year + " " + "Director: " + director + " ";
 	}
+	
+	public static Movie getMovies(int id)
+	{
+		return null;
+	}
 
 	public static ArrayList<Movie> getMovies(String query) {
 
