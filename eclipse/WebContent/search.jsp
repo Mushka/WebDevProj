@@ -417,7 +417,7 @@ $(document).ready(function() {
             createCookie("shopping_cart", this.id+"-1", 0);
 /*          alert(this.id + " added cookie");
  */         
- 			alert("Shopping chart: " + this.id + "-1");
+ 			alert("Lol Shopping chart: " + this.id + "-1");
 
             console.log("new item: " + this.id + "-1");
         }
