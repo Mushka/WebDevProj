@@ -72,7 +72,7 @@
         }
 
         .buyButton {
-            width: 120px;
+            width: 20px;
             height: 26px;
             margin-top: 25px;
             padding: 3px;
@@ -330,11 +330,75 @@ function readCookie(name) {
     return null;
 }
 
+
+
+function movieQuantityMinus()
+{
+	
+	
+    var m_id = document.getElementById('movieQuantityMinus').value;
+            
+    
+    
+	 $.ajax({
+        url : 'ProcessShoppingCart',
+        data : "id="+m_id+"&dec=true",
+        success : function(responseText) {
+        	
+            if(responseText === "false")
+            {             
+                console.log("Failed to load");
+            }
+            
+           else
+          	{
+	            var tmp = parseInt($('#movieQuantity').text());
+	             $('#movieQuantity').text((tmp-1));
+          	}
+            
+        }
+    });
+    
+    
+    
+
+}
+
+function movieQuantityPlus()
+{
+	
+	
+    var m_id = document.getElementById('movieQuantityPlus').value;
+    
+    
+	 $.ajax({
+         url : 'ProcessShoppingCart',
+         data : "id="+m_id,
+         success : function(responseText) {
+         	
+             if(responseText === "false")
+             {             
+                 console.log("Failed to load");
+             }
+             
+            else
+           	{
+	            var tmp = parseInt($('#movieQuantity').text());
+	             $('#movieQuantity').text((tmp+1));
+           	}
+             
+         }
+     });
+
+}
+
+
 $(document).ready(function() {
 
     $('.buyButton').click( function() {
         
     });
+    
     
 });
 
@@ -380,8 +444,16 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div class="movieBox">
                 <div class="imageAndBuy">
                     <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
-<!--                     <input type="text" id="movieQuantity"> class="buyButton">Add to Cart</button> 
- -->                </div>
+<!--                     <button id="movieQuantity" class="buyButton">Add to Cart</button> 
+ -->                   
+ 				
+					<button class="buyButton" id="movieQuantityMinus" value=<%=item.getKey()%> onclick = "movieQuantityMinus();">-</button>
+					<div class="buyButton" id="movieQuantity"><%=item.getValue()%></div>
+					<button class="buyButton" id="movieQuantityPlus" value=<%=item.getKey()%> onclick = "movieQuantityPlus();">+</button> 
+					
+
+
+           		</div>
                 <div id="movieInfo">
                     <div class="info first">
                         <div class="infoTitle">Title:</div>
