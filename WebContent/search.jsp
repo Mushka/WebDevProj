@@ -385,20 +385,22 @@ $(document).ready(function() {
 	
     $('.buyButton').click( function(e) {
  
+    	
+    	 $.ajax({
+             url : 'ProcessShoppingCart',
+             data : "id="+this.id,
+             success : function(responseText) {
+             	
+                 if(responseText === "false")
+                 {             
+                     console.log("Failed to load");
+                 }
+
+             }
+         });
+         
+    	
         // $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
-
-        // $.ajax({
-        //     url : 'ProcessShoppingCart',
-        //     data : "id="+this.id,
-        //     success : function(responseText) {
-            	
-        //         if(responseText === "false")
-        //         {             
-        //             console.log("Failed to load");
-        //         }
-
-        //     }
-        // });
         
         // $('#finalAddToCart').click( function(){
 
