@@ -351,13 +351,32 @@ function movieQuantityMinus(m_id)
     if (parseInt($('#movieQuantity'+m_id).text()) == 1) {
         if(confirm("Are you sure you wish to remove the item from your cart?"))
         {
-            $('#movie'+m_id).remove();
-            //call to remove from cart
+            
+            $.ajax({
+                url : 'ProcessShoppingCart',
+                data : "id="+m_id+"&del=true",
+                success : function(responseText) {
+                	
+                    if(responseText === "false")
+                    {             
+                        console.log("Failed to load");
+                    }
+                    else
+                  	{
+                        console.log("deleted: " + m_id);
+                        $('#movie'+m_id).remove();
+                  	}
+                    
+                }
+            });
+            
+            return;
         }
         else {
             return;
         }
-    }        
+    }      
+    
 	$.ajax({
         url : 'ProcessShoppingCart',
         data : "id="+m_id+"&dec=true",
