@@ -277,7 +277,8 @@
 
         #shoppingCartPreview {
             width: 200px;
-            height: 200px;
+            height: auto;
+            padding: 10px;
             top:-500px;
             display: flex;
             flex-direction: column;
@@ -285,6 +286,10 @@
             background: red;
             position: fixed;
             z-index: 9001;
+        }
+        
+        #shoppingCartMovieImage {
+        	align-self: center;
         }
 
 
@@ -375,15 +380,33 @@ function readCookie(name) {
 
 $(document).ready(function() {
 
+	$('#navBarTop').append("<div id='shoppingCartPreview'></div>");
+	 $('#shoppingCartPreview').append("<button type='button' id='finalAddToCart'>Add to Cart</button>");
+	
     $('.buyButton').click( function(e) {
-    	
-        $('#navBarTop').append("<div id='shoppingCartPreview'></div>");
-        $('#shoppingCartPreview')
+ 
+        $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
+
         $('#finalAddToCart').click( function(){
-            $('#shoppingCartPreview').remove();
+            $.ajax({
+                url : 'ProcessShoppingCart',
+                data : "id="+this.id,
+                success : function(responseText) {
+                	
+                    if(responseText === "false")
+                    {             
+                        console.log("Failed to load");
+                    }
+
+                }
+            });
+            $('#shoppingCartPreview').css('top', -600);
+            /* $('#shoppingCartPreview').empty(); */
+            /* $('#shoppingCartPreview').remove(); */
+            
         });
         $('#shoppingCartPreview').css('left', $('#shoppingCartBtn').offset().left - (100-20));
-        $('#shoppingCartPreview').css('top', $('#shoppingCartBtn').offset().top + 40);
+        $('#shoppingCartPreview').css('top', 40);
         
         /* shopping_cart = readCookie("shopping_cart"); */
         
@@ -394,54 +417,38 @@ $(document).ready(function() {
         
         var cart = $('#shoppingCartBtn');
 		var imgtodrag = $(this).parent().find("img").eq(0);
-        
-        $.ajax({
-	            url : 'ProcessShoppingCart',
-	            data : "id="+this.id,
-	            success : function(responseText) {
-			            	
-		            if(responseText === "false")
-	            	{		      
-	            		console.log("Failed to load");
-	            	}
-		            else
-		            {
-		                if (imgtodrag) {
-		                    var imgclone = imgtodrag.clone()
-		                        .offset({
-		                        top: imgtodrag.offset().top,
-		                        left: imgtodrag.offset().left
-		                    })
-		                        .css({
-		                        'opacity': '0.5',
-		                            'position': 'absolute',
-		                            'height': '150px',
-		                            'width': '100px',
-		                            'z-index': '9000'
-		                    })
-		                        .appendTo($('html'))
-		                        .animate({
-		                        'top': cart.offset().top + 10,
-		                            'left': cart.offset().left + 10,
-		                            'width': 50,
-		                            'height': 75
-		                    }, 500, 'easeInOutExpo');
 
-		                    imgclone.animate({
-		                        'width': 0,
-		                            'height': 0
-		                    }, function () {
-		                        $(this).detach()
-		                    });
-		                }
-		            }
-			    }
-			});
-        
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+                .css({
+                'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '100px',
+                    'z-index': '9000'
+            })
+                .appendTo($('html'))
+                .animate({
+                'top': cart.offset().top + 10,
+                    'left': cart.offset().left + 10,
+                    'width': 50,
+                    'height': 75
+            }, 500, 'easeInOutExpo');
+
+            imgclone.animate({
+                'width': 0,
+                    'height': 0
+            }, function () {
+                $(this).detach()
+            });
+        }
         	
         e.preventDefault();
         	
-       
     });
  
 
@@ -598,7 +605,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                     <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
                     	<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
                     </div>
-                    <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 
+                    <button type="button" id='<%=m.getId()%>' class="buyButton">Add to Cart</button> 
                 </div>
                 <div id="movieInfo">
                     <div class="info first">
