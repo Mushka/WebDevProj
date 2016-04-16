@@ -387,19 +387,21 @@ $(document).ready(function() {
  
         $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
 
-        $('#finalAddToCart').click( function(){
-            $.ajax({
-                url : 'ProcessShoppingCart',
-                data : "id="+this.id,
-                success : function(responseText) {
-                	
-                    if(responseText === "false")
-                    {             
-                        console.log("Failed to load");
-                    }
-
+        $.ajax({
+            url : 'ProcessShoppingCart',
+            data : "id="+this.id,
+            success : function(responseText) {
+            	
+                if(responseText === "false")
+                {             
+                    console.log("Failed to load");
                 }
-            });
+
+            }
+        });
+        
+        $('#finalAddToCart').click( function(){
+
             $('#shoppingCartPreview').css('top', -600);
             /* $('#shoppingCartPreview').empty(); */
             /* $('#shoppingCartPreview').remove(); */
