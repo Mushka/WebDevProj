@@ -159,5 +159,10 @@
   	<url-pattern>/ShoppingCart</url-pattern>
   </servlet-mapping>
 
+	<error-page>
+		<error-code>404</error-code>
+		<location>/notFound.jsp</location>
+	</error-page>
+
 
 </web-app>
