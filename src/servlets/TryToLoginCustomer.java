@@ -49,7 +49,7 @@ public class TryToLoginCustomer extends HttpServlet
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 
-			String query = "select * from customers where email like '"+username+"' and password like '"+password+"'";
+			String query = "select id from customers where email like '"+username+"' and password like '"+password+"'";
 
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -58,13 +58,13 @@ public class TryToLoginCustomer extends HttpServlet
 
 			boolean empty = true;
 
-			String user_name = "";
+			String user_id = "";
 
 			while(results.next()){
 
 				empty = false;
 
-				user_name = results.getString("first_name");
+				user_id = results.getString("id");
 
 				break;
 			}
@@ -79,12 +79,12 @@ public class TryToLoginCustomer extends HttpServlet
 			}
 			else
 			{
-				out.print(user_name); 
+				out.print(user_id); 
 				
 				
-				System.out.print(user_name); 
+				System.out.print(user_id); 
 
-				request.getSession().setAttribute("user_name", user_name);
+				request.getSession().setAttribute("user_id", user_id);
 
 				
 //				response.sendRedirect("/home.jsp");
@@ -97,6 +97,7 @@ public class TryToLoginCustomer extends HttpServlet
 
 		} catch (Exception e)
 		{
+			out.print("false");
 			System.out.println("Invalid SQL Command.\n\n" + e.toString());
 		}
 
