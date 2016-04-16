@@ -3,7 +3,6 @@
 <head>
     <title>Main Page</title>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
     <style type="text/css">
 
         @font-face {
@@ -33,7 +32,7 @@
         #moviesList {
             width: 800px;
 /*          height: 100%;
-*/          margin-top: 80px;
+*/          margin-top: 60px;
             margin-bottom: 20px;
             /*border-left: 4px solid white;*/
             /*border-right: 4px solid white;*/
@@ -151,16 +150,10 @@
             /*border-top: 2px solid black;*/
             /*border-bottom: 2px solid black;*/
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;;
+            flex-flow: row;
             align-self: center;
             background: white;
             z-index: 999;
-        }
-        
-        #searchBtn {
-        	align-self: flex-start;
-        	margin-right: auto;
         }
 
         #titleNav {
@@ -241,7 +234,7 @@
 	      align-self: center;
 	    }
 
-    	#arrangeBy {
+    #arrangeBy {
 			width: 800px;
 			position: fixed;
 			left: 50%;
@@ -262,34 +255,14 @@
 		}
 
 		#shoppingCartBtn {
-            height: 40px;
-            width: 40px;
 			color: red;
 			cursor: pointer;
-			align-self: flex-end;
-            background: #FFD900;
-            background-image: url(./images/shoppingCart.svg);
-            background-size: 30px 30px;
-            background-repeat: no-repeat;
-            background-position: center;
-            border-radius: 3px;
 		}
-
-        #shoppingCartPreview {
-            width: 200px;
-            height: 200px;
-            top:-500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: red;
-            position: fixed;
-            z-index: 9001;
-        }
-
 
     </style>
     
+
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Movies</title>
@@ -301,7 +274,6 @@
     int offset = Integer.parseInt((String) session.getAttribute("offset"));
     int limit = Integer.parseInt((String) session.getAttribute("limit"));
     int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-    String pre_title = (String) session.getAttribute("title");
     String orderby = (String) session.getAttribute("orderby");
 %>  
 
@@ -310,16 +282,15 @@
     var limit = <%=limit%>;
     var offset = <%=offset%>;
     var num_of_movies = <%=num_of_movies%>;
-    var pre_title = "<%=pre_title%>";
     var orderby = "<%=orderby%>";
-    
+
 
 /*     alert(pre_title); */
 
 
-function reload(of, li, ti, orb) {
-    
-    window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+function reload(of, li, orb) {
+	
+    window.location.href = "./ShoppingCart?limit=" + li + "&offset=" + of + "&orderby=" + orb + "&title=" + ti + "&year=" + yr + "&director=" + dr + "&first_name=" + fn + "&last_name=" + ln;
 
 }
 
@@ -330,7 +301,7 @@ function next() {
  */
  
     if(num_of_movies > (offset+limit))
-        reload(offset+limit, limit, pre_title, orderby);
+        reload(offset+limit, limit, orderby);
     
     /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 }
@@ -341,10 +312,17 @@ function prev() {
         
     if(offset > 0)
     {
-        reload(offset-limit, limit, pre_title, orderby);
+        reload(offset-limit, limit, orderby);
         /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
     }
 }
+
+function checkOut() {
+    
+	/*  /FabFlix/Search?username=a%40email.com&password=a2
+	 */
+    	window.location.href = "./checkout.jsp";
+	}
 
 function createCookie(name,value,days) {
     if (days) {
@@ -375,73 +353,8 @@ function readCookie(name) {
 
 $(document).ready(function() {
 
-    $('.buyButton').click( function(e) {
-    	
-        $('#navBarTop').append("<div id='shoppingCartPreview'></div>");
-        $('#shoppingCartPreview')
-        $('#finalAddToCart').click( function(){
-            $('#shoppingCartPreview').remove();
-        });
-        $('#shoppingCartPreview').css('left', $('#shoppingCartBtn').offset().left - (100-20));
-        $('#shoppingCartPreview').css('top', $('#shoppingCartBtn').offset().top + 40);
+    $('.buyButton').click( function() {
         
-        /* shopping_cart = readCookie("shopping_cart"); */
-        
-		
-        
-        
-        /* 	Map<String, Integer> shopping_cart = (Map<String, Integer>) session.getAttribute("offset");  */
-        
-        var cart = $('#shoppingCartBtn');
-		var imgtodrag = $(this).parent().find("img").eq(0);
-        
-        $.ajax({
-	            url : 'ProcessShoppingCart',
-	            data : "id="+this.id,
-	            success : function(responseText) {
-			            	
-		            if(responseText === "false")
-	            	{		      
-	            		console.log("Failed to load");
-	            	}
-		            else
-		            {
-		                if (imgtodrag) {
-		                    var imgclone = imgtodrag.clone()
-		                        .offset({
-		                        top: imgtodrag.offset().top,
-		                        left: imgtodrag.offset().left
-		                    })
-		                        .css({
-		                        'opacity': '0.5',
-		                            'position': 'absolute',
-		                            'height': '150px',
-		                            'width': '100px',
-		                            'z-index': '9000'
-		                    })
-		                        .appendTo($('html'))
-		                        .animate({
-		                        'top': cart.offset().top + 10,
-		                            'left': cart.offset().left + 10,
-		                            'width': 50,
-		                            'height': 75
-		                    }, 500, 'easeInOutExpo');
-
-		                    imgclone.animate({
-		                        'width': 0,
-		                            'height': 0
-		                    }, function () {
-		                        $(this).detach()
-		                    });
-		                }
-		            }
-			    }
-			});
-        
-        	
-        e.preventDefault();
-        	
-       
     });
  
 
@@ -449,11 +362,11 @@ $(document).ready(function() {
 		toggleTitle = !toggleTitle;
 		if(toggleTitle)
 			{
-				reload(offset, limit, pre_title, 'asc_t');
+				reload(offset, limit, 'asc_t', title, year, director, fName, lName);
 			}
 		else
 			{
-				reload(offset, limit, pre_title, 'desc_t');
+				reload(offset, limit, 'desc_t', title, year, director, fName, lName);
 			}
 	});
 
@@ -461,11 +374,11 @@ $(document).ready(function() {
 		toggleYear = !toggleYear;
 		if(toggleYear)
 			{
-				reload(offset, limit, pre_title, 'asc_y');
+				reload(offset, limit, 'asc_y', title, year, director, fName, lName);
 			}
 		else
 			{
-				reload(offset, limit, pre_title, 'desc_y');
+				reload(offset, limit, 'desc_y', title, year, director, fName, lName);
 			}
 	});
 	
@@ -529,52 +442,12 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="wrapper">
         <div id="navBarTop">
             <div id="searchBar">
-                <input type="text" id="" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-                <button type="button" id="searchBtn" onclick = "search($(search_bar).val())" >-></button>
-                <div id="shoppingCartBtn" placeholder="Shopping Cart">
-                	<a href="./ShoppingCart" class="pageLink">This is a test</a>
-                </div>
+                <input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
+                <button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
+
                 
             </div>
-            <!-- <div id="shoppingCartPreview">test</div> -->
-            <div id="titleNav">
-                <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby);">2</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby);">3</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby);">4</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby);">5</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby);">6</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby);">7</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby);">8</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby);">9</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby);">A</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby);">B</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby);">C</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby);">D</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby);">E</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby);">F</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby);">G</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby);">H</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby);">I</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby);">J</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby);">K</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby);">L</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby);">M</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby);">N</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby);">O</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby);">P</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby);">Q</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby);">R</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby);">S</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby);">T</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby);">U</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby);">V</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby);">W</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby);">X</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
-            </div>
+           
              <div id="arrangeBy">
 				Sort by:
 				<a id="byTitle" class="arrangeByLink">Title</a>
@@ -588,19 +461,16 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="moviesList">
 <%
 
-        List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
-        
+		Map<String, Integer> shopping_cart = (Map<String, Integer>) request.getSession().getAttribute("shopping_cart");
 
-        for(Movie m : movies)
-        {
-            
+		for (Map.Entry<String, Integer> item : shopping_cart.entrySet()) 
+		{
+			Movie m = Movie.getMovie(Integer.parseInt(item.getKey()));
  %>         
 
             <div class="movieBox">
                 <div class="imageAndBuy">
-                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
-                    	<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
-                    </div>
+                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
                     <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 
                 </div>
                 <div id="movieInfo">
@@ -676,6 +546,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         <div class="infoTitle">Price:</div>
                         <div class="infoDetail">$15.99</div>
                     </div>
+                    <div class="info">
+                    	<div class="infoTitle">Quantity:</div>
+                        <div class="infoDetail"><%=item.getValue()%></div>
+                    </div>
                 </div>
             </div>
 
@@ -688,13 +562,14 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         <div id="navBarBottom">
             <button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
             <button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
+            <button type="button" id="checkOutButton" class="navButton" onclick = "checkOut();">CheckOut</button> 
             <div id="itemsPerPage">
                 <span style="margin: 0px 10px 0px 40px">Items per page:</span>
-                <a href="#" class="pageCount" onclick = "reload(offset, 5, pre_title, orderby);">5</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 10, pre_title, orderby);">10</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 15, pre_title, orderby);">15</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 20, pre_title, orderby);">20</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 25, pre_title, orderby);">25</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 5, orderby);">5</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 10, orderby);">10</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 15, orderby);">15</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 20, orderby);">20</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 25, orderby);">25</a>
             </div>
         </div>
     </div>

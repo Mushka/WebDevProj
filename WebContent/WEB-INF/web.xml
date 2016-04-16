@@ -100,6 +100,12 @@
 	<description></description>
 	<servlet-class>servlets.TryToCheckout</servlet-class>
 </servlet>
+<servlet>
+	<servlet-name>ShoppingCart</servlet-name>
+	<display-name>ShoppingCart</display-name>
+	<description></description>
+	<servlet-class>servlets.ShoppingCart</servlet-class>
+</servlet>
   
   <servlet-mapping>
     <servlet-name>ShowSessionServlet</servlet-name>
@@ -147,6 +153,10 @@
   <servlet-mapping>
   	<servlet-name>TryToCheckout</servlet-name>
   	<url-pattern>/TryToCheckout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ShoppingCart</servlet-name>
+  	<url-pattern>/ShoppingCart</url-pattern>
   </servlet-mapping>
 
 
