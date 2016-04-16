@@ -373,6 +373,9 @@ function movieQuantityMinus(m_id)
                 console.log("subtracted to: " + m_id);
                 var tmp = parseInt($('#movieQuantity'+m_id).text());
                 $('#movieQuantity'+m_id).text((tmp-1));
+                
+                tmp=(tmp-1)*15.99;
+                $('#moviePrice'+m_id).text('$'+tmp);
           	}
             
         }
@@ -401,6 +404,9 @@ function movieQuantityPlus(m_id)
                 console.log("added to: " + m_id);
                 var tmp = parseInt($('#movieQuantity'+m_id).text());
                 $('#movieQuantity'+m_id).text((tmp+1));
+                
+                tmp=(tmp+1)*15.99;
+                $('#moviePrice'+m_id).text('$'+tmp);
            	}
              
          }
@@ -497,10 +503,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                     </div>
                     
                     <div class="info">
-                        <div class="infoTitle">Price:</div>
+                        <div class="infoTitle" >Price:</div>
                       <script>  
 	                      	var price = 15.99*<%=item.getValue()%>;
-	                      	document.write('<div class="infoDetail">$'+price+'</div>');
+	                      	document.write('<div id="moviePrice<%=item.getKey()%>" class="infoDetail">$'+price+'</div>');
                       </script>
                         
                     </div>
