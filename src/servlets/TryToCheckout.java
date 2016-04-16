@@ -71,10 +71,27 @@ public class TryToCheckout extends HttpServlet {
 					    System.out.println(entry.getKey() + "/" + entry.getValue());
 					    
 //					    
-//					    String query = "INSERT INTO customers (customer_id, movie_id, sale_date) "
-//					    		+ "VALUES ('title', 'value', 'value', 'value', 'value' 'value');";
-//					    MySQL.processInsert(query);
+					    java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
+					    
+//					    
+//					    System.out.println(date.toString());
+//					    java.sql.Date sqlDate = new java.sql.Date();
+//					    date.
+//					    date.toString();
+//					    
+					    for(int i = 0; i < entry.getValue(); ++i)
+					    {
+						    query = "INSERT INTO sales (customer_id, movie_id, sale_date) "
+						    		+ "VALUES ("+user_id+", "+entry.getKey()+", '"+date.toString()+"');";
+						    
+						    int n = MySQL.processInsert(query);
+						    
+						    System.out.println("Rows affected = " + n);
+					    }
+					   
 					}
+					
+					request.getSession().setAttribute("shopping_cart", null);
 					
 					out.print("true");
 				}

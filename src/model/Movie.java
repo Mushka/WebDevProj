@@ -113,9 +113,29 @@ public class Movie {
 		return "Id: " + id + " " + "Title: " + title + " " + "Year: " + year + " " + "Director: " + director + " ";
 	}
 	
-	public static Movie getMovies(int id)
+	public static Movie getMovie(int id)
 	{
-		return null;
+		Movie m = null;
+		String query = "select * from movies where id = " + id;
+		
+		ArrayList<Map<String, Object>> results;
+		try {
+			results = MySQL.select(query);
+
+			m = new Movie(((Integer) results.get(0).get("id")).intValue(), results.get(0).get("title").toString(), ((Integer)results.get(0).get("year")).intValue(),
+						results.get(0).get("director").toString(), results.get(0).get("banner_url").toString(), results.get(0).get("trailer_url").toString());
+
+	        m.setGenres(Movie.getGenres(id));
+	        m.setStars(Movie.getStars(id));
+	 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		    System.out.println("Invalid SQL Command. [Movie.getMovie()]\n\n" + e.toString());
+		    return null;
+		}
+		
+		return m;
 	}
 
 	public static ArrayList<Movie> getMovies(String query) {

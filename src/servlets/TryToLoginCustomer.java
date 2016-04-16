@@ -82,7 +82,7 @@ public class TryToLoginCustomer extends HttpServlet
 				out.print(user_id); 
 				
 				
-				System.out.print(user_id); 
+				System.out.print("Logged in user id: " + user_id); 
 
 				request.getSession().setAttribute("user_id", user_id);
 

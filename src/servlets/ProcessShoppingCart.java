@@ -45,6 +45,7 @@ public class ProcessShoppingCart extends HttpServlet
 			}
 			
 			out.println(shopping_cart.toString());
+			System.out.println("Shopping cart: " + shopping_cart.toString());
 			
 			request.getSession().setAttribute("shopping_cart", shopping_cart);
 			
