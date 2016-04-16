@@ -416,10 +416,6 @@ function movieQuantityPlus(m_id)
 
 
 $(document).ready(function() {
-
-    $('.buyButton').click( function() {
-        
-    });
     
     
 });
@@ -494,12 +490,6 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         <div class="infoTitle">Movie ID:</div>
                         <div class="infoDetail"><%=m.getId()%></div>
                     </div>
-                    
-                    <div class="info">
-                    	<div class="infoTitle">Quantity:</div>
-                        <div class="infoDetail"><%=item.getValue()%></div>
-                    </div>
-                    
                     <div class="info">
                         <div class="infoTitle" >Price:</div>
                       <script>  
