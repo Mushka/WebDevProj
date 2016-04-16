@@ -32,7 +32,7 @@
         #moviesList {
             width: 800px;
 /*          height: 100%;
-*/          margin-top: 40px;
+*/          margin-top: 60px;
             margin-bottom: 20px;
             /*border-left: 4px solid white;*/
             /*border-right: 4px solid white;*/
@@ -204,8 +204,63 @@
             flex-grow: 1;
             align-self: center;
         }
+        
+         .arrow-up {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-bottom: 10px solid #f00;
+			align-self: center;
+		}
+
+		.arrow-down {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			margin-left: 10px;
+			border-top: 10px solid green;
+			align-self: center;
+		}
+		
+				
+		.arrow-flat {
+	      width: 10px; 
+	      height: 2px; 
+	      margin-left: 10px;
+	      background: grey;
+	      align-self: center;
+	    }
+
+    #arrangeBy {
+			width: 800px;
+			position: fixed;
+			left: 50%;
+			margin-left: -400px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			background: white;
+			z-index: 999;
+			border-bottom: 2px solid black;
+		}
+
+		.arrangeByLink {
+			color: grey;
+			margin-left: 10px;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		#shoppingCartBtn {
+			color: red;
+			cursor: pointer;
+		}
 
     </style>
+    
 
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   
@@ -215,58 +270,59 @@
 <script>
 
 
-<%	
-	int offset = Integer.parseInt((String) session.getAttribute("offset"));
-	int limit = Integer.parseInt((String) session.getAttribute("limit"));
-	int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-	String genre = (String) session.getAttribute("genre");
+<%  
+    int offset = Integer.parseInt((String) session.getAttribute("offset"));
+    int limit = Integer.parseInt((String) session.getAttribute("limit"));
+    int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
     String orderby = (String) session.getAttribute("orderby");
-
-	
 %>  
 
 
 
     var limit = <%=limit%>;
-    var num_of_movies = <%=num_of_movies%>;
-    var genre = "<%=genre%>"
     var offset = <%=offset%>;
+    var num_of_movies = <%=num_of_movies%>;
     var orderby = "<%=orderby%>";
 
 
-    
-    
 /*     alert(pre_title); */
 
 
-function reload(of, li, ge, orb) {
-    
-    window.location.href = "./ShowGenre?genre=" + ge + "&limit=" + li + "&offset=" + of + "&orderby=" + orb;
+function reload(of, li, orb) {
+	
+    window.location.href = "./ShoppingCart?limit=" + li + "&offset=" + of + "&orderby=" + orb + "&title=" + ti + "&year=" + yr + "&director=" + dr + "&first_name=" + fn + "&last_name=" + ln;
 
 }
 
 
 function next() {
     
-/*  ./Search?username=a%40email.com&password=a2
+/*  /FabFlix/Search?username=a%40email.com&password=a2
  */
  
- 	if(num_of_movies > (offset+limit))
-    	reload(offset+limit, limit, genre, orderby);
+    if(num_of_movies > (offset+limit))
+        reload(offset+limit, limit, orderby);
     
-    /* window.location.href = "./Search?limit=" + limit + "&offset=" + (offset+1); */
+    /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 }
 
 
 function prev() {
      
         
-    if(<%=offset%> > 0)
+    if(offset > 0)
     {
-        reload(offset-limit, limit, genre, orderby);
-        /* window.location.href = "./Search?limit=" + limit + "&offset=" + (offset-1); */
+        reload(offset-limit, limit, orderby);
+        /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
     }
 }
+
+function checkOut() {
+    
+	/*  /FabFlix/Search?username=a%40email.com&password=a2
+	 */
+    	window.location.href = "./checkout.jsp";
+	}
 
 function createCookie(name,value,days) {
     if (days) {
@@ -299,37 +355,67 @@ $(document).ready(function() {
 
     $('.buyButton').click( function() {
         
-    	
-       $.ajax({
-            url : 'ProcessShoppingCart',
-            data : "id="+this.id,
-            success : function(responseText) {
-		            	
-	            if(responseText === "false")
-            	{		      
-	            	alert("Failed to load");
-            	}
-	            else
-	            {
-	               alert(responseText);
-	            }
-		    }
-		});
-       
-       	
-       e.preventDefault();
-         
-         
-        
-       
     });
+ 
+
+	$('#byTitle').click( function() {
+		toggleTitle = !toggleTitle;
+		if(toggleTitle)
+			{
+				reload(offset, limit, 'asc_t', title, year, director, fName, lName);
+			}
+		else
+			{
+				reload(offset, limit, 'desc_t', title, year, director, fName, lName);
+			}
+	});
+
+	$('#byYear').click( function() {
+		toggleYear = !toggleYear;
+		if(toggleYear)
+			{
+				reload(offset, limit, 'asc_y', title, year, director, fName, lName);
+			}
+		else
+			{
+				reload(offset, limit, 'desc_y', title, year, director, fName, lName);
+			}
+	});
+	
+    var toggleTitle = false;
+	var toggleYear = false;
+    
+    if(orderby === "asc_y")
+    {
+    	toggleYear = true;
+		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
+    }
+    else if(orderby === "desc_y") 
+   	{
+		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
+    }
+    
+    if(orderby === "asc_t")
+	{
+    	toggleTitle = true;
+		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
+	}
+    else if(orderby === "desc_t")
+    {
+		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
+    }
+    
+
 
 });
 
+/* it resets the page, and orderby*/
 function search(text)
 {
-	reload(0, limit, text, orderby);
+    reload(0, limit, text, "asc_t");
 }
+
+
 
 
 </script>
@@ -356,38 +442,30 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="wrapper">
         <div id="navBarTop">
             <div id="searchBar">
-<!--             	<input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-            	<button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
- -->
-            	
-            </div>
-            <div>
-            	<select onChange="window.document.location.href=this.options[this.selectedIndex].value;">
-   					<option>Select a Genre</option>
-               <%                  
-               			List<String> all_genres = (ArrayList<String>) session.getAttribute("all_genres");
+                <input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
+                <button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
 
-               			for(int i = 0; i < all_genres.size(); ++i){
-				%>
-
-                    		<option value="./ShowGenre?genre=<%=all_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>"><%=all_genres.get(i)%></option>
-                   
-                       <%}%>   
                 
-          		</select>
             </div>
+           
+             <div id="arrangeBy">
+				Sort by:
+				<a id="byTitle" class="arrangeByLink">Title</a>
+				<div id="titleArrow" class="arrow-flat"></div>
+				<a id="byYear" class="arrangeByLink">Year</a>
+				<div id="yearArrow" class="arrow-flat"></div>
+			</div>
         </div>
         
         
     <div id="moviesList">
 <%
 
-        List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
-        
+		Map<String, Integer> shopping_cart = (Map<String, Integer>) request.getSession().getAttribute("shopping_cart");
 
-        for(Movie m : movies)
-        {
-            
+		for (Map.Entry<String, Integer> item : shopping_cart.entrySet()) 
+		{
+			Movie m = Movie.getMovie(Integer.parseInt(item.getKey()));
  %>         
 
             <div class="movieBox">
@@ -442,18 +520,17 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         
                         
 <%                  
-                        List<String> m_genres = (ArrayList<String>) m.getGenres();
+                        List<String> genres = (ArrayList<String>) m.getGenres();
                         /* for(String g : genres)  */
-                        for(int i = 0; i < m_genres.size(); ++i){
+                        for(int i = 0; i < genres.size(); ++i){
 %>
-                            <%if(i < m_genres.size()-1){%>
-                                <a href="./ShowGenre?genre=<%=m_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>" ><%=m_genres.get(i)%>,</a>
+                            <%if(i < genres.size()-1){%>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
                             <%}
                             else{%>
-                                <a href="./ShowGenre?genre=<%=m_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>" ><%=m_genres.get(i)%></a>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
                             <%}%>
-                            
-                                    
+                                                
                         <%}%>   
 
                         </div>
@@ -469,6 +546,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         <div class="infoTitle">Price:</div>
                         <div class="infoDetail">$15.99</div>
                     </div>
+                    <div class="info">
+                    	<div class="infoTitle">Quantity:</div>
+                        <div class="infoDetail"><%=item.getValue()%></div>
+                    </div>
                 </div>
             </div>
 
@@ -481,13 +562,14 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         <div id="navBarBottom">
             <button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
             <button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
+            <button type="button" id="checkOutButton" class="navButton" onclick = "checkOut();">CheckOut</button> 
             <div id="itemsPerPage">
                 <span style="margin: 0px 10px 0px 40px">Items per page:</span>
-                <a href="#" class="pageCount" onclick = "reload(offset, 5, genre, orderby);">5</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 10, genre, orderby);">10</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 15, genre, orderby);">15</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 20, genre, orderby);">20</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 25, genre, orderby);">25</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 5, orderby);">5</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 10, orderby);">10</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 15, orderby);">15</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 20, orderby);">20</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 25, orderby);">25</a>
             </div>
         </div>
     </div>

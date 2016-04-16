@@ -538,7 +538,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div id="searchBar">
                 <input type="text" id="" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
                 <button type="button" id="searchBtn" onclick = "search($(search_bar).val())" >-></button>
-                <div id="shoppingCartBtn"></div>
+                <div id="shoppingCartBtn" placeholder="Shopping Cart">
+                	<a href="./ShoppingCart" class="pageLink">This is a test</a>
+                </div>
+                
             </div>
             <!-- <div id="shoppingCartPreview">test</div> -->
             <div id="titleNav">
