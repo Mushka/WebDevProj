@@ -396,14 +396,6 @@ function movieQuantityMinus(m_id)
                 tmp=(tmp-1)*15.99;
                 $('#moviePrice'+m_id).text('$'+tmp);
                 
-                
-                <%
-                
-                	int shopping_cart_size =  ((Integer) session.getAttribute("shopping_cart_size"));
-                %>
-                
-                
-                alert(<%=shopping_cart_size%>);
           	}
             
         }

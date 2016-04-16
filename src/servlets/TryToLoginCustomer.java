@@ -35,6 +35,12 @@ public class TryToLoginCustomer extends HttpServlet
 		
 		
 		
+		Integer shopping_cart_size = (Integer) request.getSession().getAttribute("shopping_cart_size");
+		
+		if(shopping_cart_size == null)
+			request.getSession().setAttribute("shopping_cart_size", 0);
+		
+		
 		String loginUser = Credentials.admin;
 		String loginPasswd = Credentials.password;
 		String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
