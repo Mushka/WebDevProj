@@ -33,7 +33,7 @@
         #moviesList {
             width: 800px;
 /*          height: 100%;
-*/          margin-top: 60px;
+*/          margin-top: 80px;
             margin-bottom: 20px;
             /*border-left: 4px solid white;*/
             /*border-right: 4px solid white;*/
@@ -262,10 +262,31 @@
 		}
 
 		#shoppingCartBtn {
+            height: 40px;
+            width: 40px;
 			color: red;
 			cursor: pointer;
 			align-self: flex-end;
+            background: #FFD900;
+            background-image: url(./images/shoppingCart.svg);
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 3px;
 		}
+
+        #shoppingCartPreview {
+            width: 200px;
+            height: 200px;
+            top:-500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: red;
+            position: fixed;
+            z-index: 9001;
+        }
+
 
     </style>
     
@@ -356,8 +377,12 @@ $(document).ready(function() {
 
     $('.buyButton').click( function(e) {
     	
-    
-        
+        $('#navBarTop').append("<div id='shoppingCartPreview'><button type='button' id='finalAddToCart'>Add to Cart</button></div>");
+        $('#finalAddToCart').click( function(){
+            $('#shoppingCartPreview').remove();
+        });
+        $('#shoppingCartPreview').css('left', $('#shoppingCartBtn').offset().left - (100-20));
+        $('#shoppingCartPreview').css('top', $('#shoppingCartBtn').offset().top + 40);
         
         /* shopping_cart = readCookie("shopping_cart"); */
         
@@ -505,8 +530,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div id="searchBar">
                 <input type="text" id="" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
                 <button type="button" id="searchBtn" onclick = "search($(search_bar).val())" >-></button>
-                <div id="shoppingCartBtn">Shopping Cart</div>
+                <div id="shoppingCartBtn"></div>
             </div>
+            <!-- <div id="shoppingCartPreview">test</div> -->
             <div id="titleNav">
                 <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
                 <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
