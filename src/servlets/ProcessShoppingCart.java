@@ -30,13 +30,24 @@ public class ProcessShoppingCart extends HttpServlet
 		{
 
 			String id = request.getParameter("id");
+			String dec = request.getParameter("dec");
+		
 			
 			Map<String, Integer> shopping_cart = (Map<String, Integer>)  request.getSession().getAttribute("shopping_cart");
 			
 			if(shopping_cart != null)
 			{
 				int count = shopping_cart.containsKey(id) ? shopping_cart.get(id) : 0;
-				shopping_cart.put(id, count + 1);
+				
+				if("true".equalsIgnoreCase(dec))
+				{
+					shopping_cart.put(id, count - 1);
+				}
+				else
+				{
+					shopping_cart.put(id, count + 1);
+				}
+				
 			}
 			else
 			{

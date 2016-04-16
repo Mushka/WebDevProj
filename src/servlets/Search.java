@@ -56,13 +56,13 @@ public class Search extends HttpServlet {
 			if(offset == null)
 				offset = "0";
 			if(pre_title == null)
-				pre_title = "%";
+				pre_title = "";
 			
 			if(orderby == null)
 				orderby = "asc_t";
 
 			
-		String query = "SELECT * FROM movies WHERE title like '"+pre_title+"%'";
+		String query = "SELECT * FROM movies WHERE title like '%"+pre_title+"%'";
 		
 		switch(orderby)
 		{
