@@ -67,9 +67,11 @@ public class ShowMovie extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/showMovie.jsp");
         dispatcher.forward(request, response);
         
-	    } catch (Exception e)
-	    {
-	      out.println("Invalid SQL Command.\n\n" + e.toString());
+	    } catch (Exception e){
+	    	
+			request.getSession().setAttribute("error_message", "Invalid SQL Command [ShowGenre].\n\n" + e.toString());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+			dispatcher.forward(request, response);
 	    }
 	}
 

@@ -80,9 +80,11 @@ public class ShowStar extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/showActor.jsp");
         dispatcher.forward(request, response);
         
-        } catch (Exception e)
-        {
-          out.println("Invalid SQL Command.\n\n" + e.toString());
+        } catch (Exception e){
+        	
+			request.getSession().setAttribute("error_message", "Invalid SQL Command [ShowStar].\n\n" + e.toString());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+			dispatcher.forward(request, response);
         }
     }
 
