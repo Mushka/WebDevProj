@@ -274,6 +274,17 @@
             background-position: center;
             border-radius: 3px;
 		}
+		
+		#shoppingCartCounter {
+			height: 40px;
+			width: 20px;
+			background: green;
+			color: white;
+			align-self: flex-end;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
 
         #shoppingCartPreview {
             width: 200px;
@@ -318,6 +329,7 @@
     var pre_title = "<%=pre_title%>";
     var orderby = "<%=orderby%>";
     
+    var cartCounter = 0;
 
 /*     alert(pre_title); */
 
@@ -379,26 +391,30 @@ function readCookie(name) {
 }
 
 $(document).ready(function() {
+	
+	
 
 	$('#navBarTop').append("<div id='shoppingCartPreview'></div>");
-	 $('#shoppingCartPreview').append("<button type='button' id='finalAddToCart'>Add to Cart</button>");
+	$('#shoppingCartPreview').append("<button type='button' id='finalAddToCart'>Add to Cart</button>");
+
+    $('#shoppingCartCounter').hide();
 	
     $('.buyButton').click( function(e) {
  
         // $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
 
-        // $.ajax({
-        //     url : 'ProcessShoppingCart',
-        //     data : "id="+this.id,
-        //     success : function(responseText) {
+        $.ajax({
+             url : 'ProcessShoppingCart',
+             data : "id="+this.id,
+             success : function(responseText) {
             	
-        //         if(responseText === "false")
-        //         {             
-        //             console.log("Failed to load");
-        //         }
+                 if(responseText === "false")
+                 {             
+                     console.log("Failed to load");
+                 }
 
-        //     }
-        // });
+             }
+        });
         
         // $('#finalAddToCart').click( function(){
 
@@ -419,6 +435,8 @@ $(document).ready(function() {
         
         var cart = $('#shoppingCartBtn');
 		var imgtodrag = $(this).parent().find("img").eq(0);
+
+        cartCounter++;
 
         if (imgtodrag) {
             var imgclone = imgtodrag.clone()
@@ -447,6 +465,16 @@ $(document).ready(function() {
             }, function () {
                 $(this).detach()
             });
+            
+            //checkForCount
+            if (cartCounter < 0) {
+                $('#shoppingCartCounter').hide();
+            }
+            else {
+                $('#shoppingCartCounter').show();
+            }
+            
+            $('#shoppingCartCounter').text(String(cartCounter));
         }
         	
         e.preventDefault();
@@ -540,6 +568,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div id="searchBar">
                 <input type="text" id="" name=search_bar placeholder="Search Title" style="height: 20px; align-self: center;" onchange="search($(this).val())">
                 <button type="button" id="searchBtn" style="height: 20px; align-self: center;" onclick = "search($(search_bar).val())" >-></button>
+                <div id="shoppingCartCounter" style="text-align: center;">0</div>
                 <div id="shoppingCartBtn" placeholder="Shopping Cart" onclick="window.location.href = './ShoppingCart'">
                 	<!-- <a href="./ShoppingCart" class="pageLink">This is a test</a> -->
                 </div>
