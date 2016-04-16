@@ -251,8 +251,8 @@ function next() {
 /*  ./Search?username=a%40email.com&password=a2
  */
  
- 	if(num_of_movies > (offset+1)*limit)
-    	reload(offset+1, limit, genre, orderby);
+ 	if(num_of_movies > (offset+limit))
+    	reload(offset+limit, limit, genre, orderby);
     
     /* window.location.href = "./Search?limit=" + limit + "&offset=" + (offset+1); */
 }
@@ -263,7 +263,7 @@ function prev() {
         
     if(<%=offset%> > 0)
     {
-        reload(offset-1, limit, genre, orderby);
+        reload(offset-limit, limit, genre, orderby);
         /* window.location.href = "./Search?limit=" + limit + "&offset=" + (offset-1); */
     }
 }
