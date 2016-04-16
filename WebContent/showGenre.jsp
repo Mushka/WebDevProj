@@ -362,26 +362,15 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             	
             </div>
             <div>
-            	<select>
-   
+            	<select onChange="window.document.location.href=this.options[this.selectedIndex].value;">
+   					<option>Select a Genre</option>
                <%                  
                			List<String> all_genres = (ArrayList<String>) session.getAttribute("all_genres");
 
                			for(int i = 0; i < all_genres.size(); ++i){
 				%>
-                           
-                          <%--  <%if(i < all_genres.size()-1){%>
-                               <a href="./ShowGenre?genre=<%=all_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>"><%=all_genres.get(i)%> </a> | 
-                           <%}
-                           else{%>
-                               <a href="./ShowGenre?genre=<%=all_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>"><%=all_genres.get(i)%></a>
-                           <%}%>
-                           
-                                                              
-                            <%if(i % 7 == 0){%>
-                            	<br>
-                            <%}%> --%>
-                    		<option value="<%=all_genres.get(i)%>"><%=all_genres.get(i)%></option>
+
+                    		<option value="./ShowGenre?genre=<%=all_genres.get(i)%>&limit=<%=limit%>&offset=0&orderby=<%=orderby%>"><%=all_genres.get(i)%></option>
                    
                        <%}%>   
                 
