@@ -257,7 +257,6 @@
             width: 30px;
             height: 25px;
             border: 0px solid white;
-            /*border-radius: 3px;*/
             font-family: inherit;
             font-size: 20px;
             text-align: center;
@@ -268,13 +267,10 @@
         .incDecDisplay {
             width: 30px;
             height: 25px;
-            /*border: 0px solid white;*/
-            /*border-radius: 3px;*/
             font-family: inherit;
             font-size: 20px;
             text-align: center;
             color: black;
-            /*background: grey;*/
         }
 
     </style>
@@ -352,11 +348,15 @@ function readCookie(name) {
 
 function movieQuantityMinus(m_id)
 {
-    if(parseInt($('#movieQuantity'+m_id).text()) == 0) {
-        return;
-    }
-    else if (parseInt($('#movieQuantity'+m_id).text()) == 1) {
-        
+    if (parseInt($('#movieQuantity'+m_id).text()) == 1) {
+        if(confirm("Are you sure you wish to remove the item from your cart?"))
+        {
+            $('#movie'+m_id).remove();
+            //call to remove from cart
+        }
+        else {
+            return;
+        }
     }        
 	$.ajax({
         url : 'ProcessShoppingCart',
@@ -368,7 +368,7 @@ function movieQuantityMinus(m_id)
                 console.log("Failed to load");
             }
             
-           else
+            else
           	{
                 console.log("subtracted to: " + m_id);
                 var tmp = parseInt($('#movieQuantity'+m_id).text());
@@ -459,11 +459,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 			Movie m = Movie.getMovie(Integer.parseInt(item.getKey()));
  %>         
 
-            <div class="movieBox">
+            <div class="movieBox" id="movie<%=item.getKey()%>">
                 <div class="imageAndBuy">
                     <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
-<!--                    <button id="movieQuantity" class="buyButton">Add to Cart</button> 
- -->                    <div class="incDecBox">
+                        <div class="incDecBox">
                             <button class="incDecBtn" id="movieQuantityMinus<%=item.getKey()%>" onclick= "movieQuantityMinus(<%=item.getKey()%>);">-</button>
                             <div class="incDecDisplay" id="movieQuantity<%=item.getKey()%>"><%=item.getValue()%></div> 
                             <button class="incDecBtn" id="movieQuantityPlus<%=item.getKey()%>" onclick= "movieQuantityPlus(<%=item.getKey()%>);">+</button> 
@@ -474,7 +473,6 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                     <div class="info first">
                         <div class="infoTitle">Title:</div>
                         <div class="infoDetail">
-                        
 							<a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
                         </div>
                     </div>
