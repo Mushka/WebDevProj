@@ -295,27 +295,6 @@ function reload(of, li, orb) {
 }
 
 
-function next() {
-    
-/*  /FabFlix/Search?username=a%40email.com&password=a2
- */
- 
-    if(num_of_movies > (offset+limit))
-        reload(offset+limit, limit, orderby);
-    
-    /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
-}
-
-
-function prev() {
-     
-        
-    if(offset > 0)
-    {
-        reload(offset-limit, limit, orderby);
-        /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
-    }
-}
 
 function checkOut() {
     
@@ -356,64 +335,8 @@ $(document).ready(function() {
     $('.buyButton').click( function() {
         
     });
- 
-
-	$('#byTitle').click( function() {
-		toggleTitle = !toggleTitle;
-		if(toggleTitle)
-			{
-				reload(offset, limit, 'asc_t', title, year, director, fName, lName);
-			}
-		else
-			{
-				reload(offset, limit, 'desc_t', title, year, director, fName, lName);
-			}
-	});
-
-	$('#byYear').click( function() {
-		toggleYear = !toggleYear;
-		if(toggleYear)
-			{
-				reload(offset, limit, 'asc_y', title, year, director, fName, lName);
-			}
-		else
-			{
-				reload(offset, limit, 'desc_y', title, year, director, fName, lName);
-			}
-	});
-	
-    var toggleTitle = false;
-	var toggleYear = false;
     
-    if(orderby === "asc_y")
-    {
-    	toggleYear = true;
-		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
-    }
-    else if(orderby === "desc_y") 
-   	{
-		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
-    }
-    
-    if(orderby === "asc_t")
-	{
-    	toggleTitle = true;
-		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
-	}
-    else if(orderby === "desc_t")
-    {
-		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
-    }
-    
-
-
 });
-
-/* it resets the page, and orderby*/
-function search(text)
-{
-    reload(0, limit, text, "asc_t");
-}
 
 
 
@@ -441,20 +364,6 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
     <div id="wrapper">
         <div id="navBarTop">
-            <div id="searchBar">
-                <input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-                <button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
-
-                
-            </div>
-           
-             <div id="arrangeBy">
-				Sort by:
-				<a id="byTitle" class="arrangeByLink">Title</a>
-				<div id="titleArrow" class="arrow-flat"></div>
-				<a id="byYear" class="arrangeByLink">Year</a>
-				<div id="yearArrow" class="arrow-flat"></div>
-			</div>
         </div>
         
         
@@ -471,15 +380,14 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div class="movieBox">
                 <div class="imageAndBuy">
                     <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
-                    <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 
-                </div>
+<!--                     <input type="text" id="movieQuantity"> class="buyButton">Add to Cart</button> 
+ -->                </div>
                 <div id="movieInfo">
                     <div class="info first">
                         <div class="infoTitle">Title:</div>
                         <div class="infoDetail">
                         
-<!--                         <script>var movie_id=</script>
- -->                            <a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
+							<a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
                         </div>
                     </div>
                     <div class="info">
@@ -494,62 +402,21 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         <div class="infoTitle">Movie ID:</div>
                         <div class="infoDetail"><%=m.getId()%></div>
                     </div>
-                    <div class="info">
-                        <div class="infoTitle">Stars:</div>
-                        <div class="infoDetail">
-<%                  
-                        List<Star> stars = (ArrayList<Star>) m.getStars();
-                        /* for(String g : genres)  */
-                        for(int i = 0; i < stars.size(); ++i){
-%>
-                            
-                            <%if(i < stars.size()-1){%>
-                                <a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%>,</a>
-                            <%}
-                            else{%>
-                                <a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%></a>
-                            <%}%>
                     
-                        <%}%>   
-                        
-                        </div>
-                    </div>
-                    <div class="info">
-                        <div class="infoTitle">Genres:</div>
-                        <div class="infoDetail">
-                        
-                        
-<%                  
-                        List<String> genres = (ArrayList<String>) m.getGenres();
-                        /* for(String g : genres)  */
-                        for(int i = 0; i < genres.size(); ++i){
-%>
-                            <%if(i < genres.size()-1){%>
-                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
-                            <%}
-                            else{%>
-                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
-                            <%}%>
-                                                
-                        <%}%>   
-
-                        </div>
-                    </div>
-                    <div class="info">
-                        <div class="infoTitle">Trailer:</div>
-                        <div class="infoDetail">
-                            <a href=<%=m.getTrailer_url()%>>Click here</a>
-                             to watch the movie trailer
-                        </div>
-                    </div>
-                    <div class="info">
-                        <div class="infoTitle">Price:</div>
-                        <div class="infoDetail">$15.99</div>
-                    </div>
                     <div class="info">
                     	<div class="infoTitle">Quantity:</div>
                         <div class="infoDetail"><%=item.getValue()%></div>
                     </div>
+                    
+                    <div class="info">
+                        <div class="infoTitle">Price:</div>
+                      <script>  
+	                      	var price = 15.99*<%=item.getValue()%>;
+	                      	document.write('<div class="infoDetail">$'+price+'</div>');
+                      </script>
+                        
+                    </div>
+
                 </div>
             </div>
 
@@ -560,17 +427,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 %>  
         </div>
         <div id="navBarBottom">
-            <button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
-            <button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
             <button type="button" id="checkOutButton" class="navButton" onclick = "checkOut();">CheckOut</button> 
-            <div id="itemsPerPage">
-                <span style="margin: 0px 10px 0px 40px">Items per page:</span>
-                <a href="#" class="pageCount" onclick = "reload(offset, 5, orderby);">5</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 10, orderby);">10</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 15, orderby);">15</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 20, orderby);">20</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 25, orderby);">25</a>
-            </div>
         </div>
     </div>
 </body>
