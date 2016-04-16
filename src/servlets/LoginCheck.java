@@ -55,7 +55,7 @@ public class LoginCheck implements Filter {
 		    HttpServletResponse response = (HttpServletResponse) res;
 			HttpSession session = request.getSession();
 		
-		    if (session == null || session.getAttribute("user_name") == null) {
+		    if (session == null || session.getAttribute("user_id") == null) {
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
 		        dispatcher.forward(request, response);
 //				response.sendRedirect("login.html");
@@ -64,7 +64,7 @@ public class LoginCheck implements Filter {
 		    else
 		    {
 		    	
-		    	System.out.println("YAY");
+//		    	System.out.println("YAY");
 				chain.doFilter(req,res);
 		    }
 		}

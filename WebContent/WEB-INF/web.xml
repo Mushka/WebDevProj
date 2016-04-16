@@ -94,6 +94,12 @@
 	<description></description>
 	<servlet-class>servlets.AdvanceSearch</servlet-class>
 </servlet>
+<servlet>
+	<servlet-name>TryToCheckout</servlet-name>
+	<display-name>TryToCheckout</display-name>
+	<description></description>
+	<servlet-class>servlets.TryToCheckout</servlet-class>
+</servlet>
   
   <servlet-mapping>
     <servlet-name>ShowSessionServlet</servlet-name>
@@ -137,6 +143,10 @@
   <servlet-mapping>
   	<servlet-name>AdvanceSearch</servlet-name>
   	<url-pattern>/AdvanceSearch</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>TryToCheckout</servlet-name>
+  	<url-pattern>/TryToCheckout</url-pattern>
   </servlet-mapping>
 
 
