@@ -126,7 +126,10 @@ public class AdvanceSearch extends HttpServlet {
 			dispatcher.forward(request, response);
 
 		} catch (Exception e) {
-			out.println("Invalid SQL Command. shit \n\n" + e.toString());
+			
+			request.getSession().setAttribute("error_message", "Invalid SQL Command [AdvanceSearch].\n\n" + e.toString());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 
