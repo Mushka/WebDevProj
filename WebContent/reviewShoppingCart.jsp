@@ -71,21 +71,6 @@
             align-self: center;
         }
 
-        .buyButton {
-            width: 20px;
-            height: 26px;
-            margin-top: 25px;
-            padding: 3px;
-            border: 0px solid white;
-            border-radius: 3px;
-            font-family: inherit;
-            font-size: 20px;
-            text-align: center;
-            color: white;
-            background: green;
-            align-self: center;
-        }
-
         .navButton {
             width: 120px;
             height: 20px;
@@ -234,7 +219,7 @@
 	      align-self: center;
 	    }
 
-    #arrangeBy {
+        #arrangeBy {
 			width: 800px;
 			position: fixed;
 			left: 50%;
@@ -258,6 +243,39 @@
 			color: red;
 			cursor: pointer;
 		}
+
+        .incDecBox {
+        	margin-top: 20px;
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            background: #D8D8D8;
+        }
+
+        .incDecBtn {
+            width: 30px;
+            height: 25px;
+            border: 0px solid white;
+            /*border-radius: 3px;*/
+            font-family: inherit;
+            font-size: 20px;
+            text-align: center;
+            color: white;
+            background: grey;
+        }
+
+        .incDecDisplay {
+            width: 30px;
+            height: 25px;
+            /*border: 0px solid white;*/
+            /*border-radius: 3px;*/
+            font-family: inherit;
+            font-size: 20px;
+            text-align: center;
+            color: black;
+            /*background: grey;*/
+        }
 
     </style>
     
@@ -332,15 +350,15 @@ function readCookie(name) {
 
 
 
-function movieQuantityMinus()
+function movieQuantityMinus(m_id)
 {
-	
-	
-    var m_id = document.getElementById('movieQuantityMinus').value;
-            
-    
-    
-	 $.ajax({
+    if(parseInt($('#movieQuantity'+m_id).text()) == 0) {
+        return;
+    }
+    else if (parseInt($('#movieQuantity'+m_id).text()) == 1) {
+        
+    }        
+	$.ajax({
         url : 'ProcessShoppingCart',
         data : "id="+m_id+"&dec=true",
         success : function(responseText) {
@@ -352,8 +370,9 @@ function movieQuantityMinus()
             
            else
           	{
-	            var tmp = parseInt($('#movieQuantity').text());
-	             $('#movieQuantity').text((tmp-1));
+                console.log("subtracted to: " + m_id);
+                var tmp = parseInt($('#movieQuantity'+m_id).text());
+                $('#movieQuantity'+m_id).text((tmp-1));
           	}
             
         }
@@ -364,27 +383,24 @@ function movieQuantityMinus()
 
 }
 
-function movieQuantityPlus()
-{
-	
-	
-    var m_id = document.getElementById('movieQuantityPlus').value;
-    
-    
-	 $.ajax({
-         url : 'ProcessShoppingCart',
-         data : "id="+m_id,
-         success : function(responseText) {
+function movieQuantityPlus(m_id)
+{	
+
+	$.ajax({
+        url : 'ProcessShoppingCart',
+        data : "id="+m_id,
+        success : function(responseText) {
          	
-             if(responseText === "false")
-             {             
-                 console.log("Failed to load");
-             }
+            if(responseText === "false")
+            {             
+                console.log("Failed to load");
+            }
              
             else
            	{
-	            var tmp = parseInt($('#movieQuantity').text());
-	             $('#movieQuantity').text((tmp+1));
+                console.log("added to: " + m_id);
+                var tmp = parseInt($('#movieQuantity'+m_id).text());
+                $('#movieQuantity'+m_id).text((tmp+1));
            	}
              
          }
@@ -436,6 +452,8 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
 		Map<String, Integer> shopping_cart = (Map<String, Integer>) request.getSession().getAttribute("shopping_cart");
 
+        int itemCounter = 0;
+
 		for (Map.Entry<String, Integer> item : shopping_cart.entrySet()) 
 		{
 			Movie m = Movie.getMovie(Integer.parseInt(item.getKey()));
@@ -444,16 +462,14 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div class="movieBox">
                 <div class="imageAndBuy">
                     <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
-<!--                     <button id="movieQuantity" class="buyButton">Add to Cart</button> 
- -->                   
- 				
-					<button class="buyButton" id="movieQuantityMinus" value=<%=item.getKey()%> onclick = "movieQuantityMinus();">-</button>
-					<div class="buyButton" id="movieQuantity"><%=item.getValue()%></div>
-					<button class="buyButton" id="movieQuantityPlus" value=<%=item.getKey()%> onclick = "movieQuantityPlus();">+</button> 
-					
+<!--                    <button id="movieQuantity" class="buyButton">Add to Cart</button> 
+ -->                    <div class="incDecBox">
+                            <button class="incDecBtn" id="movieQuantityMinus<%=item.getKey()%>" onclick= "movieQuantityMinus(<%=item.getKey()%>);">-</button>
+                            <div class="incDecDisplay" id="movieQuantity<%=item.getKey()%>"><%=item.getValue()%></div> 
+                            <button class="incDecBtn" id="movieQuantityPlus<%=item.getKey()%>" onclick= "movieQuantityPlus(<%=item.getKey()%>);">+</button> 
+                        </div>
+                    </div>   
 
-
-           		</div>
                 <div id="movieInfo">
                     <div class="info first">
                         <div class="infoTitle">Title:</div>
@@ -493,6 +509,8 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             </div>
 
         <%
+
+            itemCounter++;
 
         }
 
