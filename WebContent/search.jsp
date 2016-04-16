@@ -385,30 +385,30 @@ $(document).ready(function() {
 	
     $('.buyButton').click( function(e) {
  
-        $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
+        // $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
 
-        $.ajax({
-            url : 'ProcessShoppingCart',
-            data : "id="+this.id,
-            success : function(responseText) {
+        // $.ajax({
+        //     url : 'ProcessShoppingCart',
+        //     data : "id="+this.id,
+        //     success : function(responseText) {
             	
-                if(responseText === "false")
-                {             
-                    console.log("Failed to load");
-                }
+        //         if(responseText === "false")
+        //         {             
+        //             console.log("Failed to load");
+        //         }
 
-            }
-        });
+        //     }
+        // });
         
-        $('#finalAddToCart').click( function(){
+        // $('#finalAddToCart').click( function(){
 
-            $('#shoppingCartPreview').css('top', -600);
-            /* $('#shoppingCartPreview').empty(); */
-            /* $('#shoppingCartPreview').remove(); */
+        //     $('#shoppingCartPreview').css('top', -600);
+        //     /* $('#shoppingCartPreview').empty(); */
+        //     /* $('#shoppingCartPreview').remove(); */
             
-        });
-        $('#shoppingCartPreview').css('left', $('#shoppingCartBtn').offset().left - (100-20));
-        $('#shoppingCartPreview').css('top', 40);
+        // });
+        // $('#shoppingCartPreview').css('left', $('#shoppingCartBtn').offset().left - (100-20));
+        // $('#shoppingCartPreview').css('top', 40);
         
         /* shopping_cart = readCookie("shopping_cart"); */
         
@@ -538,10 +538,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="wrapper">
         <div id="navBarTop">
             <div id="searchBar">
-                <input type="text" id="" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-                <button type="button" id="searchBtn" onclick = "search($(search_bar).val())" >-></button>
-                <div id="shoppingCartBtn" placeholder="Shopping Cart">
-                	<a href="./ShoppingCart" class="pageLink">This is a test</a>
+                <input type="text" id="" name=search_bar placeholder="Search Title" style="height: 20px; align-self: center;" onchange="search($(this).val())">
+                <button type="button" id="searchBtn" style="height: 20px; align-self: center;" onclick = "search($(search_bar).val())" >-></button>
+                <div id="shoppingCartBtn" placeholder="Shopping Cart" onclick="window.location.href = './ShoppingCart'">
+                	<!-- <a href="./ShoppingCart" class="pageLink">This is a test</a> -->
                 </div>
                 
             </div>
