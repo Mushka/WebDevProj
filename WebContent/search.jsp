@@ -377,7 +377,8 @@ $(document).ready(function() {
 
     $('.buyButton').click( function(e) {
     	
-        $('#navBarTop').append("<div id='shoppingCartPreview'><button type='button' id='finalAddToCart'>Add to Cart</button></div>");
+        $('#navBarTop').append("<div id='shoppingCartPreview'></div>");
+        $('#shoppingCartPreview')
         $('#finalAddToCart').click( function(){
             $('#shoppingCartPreview').remove();
         });
