@@ -58,9 +58,33 @@ public class MySQL {
 }
 
 	
-	public static boolean processInsertUpdateDelete()
+	public static int processInsert(String query) throws Exception
 	{
-		return true;
+				
+		try
+		{
+
+	        String loginUser = Credentials.admin;
+	        String loginPasswd = Credentials.password;
+	        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+			
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+	        Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+	        Statement update = db_connection.createStatement();
+	        
+			int n = update.executeUpdate(query); 
+
+	        update.close();
+	        db_connection.close();
+
+	        return n;
+			
+		} catch (Exception e)
+		{
+
+		 System.out.println("Invalid SQL Command. [MySql.insert()]\n\n" + e.toString());
+	     return -1;
+		}
 	}
 	
 }

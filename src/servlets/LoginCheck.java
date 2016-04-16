@@ -41,14 +41,14 @@ public class LoginCheck implements Filter {
 		HttpServletRequest request = (HttpServletRequest)req;
 		String uri = request.getRequestURI();
 
-		System.out.println("Uri: " + uri);
+//		System.out.println("Uri: " + uri);
 
 //		System.out.println("getContextPath: " + request.getContextPath());
 //		System.out.println("getAuthType: " + request.getAuthType());
 //		System.out.println("getRequestURI: " + request.getRequestURI());
 
 		
-		if(uri.endsWith("css") || uri.endsWith("ttf") || uri.endsWith("TryToLoginCustomer"))
+		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html"))
 			chain.doFilter(req,res);
 		else
 		{
@@ -56,9 +56,9 @@ public class LoginCheck implements Filter {
 			HttpSession session = request.getSession();
 		
 		    if (session == null || session.getAttribute("user_id") == null) {
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
-		        dispatcher.forward(request, response);
-//				response.sendRedirect("login.html");
+//		        RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
+//		        dispatcher.forward(request, response);
+				response.sendRedirect("login.html");
 		        
 		    }
 		    else
