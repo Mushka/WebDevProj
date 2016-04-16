@@ -33,7 +33,11 @@ public class ProcessShoppingCart extends HttpServlet
 			String dec = request.getParameter("dec");
 			String del = request.getParameter("del");
 			
+			Integer shopping_cart_size = (Integer) request.getSession().getAttribute("shopping_cart_size");
 			
+			if(shopping_cart_size == null)
+				shopping_cart_size = 0; 
+
 			Map<String, Integer> shopping_cart = (Map<String, Integer>)  request.getSession().getAttribute("shopping_cart");
 			
 			if(shopping_cart != null)
@@ -42,6 +46,7 @@ public class ProcessShoppingCart extends HttpServlet
 				if(del != null)
 				{
 					shopping_cart.remove(id);
+					--shopping_cart_size;
 				}
 				
 				else
@@ -51,10 +56,12 @@ public class ProcessShoppingCart extends HttpServlet
 					if("true".equalsIgnoreCase(dec))
 					{
 						shopping_cart.put(id, count - 1);
+						--shopping_cart_size;
 					}
 					else
 					{
 						shopping_cart.put(id, count + 1);
+						++shopping_cart_size;
 					}
 					
 				}
@@ -64,19 +71,20 @@ public class ProcessShoppingCart extends HttpServlet
 			{
 				shopping_cart = new HashMap<String, Integer>();
 				shopping_cart.put(id, 1);
+				++shopping_cart_size;
 			}
 			
 			out.println(shopping_cart.toString());
 			System.out.println("Shopping cart: " + shopping_cart.toString());
 			
 			
-			int shopping_cart_size = 0;
-			for(Map.Entry<String, Integer> row : shopping_cart.entrySet())
-			{
-				for(int i = 0; i < row.getValue(); ++i)
-					++shopping_cart_size;
-				
-			}
+//			int shopping_cart_size = 0;
+//			for(Map.Entry<String, Integer> row : shopping_cart.entrySet())
+//			{
+//				for(int i = 0; i < row.getValue(); ++i)
+//					++shopping_cart_size;
+//				
+//			}
 			
 			request.getSession().setAttribute("shopping_cart", shopping_cart);
 			request.getSession().setAttribute("shopping_cart_size", shopping_cart_size);

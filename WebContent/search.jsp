@@ -159,8 +159,8 @@
         }
         
         #searchBtn {
-        	align-self: flex-start;
-        	margin-right: auto;
+            align-self: flex-start;
+            margin-right: auto;
         }
 
         #titleNav {
@@ -213,78 +213,78 @@
         }
         
          .arrow-up {
-			width: 0; 
-			height: 0; 
-			border-left: 5px solid transparent;
-			border-right: 5px solid transparent;
-			margin-left: 10px;
-			border-bottom: 10px solid #f00;
-			align-self: center;
-		}
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            margin-left: 10px;
+            border-bottom: 10px solid #f00;
+            align-self: center;
+        }
 
-		.arrow-down {
-			width: 0; 
-			height: 0; 
-			border-left: 5px solid transparent;
-			border-right: 5px solid transparent;
-			margin-left: 10px;
-			border-top: 10px solid green;
-			align-self: center;
-		}
-		
-				
-		.arrow-flat {
-	      width: 10px; 
-	      height: 2px; 
-	      margin-left: 10px;
-	      background: grey;
-	      align-self: center;
-	    }
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            margin-left: 10px;
+            border-top: 10px solid green;
+            align-self: center;
+        }
+        
+                
+        .arrow-flat {
+          width: 10px; 
+          height: 2px; 
+          margin-left: 10px;
+          background: grey;
+          align-self: center;
+        }
 
-    	#arrangeBy {
-			width: 800px;
-			position: fixed;
-			left: 50%;
-			margin-left: -400px;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			background: white;
-			z-index: 999;
-			border-bottom: 2px solid black;
-		}
+        #arrangeBy {
+            width: 800px;
+            position: fixed;
+            left: 50%;
+            margin-left: -400px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            background: white;
+            z-index: 999;
+            border-bottom: 2px solid black;
+        }
 
-		.arrangeByLink {
-			color: grey;
-			margin-left: 10px;
-			text-decoration: underline;
-			cursor: pointer;
-		}
+        .arrangeByLink {
+            color: grey;
+            margin-left: 10px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
 
-		#shoppingCartBtn {
+        #shoppingCartBtn {
             height: 40px;
             width: 40px;
-			color: red;
-			cursor: pointer;
-			align-self: flex-end;
+            color: red;
+            cursor: pointer;
+            align-self: flex-end;
             background: #FFD900;
             background-image: url(./images/shoppingCart.svg);
             background-size: 30px 30px;
             background-repeat: no-repeat;
             background-position: center;
             border-radius: 3px;
-		}
-		
-		#shoppingCartCounter {
-			height: 40px;
-			width: 20px;
-			background: green;
-			color: white;
-			align-self: flex-end;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-		}
+        }
+        
+        #shoppingCartCounter {
+            height: 40px;
+            width: 20px;
+            background: green;
+            color: white;
+            align-self: flex-end;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
         #shoppingCartPreview {
             width: 200px;
@@ -300,7 +300,7 @@
         }
         
         #shoppingCartMovieImage {
-        	align-self: center;
+            align-self: center;
         }
 
 
@@ -319,6 +319,12 @@
     int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
     String pre_title = (String) session.getAttribute("title");
     String orderby = (String) session.getAttribute("orderby");
+    
+/*     Object cart_counter_obj = 
+    int cart_counter = 0;
+    
+    if(cart_counter_obj != null) */
+       int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
 %>  
 
 
@@ -329,7 +335,7 @@
     var pre_title = "<%=pre_title%>";
     var orderby = "<%=orderby%>";
     
-    var cartCounter = 0;
+    var cartCounter = <%=cart_counter%>;
 
 /*     alert(pre_title); */
 
@@ -391,22 +397,22 @@ function readCookie(name) {
 }
 
 $(document).ready(function() {
-	
-	
+    
+    
 
-	$('#navBarTop').append("<div id='shoppingCartPreview'></div>");
-	$('#shoppingCartPreview').append("<button type='button' id='finalAddToCart'>Add to Cart</button>");
+    $('#navBarTop').append("<div id='shoppingCartPreview'></div>");
+    $('#shoppingCartPreview').append("<button type='button' id='finalAddToCart'>Add to Cart</button>");
 
-    $('#shoppingCartCounter').hide();
-	
+    // $('#shoppingCartCounter').hide();
+    
     $('.buyButton').click( function(e) {
  
-    	
-    	 $.ajax({
+        
+         $.ajax({
              url : 'ProcessShoppingCart',
              data : "id="+this.id,
              success : function(responseText) {
-             	
+                
                  if(responseText === "false")
                  {             
                      console.log("Failed to load");
@@ -415,7 +421,7 @@ $(document).ready(function() {
              }
          });
          
-    	
+        
         // $('#shoppingCartPreview').prepend("<div id='shoppingCartMovieImage'>" + this.id + "</div>");
         
         // $('#finalAddToCart').click( function(){
@@ -430,13 +436,13 @@ $(document).ready(function() {
         
         /* shopping_cart = readCookie("shopping_cart"); */
         
-		
         
         
-        /* 	Map<String, Integer> shopping_cart = (Map<String, Integer>) session.getAttribute("offset");  */
+        
+        /*  Map<String, Integer> shopping_cart = (Map<String, Integer>) session.getAttribute("offset");  */
         
         var cart = $('#shoppingCartBtn');
-		var imgtodrag = $(this).parent().find("img").eq(0);
+        var imgtodrag = $(this).parent().find("img").eq(0);
 
         cartCounter++;
 
@@ -478,62 +484,76 @@ $(document).ready(function() {
             
             $('#shoppingCartCounter').text(String(cartCounter));
         }
-        	
+            
         e.preventDefault();
-        	
+            
     });
  
 
-	$('#byTitle').click( function() {
-		toggleTitle = !toggleTitle;
-		if(toggleTitle)
-			{
-				reload(offset, limit, pre_title, 'asc_t');
-			}
-		else
-			{
-				reload(offset, limit, pre_title, 'desc_t');
-			}
-	});
+    $('#byTitle').click( function() {
+        toggleTitle = !toggleTitle;
+        if(toggleTitle)
+            {
+                reload(offset, limit, pre_title, 'asc_t');
+            }
+        else
+            {
+                reload(offset, limit, pre_title, 'desc_t');
+            }
+    });
 
-	$('#byYear').click( function() {
-		toggleYear = !toggleYear;
-		if(toggleYear)
-			{
-				reload(offset, limit, pre_title, 'asc_y');
-			}
-		else
-			{
-				reload(offset, limit, pre_title, 'desc_y');
-			}
-	});
-	
+    $('#byYear').click( function() {
+        toggleYear = !toggleYear;
+        if(toggleYear)
+            {
+                reload(offset, limit, pre_title, 'asc_y');
+            }
+        else
+            {
+                reload(offset, limit, pre_title, 'desc_y');
+            }
+    });
+    
     var toggleTitle = false;
-	var toggleYear = false;
+    var toggleYear = false;
     
     if(orderby === "asc_y")
     {
-    	toggleYear = true;
-		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
+        toggleYear = true;
+        $('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
     }
     else if(orderby === "desc_y") 
-   	{
-		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
+    {
+        $('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
     }
     
     if(orderby === "asc_t")
-	{
-    	toggleTitle = true;
-		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
-	}
+    {
+        toggleTitle = true;
+        $('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
+    }
     else if(orderby === "desc_t")
     {
-		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
+        $('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
     }
     
 
+    $('#shoppingCartCounter').text(String(cartCounter));
+
+    if (cartCounter < 1) 
+    {
+       $('#shoppingCartCounter').hide();      
+    }
+    else 
+    {
+        $('#shoppingCartCounter').show();
+    }       
+     
+        
+
 
 });
+
 
 /* it resets the page, and orderby*/
 function search(text)
@@ -572,7 +592,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                 <button type="button" id="searchBtn" style="height: 20px; align-self: center;" onclick = "search($(search_bar).val())" >-></button>
                 <div id="shoppingCartCounter" style="text-align: center;">0</div>
                 <div id="shoppingCartBtn" placeholder="Shopping Cart" onclick="window.location.href = './ShoppingCart'">
-                	<!-- <a href="./ShoppingCart" class="pageLink">This is a test</a> -->
+                    <!-- <a href="./ShoppingCart" class="pageLink">This is a test</a> -->
                 </div>
                 
             </div>
@@ -616,12 +636,12 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                 <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
             </div>
              <div id="arrangeBy">
-				Sort by:
-				<a id="byTitle" class="arrangeByLink">Title</a>
-				<div id="titleArrow" class="arrow-flat"></div>
-				<a id="byYear" class="arrangeByLink">Year</a>
-				<div id="yearArrow" class="arrow-flat"></div>
-			</div>
+                Sort by:
+                <a id="byTitle" class="arrangeByLink">Title</a>
+                <div id="titleArrow" class="arrow-flat"></div>
+                <a id="byYear" class="arrangeByLink">Year</a>
+                <div id="yearArrow" class="arrow-flat"></div>
+            </div>
         </div>
         
         
@@ -639,7 +659,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <div class="movieBox">
                 <div class="imageAndBuy">
                     <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
-                    	<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
+                        <img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
                     </div>
                     <button type="button" id='<%=m.getId()%>' class="buyButton">Add to Cart</button> 
                 </div>
