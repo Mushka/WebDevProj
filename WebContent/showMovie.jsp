@@ -271,22 +271,6 @@
 
 <script>
 
-
-<%  
-    int offset = Integer.parseInt((String) session.getAttribute("offset"));
-    int limit = Integer.parseInt((String) session.getAttribute("limit"));
-    int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-    String pre_title = (String) session.getAttribute("title");
-    String orderby = (String) session.getAttribute("orderby");
-%>  
-
-
-
-    var limit = <%=limit%>;
-    var offset = <%=offset%>;
-    var num_of_movies = <%=num_of_movies%>;
-    var pre_title = "<%=pre_title%>";
-    var orderby = "<%=orderby%>";
     
 
 /*     alert(pre_title); */
@@ -296,29 +280,6 @@ function reload(of, li, ti, orb) {
     
     window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
 
-}
-
-
-function next() {
-    
-/*  /FabFlix/Search?username=a%40email.com&password=a2
- */
- 
-    if(num_of_movies > (offset+1)*limit)
-        reload(offset+1, limit, pre_title, orderby);
-    
-    /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
-}
-
-
-function prev() {
-     
-        
-    if(offset > 0)
-    {
-        reload(offset-1, limit, pre_title, orderby);
-        /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
-    }
 }
 
 function createCookie(name,value,days) {
@@ -374,61 +335,12 @@ $(document).ready(function() {
     });
         
 
-	$('#byTitle').click( function() {
-		toggleTitle = !toggleTitle;
-		if(toggleTitle)
-			{
-				reload(offset, limit, pre_title, 'asc_t');
-			}
-		else
-			{
-				reload(offset, limit, pre_title, 'desc_t');
-			}
-	});
-
-	$('#byYear').click( function() {
-		toggleYear = !toggleYear;
-		if(toggleYear)
-			{
-				reload(offset, limit, pre_title, 'asc_y');
-			}
-		else
-			{
-				reload(offset, limit, pre_title, 'desc_y');
-			}
-	});
-	
-    var toggleTitle = false;
-	var toggleYear = false;
-    
-    if(orderby === "asc_y")
-    {
-    	toggleYear = true;
-		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
-    }
-    else if(orderby === "desc_y") 
-   	{
-		$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
-    }
-    
-    if(orderby === "asc_t")
-	{
-    	toggleTitle = true;
-		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
-	}
-    else if(orderby === "desc_t")
-    {
-		$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
-    }
-    
-
-
 });
 
 /* it resets the page, and orderby*/
 function search(text)
 {
-    reload(0, limit, text, "asc_t");
+    reload(0, 10, text, "asc_t");
 }
 
 
@@ -448,12 +360,6 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 %>
 
 
-<table border>
-
-    
-            
-</table>
-
 
     <div id="wrapper">
        
@@ -462,12 +368,8 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="moviesList">
 <%
 
-        List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
-        
-
-        for(Movie m : movies)
-        {
-            
+        Movie m = (Movie) session.getAttribute("movie");
+                 
  %>         
 
             <div class="movieBox">
@@ -527,10 +429,10 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         for(int i = 0; i < genres.size(); ++i){
 %>
                             <%if(i < genres.size()-1){%>
-                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=10&offset=0" ><%=genres.get(i)%>,</a>
                             <%}
                             else{%>
-                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=10&offset=0" ><%=genres.get(i)%></a>
                             <%}%>
                                                 
                         <%}%>   
@@ -551,11 +453,6 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                 </div>
             </div>
 
-        <%
-
-        }
-
-%>  
         </div>
     </div>
 </body>
