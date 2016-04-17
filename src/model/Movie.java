@@ -147,13 +147,23 @@ public class Movie {
 			results = MySQL.select(query);
 
 			for (Map<String, Object> row : results)
-				movies.add(new Movie(((Integer) row.get("id")).intValue(), row.get("title").toString(), ((Integer)row.get("year")).intValue(),
-						row.get("director").toString(), row.get("banner_url").toString(), row.get("trailer_url").toString()));
+			{
+
+				Movie m = new Movie(((Integer) row.get("id")).intValue(), row.get("title").toString(), ((Integer)row.get("year")).intValue(),
+						row.get("director").toString(), row.get("banner_url").toString(), row.get("trailer_url").toString());
+			
+		        m.setGenres(Movie.getGenres(m.getId()));
+		        m.setStars(Movie.getStars(m.getId()));
+		        
+				movies.add(m);
+			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		    System.out.println("Invalid SQL Command. [Movie.getMovies()]\n\n" + e.toString());
+		    
+		    movies = null;
 
 		}
 
@@ -179,6 +189,8 @@ public class Movie {
 
 			e.printStackTrace();
 		     System.out.println("Invalid SQL Command. [Movie.getGenres()]\n\n" + e.toString());
+		     
+		     genres = null;
 		}
 
 		return genres;
@@ -201,26 +213,13 @@ public class Movie {
 
 			for (Map<String, Object> row : results)
             	stars.add(new Star(((Integer)row.get("id")).intValue(), row.get("first_name").toString(), row.get("last_name").toString(), row.get("dob").toString(), row.get("photo_url").toString()));
-			
-		for(Map<String, Object> row : results)
-		{
-//			System.out.println("key = " + row);
-			
-		    Iterator it = row.entrySet().iterator();
-			
-		    while (it.hasNext()) {
-		        Map.Entry pair = (Map.Entry)it.next();
-//		        System.out.println(pair.getKey() + " = " + pair.getValue());
-		        it.remove(); // avoids a ConcurrentModificationException
-		    }
-			
-		}
-		
+					
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		     System.out.println("Invalid SQL Command. [Movie.getStars()]\n\n" + e.toString());
-
+		     
+		     stars = null;
 		}
 
 		return stars;

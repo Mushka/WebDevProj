@@ -63,8 +63,10 @@ public class ShowGenre extends HttpServlet {
 
 //			System.out.println("genre = " + genre);
 
-			String query = "select m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url from movies as m, genres_in_movies as gm, genres as g where m.id = gm.movie_id and g.id = gm.genre_id and g.name = '"
+			String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url FROM movies as m, genres_in_movies as gm, genres as g WHERE m.id = gm.movie_id and g.id = gm.genre_id and g.name = '"
 					+ genre + "'";
+
+			String count_query = query;
 
 			switch (orderby) {
 			default:
@@ -84,18 +86,12 @@ public class ShowGenre extends HttpServlet {
 			query += " LIMIT " + limit + " OFFSET " + offset;
 
 			List<Movie> movies = Movie.getMovies(query);
+			
+			count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
+			
+			String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
 
-			for (Movie m : movies) {
-				m.setGenres(Movie.getGenres(m.getId()));
-				m.setStars(Movie.getStars(m.getId()));
-			}
-
-			query = "SELECT COUNT(*) as count from movies as m, genres_in_movies as gm, genres as g where m.id = gm.movie_id and g.id = gm.genre_id and g.name = '"
-					+ genre + "'";
-
-			String num_of_movies = MySQL.select(query).get(0).get("count").toString();
-
-//			System.out.print(num_of_movies);
+//			System.out.println(num_of_movies);
 
 			ArrayList<String> all_genres = new ArrayList<String>();
 

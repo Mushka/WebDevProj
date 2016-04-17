@@ -81,6 +81,9 @@ public class AdvanceSearch extends HttpServlet {
 			if (lName != null)
 				query += " AND s.last_name like '%" + lName + "%'";
 
+			
+			String count_query = query;
+			
 			switch (orderby) {
 			default:
 				query += " order by title";
@@ -95,21 +98,17 @@ public class AdvanceSearch extends HttpServlet {
 				query += " order by year DESC, title";
 				break;
 			}
-			
+									
 			query += " LIMIT " + limit + " OFFSET " + offset;
 
 			List<Movie> movies = Movie.getMovies(query);
+			
+			count_query = "SELECT COUNT(distinct m.id) as count " + count_query.substring(count_query.indexOf("FROM"));
+			
+			String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
 
-			for (Movie m : movies) {
-				m.setGenres(Movie.getGenres(m.getId()));
-				m.setStars(Movie.getStars(m.getId()));
-			}
-
-			// String num_of_movies = "0";
-
-			query = "SELECT COUNT(*) as count FROM movies WHERE title like '" + title + "%'";
-			String num_of_movies = MySQL.select(query).get(0).get("count").toString();
-
+//			System.out.println(num_of_movies);
+			
 			request.getSession().setAttribute("movies", movies);
 			request.getSession().setAttribute("offset", offset);
 			request.getSession().setAttribute("limit", limit);
