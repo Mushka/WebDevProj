@@ -61,10 +61,9 @@ public class ShowGenre extends HttpServlet {
 			if (orderby == null)
 				orderby = "asc_t";
 
-//			System.out.println("genre = " + genre);
-
-			String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url FROM movies as m, genres_in_movies as gm, genres as g WHERE m.id = gm.movie_id and g.id = gm.genre_id and g.name = '"
-					+ genre + "'";
+			String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url "
+					+ "FROM movies as m, genres_in_movies as gm, genres as g "
+					+ "WHERE m.id = gm.movie_id and g.id = gm.genre_id and g.name = '" + genre + "'";
 
 			String count_query = query;
 
@@ -85,18 +84,16 @@ public class ShowGenre extends HttpServlet {
 
 			query += " LIMIT " + limit + " OFFSET " + offset;
 
+//			grabs movies with the given genre
 			List<Movie> movies = Movie.getMovies(query);
 			
+//			gets how many movies there are on in the above query without the limit
 			count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
-			
 			String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
 
-//			System.out.println(num_of_movies);
-
+//			gets the name of all the genres order by name
 			ArrayList<String> all_genres = new ArrayList<String>();
-
 			query = "select name from genres order by name";
-
 			ArrayList<Map<String, Object>> results = MySQL.select(query);
 
 			for (Map<String, Object> row : results)
