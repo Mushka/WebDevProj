@@ -86,6 +86,8 @@
 	            url : 'TryToLoginCustomer',
 	            data : $(this).serialize(),
 	            success : function(responseText) {
+	            	
+	            	console.log(responseText);
 			            	
 		            if(responseText === "false")
 	            	{		      

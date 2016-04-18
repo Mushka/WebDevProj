@@ -29,6 +29,8 @@
 
 	</style>
   	
+  	<%@ include file="header.jsp" %>
+  	
 </head>
 <body>
 	<div id="wrapper">
