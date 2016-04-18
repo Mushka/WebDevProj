@@ -240,6 +240,8 @@
 
 </script>
 
+<%@ include file="header.jsp" %>
+
 </head>
 
 <body>
