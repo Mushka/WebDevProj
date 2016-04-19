@@ -537,44 +537,28 @@ $(document).ready(function() {
         $('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
     }
     
-    
-    
 
-        
-    
-	            <% 
-	 cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
-	 %>  
+    $('#shoppingCartCounter').text(String(cartCounter));
 
-	 var cartCounter = <%=cart_counter%>;
-	 
-	 
-	 $('#shoppingCartCounter').text(String(cartCounter));
-
-	 if (cartCounter < 1) 
-	 {
-	    $('#shoppingCartCounter').hide();      
-	 }
-	 else 
-	 {
-	     $('#shoppingCartCounter').show();
-	 } 
- 
-   
- 
- 
- 
-
-    
-    
-    
-    
+    if (cartCounter < 1) 
+    {
+       $('#shoppingCartCounter').hide();      
+    }
+    else 
+    {
+        $('#shoppingCartCounter').show();
+    }       
      
         
 
 
 });
 
+
+window.onpageshow = function(evt) {
+
+
+	 }
 
 /* it resets the page, and orderby*/
 function search(text)
