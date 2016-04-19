@@ -16,6 +16,10 @@
 			padding: 2px !important;
 		}
 
+		#spacer {
+			height: 80px;
+		}
+
 	</style>
 
 	<script>
@@ -314,7 +318,8 @@
 				<div id="yearArrow" class="arrow-flat"></div>
 			</div>
 		</div>
-		
+
+		<div id="spacer"></div>
 		
 		<div id="moviesList">
 		
