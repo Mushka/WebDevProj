@@ -263,11 +263,11 @@
         }
         
         #headerLogo {
-            font-family: inherit;
-            font-size: 16px;
-            align-self: center;
-            margin-right: 10px;
-            margin-left: 5px;
+        	font-family: inherit;
+        	font-size: 16px;
+        	align-self: center;
+        	margin-right: 10px;
+        	margin-left: 5px;
         }
 
         #shoppingCartBtn {
@@ -326,14 +326,23 @@
     int offset = Integer.parseInt((String) session.getAttribute("offset"));
     int limit = Integer.parseInt((String) session.getAttribute("limit"));
     int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-    String pre_title = (String) session.getAttribute("title");
     String orderby = (String) session.getAttribute("orderby");
     
 /*     Object cart_counter_obj = 
     int cart_counter = 0;
     
     if(cart_counter_obj != null) */
-       int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+    int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+
+
+    String title = (String) session.getAttribute("title");
+    String year = (String) session.getAttribute("year");;
+    String director = (String) session.getAttribute("director");
+    String fName = (String) session.getAttribute("first_name");
+    String lName = (String) session.getAttribute("last_name");
+
+    String adv = (String) session.getAttribute("adv");
+
 %>  
 
 
@@ -341,18 +350,32 @@
     var limit = <%=limit%>;
     var offset = <%=offset%>;
     var num_of_movies = <%=num_of_movies%>;
-    var pre_title = "<%=pre_title%>";
     var orderby = "<%=orderby%>";
     
     var cartCounter = <%=cart_counter%>;
 
+    var title = "<%=title%>";
+    var year = "<%=year%>";
+    var director = "<%=director%>";
+    var fName = "<%=fName%>";
+    var lName = "<%=lName%>";
+
+    var adv = "<%=adv%>";
+
 /*     alert(pre_title); */
 
 
-function reload(of, li, ti, orb) {
-    
-    window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+function reload(of, li, ti, orb, yr, dr, fn, ln, ad) {
 
+    if(ad === "true")
+    {
+     window.location.href = "./Search?adv=true&limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb + "&year=" + yr + "&director=" + dr + "&first_name=" + fn + "&last_name=" + ln;
+
+    }
+    else
+    {
+        window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+    }
 }
 
 
@@ -362,7 +385,7 @@ function next() {
  */
  
     if(num_of_movies > (offset+limit))
-        reload(offset+limit, limit, pre_title, orderby);
+        reload(offset+limit, limit, title, orderby, year, director, fName, lName, adv);
     
     /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 }
@@ -373,42 +396,15 @@ function prev() {
         
     if(offset > 0)
     {
-        reload(offset-limit, limit, pre_title, orderby);
+        reload(offset-limit, limit, title, orderby, year, director, fName, lName, adv);
         /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
     }
 }
 
-function createCookie(name,value,days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
-    }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-}
-    
-    
-function eraseCookie(name) {
-    createCookie(name,"",-1);
-}
-
-function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;
-    i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
+ 
 
 $(document).ready(function() {
     
-    
-
     $('#navBarTop').append("<div id='shoppingCartPreview'></div>");
     $('#shoppingCartPreview').append("<button type='button' id='finalAddToCart'>Add to Cart</button>");
 
@@ -416,7 +412,6 @@ $(document).ready(function() {
     
     $('.buyButton').click( function(e) {
  
-        
          $.ajax({
              url : 'ProcessShoppingCart',
              data : "id="+this.id,
@@ -548,7 +543,7 @@ $(document).ready(function() {
     
     
 <%--     <%
-        cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+    	cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
     %>  
 
     var cartCounter = <%=cart_counter%>; --%>
@@ -568,37 +563,37 @@ $(document).ready(function() {
     
    <%--  window.onpageshow = function(evt) {
 
-        <%
-            cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
-        %>  
+    	<%
+    		cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+    	%>  
 
-        var cartCounter = <%=cart_counter%>;
-            
-            $('#shoppingCartCounter').text(String(cartCounter));
+    	var cartCounter = <%=cart_counter%>;
+    		
+    	    $('#shoppingCartCounter').text(String(cartCounter));
 
-            if (cartCounter < 1) 
-            {
-               $('#shoppingCartCounter').hide();      
-            }
-            else 
-            {
-                $('#shoppingCartCounter').show();
-            }  
-            
+    	    if (cartCounter < 1) 
+    	    {
+    	       $('#shoppingCartCounter').hide();      
+    	    }
+    	    else 
+    	    {
+    	        $('#shoppingCartCounter').show();
+    	    }  
+    	    
             // If persisted then it is in the page cache, force a reload of the page.
-            if (evt.persisted) {
-/*                      document.body.style.display = "none";
- */                     location.reload();
+    	   	if (evt.persisted) {
+/*     	                document.body.style.display = "none";
+ */    	        	   	location.reload();
 
-            }
+    	   	}
             
-        } --%> 
+    	} --%> 
 
 
 });
 
 /* $(window).unload( function () 
-        {
+		{
 
      
 }); */
@@ -631,7 +626,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="wrapper">
         <div id="navBarTop">
         
-            <%@ include file="header.jsp" %>
+        	<%@ include file="header.jsp" %>
         
             <!-- <div id="searchBar">
                 <input type="text" id="" name=search_bar placeholder="Search Title" style="height: 20px; align-self: center;" onchange="search($(this).val())">
@@ -644,49 +639,49 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         </div>
         <!-- <div id="shoppingCartPreview">test</div> -->
         <div id="titleNav">
-            <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby);">2</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby);">3</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby);">4</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby);">5</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby);">6</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby);">7</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby);">8</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby);">9</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby);">A</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby);">B</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby);">C</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby);">D</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby);">E</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby);">F</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby);">G</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby);">H</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby);">I</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby);">J</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby);">K</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby);">L</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby);">M</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby);">N</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby);">O</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby);">P</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby);">Q</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby);">R</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby);">S</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby);">T</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby);">U</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby);">V</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby);">W</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby);">X</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
+            <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby, year, director, fName, lName, false);">0</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby, year, director, fName, lName, false);">1</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby, year, director, fName, lName, false);">2</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby, year, director, fName, lName, false);">3</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby, year, director, fName, lName, false);">4</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby, year, director, fName, lName, false);">5</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby, year, director, fName, lName, false);">6</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby, year, director, fName, lName, false);">7</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby, year, director, fName, lName, false);">8</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby, year, director, fName, lName, false);">9</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby, year, director, fName, lName, false);">A</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby, year, director, fName, lName, false);">B</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby, year, director, fName, lName, false);">C</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby, year, director, fName, lName, false);">D</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby, year, director, fName, lName, false);">E</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby, year, director, fName, lName, false);">F</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby, year, director, fName, lName, false);">G</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby, year, director, fName, lName, false);">H</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby, year, director, fName, lName, false);">I</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby, year, director, fName, lName, false);">J</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby, year, director, fName, lName, false);">K</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby, year, director, fName, lName, false);">L</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby, year, director, fName, lName, false);">M</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby, year, director, fName, lName, false);">N</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby, year, director, fName, lName, false);">O</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby, year, director, fName, lName, false);">P</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby, year, director, fName, lName, false);">Q</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby, year, director, fName, lName, false);">R</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby, year, director, fName, lName, false);">S</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby, year, director, fName, lName, false);">T</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby, year, director, fName, lName, false);">U</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby, year, director, fName, lName, false);">V</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby, year, director, fName, lName, false);">W</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby, year, director, fName, lName, false);">X</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby, year, director, fName, lName, false);">Y</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby, year, director, fName, lName, false);">Z</a>
         </div>
         <div id="arrangeBy">
             Sort by:
             <a id="byTitle" class="arrangeByLink">Title</a>
             <div id="titleArrow" class="arrow-flat"></div>
             <a id="byYear" class="arrangeByLink">Year</a>
-            <div id="yearArrow" class="arrow-flat"></div>
+        	<div id="yearArrow" class="arrow-flat"></div>
         </div>
     </div>
         
@@ -697,6 +692,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
         
 
+		if(movies != null)
         for(Movie m : movies)
         {
             
@@ -736,6 +732,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 <%                  
                         List<Star> stars = (ArrayList<Star>) m.getStars();
                         /* for(String g : genres)  */
+                        if(stars != null)
                         for(int i = 0; i < stars.size(); ++i){
 %>
                             
@@ -758,6 +755,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 <%                  
                         List<String> genres = (ArrayList<String>) m.getGenres();
                         /* for(String g : genres)  */
+                        if(genres != null)
                         for(int i = 0; i < genres.size(); ++i){
 %>
                             <%if(i < genres.size()-1){%>
@@ -796,11 +794,11 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
             <button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
             <div id="itemsPerPage">
                 <span style="margin: 0px 10px 0px 40px">Items per page:</span>
-                <a href="#" class="pageCount" onclick = "reload(offset, 5, pre_title, orderby);">5</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 10, pre_title, orderby);">10</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 15, pre_title, orderby);">15</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 20, pre_title, orderby);">20</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 25, pre_title, orderby);">25</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 5, title, orderby, year, director, fName, lName);">5</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 10, title, orderby, year, director, fName, lName);">10</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 15, title, orderby, year, director, fName, lName);">15</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 20, title, orderby, year, director, fName, lName);">20</a>
+                <a href="#" class="pageCount" onclick = "reload(offset, 25, title, orderby, year, director, fName, lName);">25</a>
             </div>
         </div>
     </div>
