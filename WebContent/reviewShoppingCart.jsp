@@ -445,8 +445,6 @@ $(document).ready(function() {
 
 </script>
 
-<%@ include file="header.jsp" %>
-
 </head>
 
 <body>
@@ -459,15 +457,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 %>
 
 
-<table border>
-
-    
-            
-</table>
-
-
     <div id="wrapper">
         <div id="navBarTop">
+        	<%@ include file="header.jsp" %>
         </div>
         
         

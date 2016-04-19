@@ -28,6 +28,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            font-family: 'Proxima Nova';
         }
 
         #moviesList {
@@ -259,6 +260,14 @@
             margin-left: 10px;
             text-decoration: underline;
             cursor: pointer;
+        }
+        
+        #headerLogo {
+        	font-family: inherit;
+        	font-size: 16px;
+        	align-self: center;
+        	margin-right: 10px;
+        	margin-left: 5px;
         }
 
         #shoppingCartBtn {
@@ -571,9 +580,6 @@ function search(text)
 
 </script>
 
-
-<%@ include file="header.jsp" %>
-
 </head>
 
 <body>
@@ -585,72 +591,67 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
        
 %>
 
-
-<table border>
-
-    
-            
-</table>
-
-
     <div id="wrapper">
         <div id="navBarTop">
-            <div id="searchBar">
+        
+        	<%@ include file="header.jsp" %>
+        
+            <!-- <div id="searchBar">
                 <input type="text" id="" name=search_bar placeholder="Search Title" style="height: 20px; align-self: center;" onchange="search($(this).val())">
                 <button type="button" id="searchBtn" style="height: 20px; align-self: center;" onclick = "search($(search_bar).val())" >-></button>
                 <div id="shoppingCartCounter" style="text-align: center;">0</div>
                 <div id="shoppingCartBtn" placeholder="Shopping Cart" onclick="window.location.href = './ShoppingCart'">
-                    <!-- <a href="./ShoppingCart" class="pageLink">This is a test</a> -->
+                    <a href="./ShoppingCart" class="pageLink">This is a test</a>
                 </div>
-                
-            </div>
-            <!-- <div id="shoppingCartPreview">test</div> -->
-            <div id="titleNav">
-                <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby);">2</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby);">3</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby);">4</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby);">5</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby);">6</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby);">7</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby);">8</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby);">9</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby);">A</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby);">B</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby);">C</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby);">D</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby);">E</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby);">F</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby);">G</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby);">H</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby);">I</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby);">J</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby);">K</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby);">L</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby);">M</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby);">N</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby);">O</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby);">P</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby);">Q</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby);">R</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby);">S</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby);">T</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby);">U</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby);">V</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby);">W</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby);">X</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
-                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
-            </div>
-             <div id="arrangeBy">
-                Sort by:
-                <a id="byTitle" class="arrangeByLink">Title</a>
-                <div id="titleArrow" class="arrow-flat"></div>
-                <a id="byYear" class="arrangeByLink">Year</a>
-                <div id="yearArrow" class="arrow-flat"></div>
-            </div>
+                -->
         </div>
+        <!-- <div id="shoppingCartPreview">test</div> -->
+        <div id="titleNav">
+            <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby);">2</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby);">3</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby);">4</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby);">5</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby);">6</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby);">7</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby);">8</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby);">9</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby);">A</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby);">B</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby);">C</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby);">D</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby);">E</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby);">F</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby);">G</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby);">H</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby);">I</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby);">J</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby);">K</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby);">L</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby);">M</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby);">N</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby);">O</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby);">P</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby);">Q</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby);">R</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby);">S</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby);">T</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby);">U</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby);">V</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby);">W</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby);">X</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
+            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
+        </div>
+        <div id="arrangeBy">
+            Sort by:
+            <a id="byTitle" class="arrangeByLink">Title</a>
+            <div id="titleArrow" class="arrow-flat"></div>
+            <a id="byYear" class="arrangeByLink">Year</a>
+        	<div id="yearArrow" class="arrow-flat"></div>
+        </div>
+    </div>
         
         
     <div id="moviesList">
