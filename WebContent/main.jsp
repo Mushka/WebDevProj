@@ -12,8 +12,12 @@
 
 	<style type="text/css">
 
-		body {
+		body, html {
 			height: 100% !important;
+		}
+
+		input[type="text"] {
+			padding: 2px !important;
 		}
 
 		#searchBox {
@@ -29,7 +33,7 @@
 			font-family: inherit;
 			box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3)
 		}
-		
+
 		#linksBox {
 			width: 600px;
 			margin-top: 30px;
