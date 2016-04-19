@@ -9,10 +9,28 @@
 	<link rel="stylesheet" type="text/css" href="./css/search.css">
 	<link rel="stylesheet" type="text/css" href="./css/footer.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<style type="text/css">
+
+		input[type="text"] {
+			padding: 2px !important;
+		}
+
+	</style>
+
 	<script>
 
 
-		<%  
+		<%
+		// These four lines make it so the page doesn't cache, so the shopping cart updates on back button press
+		response.setHeader( "Expires", "Sat, 6 May 1995 12:00:00 GMT" );
+		// set standard HTTP/1.1 no-cache headers
+		response.setHeader( "Cache-Control", "no-store, no-cache, must-revalidate" );
+		// set IE extended HTTP/1.1 no-cache headers
+		response.addHeader( "Cache-Control", "post-check=0, pre-check=0" );
+		// set standard HTTP/1.0 no-cache header
+		response.setHeader( "Pragma", "no-cache" );
+
 		int offset = Integer.parseInt((String) session.getAttribute("offset"));
 		int limit = Integer.parseInt((String) session.getAttribute("limit"));
 		int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
@@ -40,7 +58,6 @@
 
 		}
 
-
 		function next() {
 		/*  /FabFlix/Search?username=a%40email.com&password=a2
 		 */
@@ -48,7 +65,6 @@
 				reload(offset+limit, limit, pre_title, orderby);
 			/* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 		}
-
 
 		function prev() {
 				
@@ -69,7 +85,6 @@
 			else var expires = "";
 			document.cookie = name+"="+value+expires+"; path=/";
 		}
-			
 			
 		function eraseCookie(name) {
 			
@@ -92,8 +107,7 @@
 		$(document).ready(function() {
 
 			$('.buyButton').click( function(e) {
-		 
-				
+
 				$.ajax({
 					url : 'ProcessShoppingCart',
 					data : "id="+this.id,
@@ -224,35 +238,7 @@
 			{
 				$('#shoppingCartCounter').show();
 			}       
-				
-			
-		   <%--  window.onpageshow = function(evt) {
 
-				<%
-					cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
-				%>  
-
-				var cartCounter = <%=cart_counter%>;
-					
-					$('#shoppingCartCounter').text(String(cartCounter));
-
-					if (cartCounter < 1) 
-					{
-					   $('#shoppingCartCounter').hide();      
-					}
-					else 
-					{
-						$('#shoppingCartCounter').show();
-					}  
-					
-					// If persisted then it is in the page cache, force a reload of the page.
-					if (evt.persisted) {
-		/*                      document.body.style.display = "none";
-		 */                     location.reload();
-
-					}
-					
-				} --%> 
 
 
 		});
@@ -278,166 +264,165 @@
 	<div id="wrapper">
 		
 		<div id="navBarTop">
+			
 			<%@ include file="header.jsp" %>
-		</div>
 
-		<div id="titleNav">
-			<a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby);">2</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby);">3</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby);">4</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby);">5</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby);">6</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby);">7</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby);">8</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby);">9</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby);">A</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby);">B</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby);">C</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby);">D</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby);">E</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby);">F</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby);">G</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby);">H</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby);">I</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby);">J</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby);">K</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby);">L</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby);">M</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby);">N</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby);">O</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby);">P</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby);">Q</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby);">R</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby);">S</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby);">T</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby);">U</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby);">V</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby);">W</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby);">X</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
-			<a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
-		</div>
+			<div id="titleNav">
+				<a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby);">0</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby);">1</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby);">2</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby);">3</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby);">4</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby);">5</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby);">6</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby);">7</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby);">8</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby);">9</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby);">A</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby);">B</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby);">C</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby);">D</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby);">E</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby);">F</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby);">G</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby);">H</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby);">I</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby);">J</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby);">K</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby);">L</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby);">M</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby);">N</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby);">O</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby);">P</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby);">Q</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby);">R</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby);">S</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby);">T</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby);">U</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby);">V</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby);">W</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby);">X</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby);">Y</a>
+				<a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby);">Z</a>
+			</div>
 
-		<div id="arrangeBy">
-			Sort by:
-			<a id="byTitle" class="arrangeByLink">Title</a>
-			<div id="titleArrow" class="arrow-flat"></div>
-			<a id="byYear" class="arrangeByLink">Year</a>
-			<div id="yearArrow" class="arrow-flat"></div>
+			<div id="arrangeBy">
+				Sort by:
+				<a id="byTitle" class="arrangeByLink">Title</a>
+				<div id="titleArrow" class="arrow-flat"></div>
+				<a id="byYear" class="arrangeByLink">Year</a>
+				<div id="yearArrow" class="arrow-flat"></div>
+			</div>
 		</div>
-
-	</div>
 		
 		
-	<div id="moviesList">
-	
-		<%
-		List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
+		<div id="moviesList">
 		
-		for(Movie m : movies) {	
-		%>         
+			<%
+			List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
+			
+			for(Movie m : movies) {	
+			%>         
 
-			<div class="movieBox">
+				<div class="movieBox">
 
-				<div class="imageAndBuy">
+					<div class="imageAndBuy">
 
-					<div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
-						<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
-					</div>
-
-					<button type="button" id='<%=m.getId()%>' class="buyButton">Add to Cart</button> 
-				</div>
-
-				<div id="movieInfo">
-					<div class="info first">
-						<div class="infoTitle">Title:</div>
-						<div class="infoDetail">
-							<a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
+						<div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
+							<img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
 						</div>
+
+						<button type="button" id='<%=m.getId()%>' class="buyButton">Add to Cart</button> 
 					</div>
-					<div class="info">
-						<div class="infoTitle">Year:</div>
-						<div class="infoDetail"><%=m.getYear()%></div>
-					</div>
-					<div class="info">
-						<div class="infoTitle">Director:</div>
-						<div class="infoDetail"><%=m.getDirector()%></div>
-					</div>
-					<div class="info">
-						<div class="infoTitle">Movie ID:</div>
-						<div class="infoDetail"><%=m.getId()%></div>
-					</div>
-					<div class="info">
-						<div class="infoTitle">Stars:</div>
-						<div class="infoDetail">
-						
-						<%                  
-						List<Star> stars = (ArrayList<Star>) m.getStars();
-						/* for(String g : genres)  */
-						for(int i = 0; i < stars.size(); ++i){
-						%>
+
+					<div id="movieInfo">
+						<div class="info first">
+							<div class="infoTitle">Title:</div>
+							<div class="infoDetail">
+								<a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
+							</div>
+						</div>
+						<div class="info">
+							<div class="infoTitle">Year:</div>
+							<div class="infoDetail"><%=m.getYear()%></div>
+						</div>
+						<div class="info">
+							<div class="infoTitle">Director:</div>
+							<div class="infoDetail"><%=m.getDirector()%></div>
+						</div>
+						<div class="info">
+							<div class="infoTitle">Movie ID:</div>
+							<div class="infoDetail"><%=m.getId()%></div>
+						</div>
+						<div class="info">
+							<div class="infoTitle">Stars:</div>
+							<div class="infoDetail">
 							
-							<%if(i < stars.size()-1){%>
-								<a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%>,</a>
-							<%}
-							else{%>
-								<a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%></a>
-							<%}%>
-					
-						<%}%>   
+							<%                  
+							List<Star> stars = (ArrayList<Star>) m.getStars();
+							/* for(String g : genres)  */
+							for(int i = 0; i < stars.size(); ++i){
+							%>
+								
+								<%if(i < stars.size()-1){%>
+									<a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%>,</a>
+								<%}
+								else{%>
+									<a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%></a>
+								<%}%>
 						
+							<%}%>   
+							
+							</div>
 						</div>
-					</div>
-					<div class="info">
-						<div class="infoTitle">Genres:</div>
-						<div class="infoDetail">
-						
-						<%                  
-						List<String> genres = (ArrayList<String>) m.getGenres();
-						/* for(String g : genres)  */
-						for(int i = 0; i < genres.size(); ++i){
-						%>
-							<%if(i < genres.size()-1){%>
-								<a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
-							<%}
-							else{%>
-								<a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
-							<%}%>
-												
-						<%}%>   
+						<div class="info">
+							<div class="infoTitle">Genres:</div>
+							<div class="infoDetail">
+							
+							<%                  
+							List<String> genres = (ArrayList<String>) m.getGenres();
+							/* for(String g : genres)  */
+							for(int i = 0; i < genres.size(); ++i){
+							%>
+								<%if(i < genres.size()-1){%>
+									<a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
+								<%}
+								else{%>
+									<a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
+								<%}%>
+													
+							<%}%>   
 
+							</div>
 						</div>
-					</div>
-					<div class="info">
-						<div class="infoTitle">Trailer:</div>
-						<div class="infoDetail">
-							<a href=<%=m.getTrailer_url()%>>Click here</a>
-							 to watch the movie trailer
+						<div class="info">
+							<div class="infoTitle">Trailer:</div>
+							<div class="infoDetail">
+								<a href=<%=m.getTrailer_url()%>>Click here</a>
+								 to watch the movie trailer
+							</div>
 						</div>
-					</div>
-					<div class="info">
-						<div class="infoTitle">Price:</div>
-						<div class="infoDetail">$15.99</div>
+						<div class="info">
+							<div class="infoTitle">Price:</div>
+							<div class="infoDetail">$15.99</div>
+						</div>
 					</div>
 				</div>
-			</div>
 
-		<%}%>  
-		</div>
-		<div id="navBarBottom">
-			<button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
-			<button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
-			<div id="itemsPerPage">
-				<span style="margin: 0px 10px 0px 40px">Items per page:</span>
-				<a href="#" class="pageCount" onclick = "reload(offset, 5, pre_title, orderby);">5</a>
-				<a href="#" class="pageCount" onclick = "reload(offset, 10, pre_title, orderby);">10</a>
-				<a href="#" class="pageCount" onclick = "reload(offset, 15, pre_title, orderby);">15</a>
-				<a href="#" class="pageCount" onclick = "reload(offset, 20, pre_title, orderby);">20</a>
-				<a href="#" class="pageCount" onclick = "reload(offset, 25, pre_title, orderby);">25</a>
+			<%}%>  
+			</div>
+			<div id="navBarBottom">
+				<button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
+				<button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
+				<div id="itemsPerPage">
+					<span style="margin: 0px 10px 0px 40px">Items per page:</span>
+					<a href="#" class="pageCount" onclick = "reload(offset, 5, pre_title, orderby);">5</a>
+					<a href="#" class="pageCount" onclick = "reload(offset, 10, pre_title, orderby);">10</a>
+					<a href="#" class="pageCount" onclick = "reload(offset, 15, pre_title, orderby);">15</a>
+					<a href="#" class="pageCount" onclick = "reload(offset, 20, pre_title, orderby);">20</a>
+					<a href="#" class="pageCount" onclick = "reload(offset, 25, pre_title, orderby);">25</a>
+				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>

@@ -1,9 +1,9 @@
 @font-face {
     font-family: 'Proxima Nova';
-    src: local('Proxima Nova Regular'), url(./fonts/ProximaNova-Regular.ttf);
+    src: local('Proxima Nova Regular'), url(../fonts/ProximaNova-Regular.ttf);
 }
 
-body,html {
+body, html {
 	margin: 0;
 	background: #1C5588;
 }
@@ -32,6 +32,11 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
 	background: #46749D;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .margin40T {
@@ -142,6 +147,35 @@ input[type="submit"]:hover {
 	font-size: 16px;
 	font-family: 'Proxima Nova', helvetica;
 	color: white;
+}
+
+.incDecBox {
+	margin-top: 20px;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: #D8D8D8;
+}
+
+.incDecBtn {
+    width: 30px;
+    height: 25px;
+    border: 0px solid white;
+    font-family: inherit;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    background: grey;
+}
+
+.incDecDisplay {
+    width: 30px;
+    height: 25px;
+    font-family: inherit;
+    font-size: 20px;
+    text-align: center;
+    color: black;
 }
 
 .errorMessage {
