@@ -240,8 +240,6 @@
 
 </script>
 
-<%@ include file="header.jsp" %>
-
 </head>
 
 <body>
@@ -252,14 +250,6 @@
 import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*" 
        
 %>
-
-
-<table border>
-
-    
-            
-</table>
-
 
     <div id="wrapper">
     <div id="moviesList">

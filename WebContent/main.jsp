@@ -4,11 +4,17 @@
 <html>
 <head>
 	<title>FlabFix - Home</title>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
-	<link id="pagestyle" rel="stylesheet" type="text/css" href="mainStyle.css">
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand">
+	<link rel="stylesheet" type="text/css" href="./css/shared.css">
+    <link rel="stylesheet" type="text/css" href="./css/header.css">
+    <link rel="stylesheet" type="text/css" href="./css/footer.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<style type="text/css">
+
+		body {
+			height: 100% !important;
+		}
 
 		#searchBox {
 			width: 600px;
@@ -23,16 +29,7 @@
 			font-family: inherit;
 			box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3)
 		}
-
-		#searchButton {
-			width: 64px;
-			height: 64px;
-			align-self: center;
-			margin-left: 20px;
-			color: black;
-			background: white;
-		}
-
+		
 		#linksBox {
 			width: 600px;
 			margin-top: 30px;
@@ -46,15 +43,16 @@
 			color: white;
 			margin-left: 40px;
 		}
-
-
 	</style>
-  	
-  	<%@ include file="header.jsp" %>
   	
 </head>
 <body>
 	<div id="wrapper">
+
+		<div id="navBarTop">
+			<%@ include file="header.jsp" %>
+		</div>
+
 		<div id="content">
 			<div id="logoBox">
 				<span id="logoFont">FabFlix</span>

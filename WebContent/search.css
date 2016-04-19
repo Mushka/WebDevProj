@@ -1,0 +1,130 @@
+.first {
+	margin-top: 0px !important;
+	border-top: 0px solid white !important;
+	border-left: 0px solid white !important;
+}
+
+#wrapper {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-family: 'Proxima Nova';
+}
+
+#moviesList {
+	width: 800px;
+	margin-top: 80px;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-self: center;
+	background: white;
+	font-family: 'Proxima Nova';
+}
+
+.movieBox {
+	width: auto;
+	padding: 20px;
+	border-top: 2px solid black;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	font-family: inherit;
+}
+
+.imageAndBuy {
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	font-family: inherit;
+}
+
+.movieImage {
+	width: 100px;
+	height: 150px;
+	overflow: hidden;
+	align-self: center;
+}
+
+.buyButton {
+	width: 120px;
+	height: 26px;
+	margin-top: 25px;
+	padding: 3px;
+	border: 0px solid white;
+	border-radius: 3px;
+	font-family: inherit;
+	font-size: 20px;
+	text-align: center;
+	color: white;
+	background: green;
+	align-self: center;
+}
+
+.navButton {
+	width: 120px;
+	height: 20px;
+	/*padding: 3px;*/
+	margin-right: 5px;
+	border: 0px solid white;
+	border-radius: 3px;
+	font-family: inherit;
+	font-size: 15px;
+	text-align: center;
+	color: white;
+	background: grey;
+	align-self: center;
+}
+
+.movieInfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-self: flex-start;
+	font-family: inherit;
+}
+
+.info {
+	margin-top: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	font-family: inherit;
+}
+
+.infoTitle {
+	width: 80px;
+	text-align: right;
+	font-family: inherit;
+	/*background: yellow;*/
+}
+
+.infoDetail {
+	margin: 0px 0px 0px 10px;
+	flex-grow: 5;
+	text-align: left;
+	font-family: inherit;
+}
+
+.titleCat {
+	font-family: inherit;
+	font-size: 16px;
+	text-align: center;
+	color: black;
+	border-left: 2px solid black;
+	flex-grow: 1;
+	align-self: center;
+}
+
+.pageCount {
+	margin-right: 5px;
+	font-family: inherit;
+	font-size: 16px;
+	text-align: center;
+	color: black;
+	flex-grow: 1;
+	align-self: center;
+}

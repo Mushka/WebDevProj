@@ -358,10 +358,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
     <div id="wrapper">
         <div id="navBarTop">
             <div id="searchBar">
-<!--             	<input type="text" name=search_bar placeholder="Search Title" onchange="search($(this).val())">
-            	<button type="button" id="search" onclick = "search($(search_bar).val())" >-></button>
- -->
-            	
+
             </div>
             <div>
             	<select onChange="window.document.location.href=this.options[this.selectedIndex].value;">
