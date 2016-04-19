@@ -537,17 +537,38 @@ $(document).ready(function() {
         $('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
     }
     
+    
+    
 
-    $('#shoppingCartCounter').text(String(cartCounter));
+        
+    
+	            <% 
+	 cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+	 %>  
 
-    if (cartCounter < 1) 
-    {
-       $('#shoppingCartCounter').hide();      
-    }
-    else 
-    {
-        $('#shoppingCartCounter').show();
-    }       
+	 var cartCounter = <%=cart_counter%>;
+	 
+	 
+	 $('#shoppingCartCounter').text(String(cartCounter));
+
+	 if (cartCounter < 1) 
+	 {
+	    $('#shoppingCartCounter').hide();      
+	 }
+	 else 
+	 {
+	     $('#shoppingCartCounter').show();
+	 } 
+ 
+   
+ 
+ 
+ 
+
+    
+    
+    
+    
      
         
 
