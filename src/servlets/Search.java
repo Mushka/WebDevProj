@@ -62,7 +62,7 @@ public class Search extends HttpServlet {
 				orderby = "asc_t";
 
 			
-		String query = "SELECT * FROM movies WHERE title like '%"+pre_title+"%'";
+		String query = "SELECT * FROM movies WHERE title like '"+pre_title+"%'";
 		
 		String count_query = query;
 		
