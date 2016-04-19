@@ -160,7 +160,7 @@ public class Movie {
 				
 				String trailer_url = "";
 				if(row.get("trailer_url") != null)
-					banner_url = row.get("trailer_url").toString();
+					trailer_url = row.get("trailer_url").toString();
 				
 
 				Movie m = new Movie(id, title, year, 
