@@ -148,9 +148,23 @@ public class Movie {
 
 			for (Map<String, Object> row : results)
 			{
+				
+				int id = ((Integer) row.get("id")).intValue();
+				String title = row.get("title").toString();
+				int year = ((Integer)row.get("year")).intValue();
+				String director = row.get("director").toString();
+				
+				String banner_url = "";
+				if(row.get("banner_url") != null)
+					banner_url = row.get("banner_url").toString();
+				
+				String trailer_url = "";
+				if(row.get("trailer_url") != null)
+					banner_url = row.get("trailer_url").toString();
+				
 
-				Movie m = new Movie(((Integer) row.get("id")).intValue(), row.get("title").toString(), ((Integer)row.get("year")).intValue(),
-						row.get("director").toString(), row.get("banner_url").toString(), row.get("trailer_url").toString());
+				Movie m = new Movie(id, title, year, 
+						director, banner_url, trailer_url);
 			
 		        m.setGenres(Movie.getGenres(m.getId()));
 		        m.setStars(Movie.getStars(m.getId()));

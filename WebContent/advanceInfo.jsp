@@ -41,6 +41,7 @@
 				<span id="logoFont">FabFlix</span>
 			</div>
 			<form id="advSearchBox" action="./AdvanceSearch">
+				<input type="hidden" name="adv" value="true">
 				<input type="text" name="title" class="first searchItem" placeholder="Title">
 				<input type="text" name="year" class="searchItem" placeholder="Year">
 				<input type="text" name="director" class="searchItem" placeholder="Director">
