@@ -1,0 +1,112 @@
+#searchBar {
+	width: 800px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;;
+	align-self: center;
+	background: white;
+	z-index: 999;
+}
+
+#headerLogo {
+	font-family: inherit;
+	font-size: 20px;
+	align-self: center;
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+#searchBtn {
+	align-self: flex-start;
+	margin-right: auto;
+}
+
+#shoppingCartBtn {
+	height: 40px;
+	width: 40px;
+	color: red;
+	cursor: pointer;
+	align-self: flex-end;
+	background: #FFD900;
+	background-image: url(../images/shoppingCart.svg);
+	background-size: 30px 30px;
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius: 3px;
+}
+
+#shoppingCartCounter {
+	height: 40px;
+	width: 20px;
+	background: green;
+	color: white;
+	align-self: flex-end;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	margin-left: 10px;
+	border-bottom: 10px solid #f00;
+	align-self: center;
+}
+
+.arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	margin-left: 10px;
+	border-top: 10px solid green;
+	align-self: center;
+}
+
+.arrow-flat {
+	width: 10px;
+	height: 2px;
+	margin-left: 10px;
+	background: grey;
+	align-self: center;
+}
+
+#arrangeBy {
+	width: 800px;
+	position: fixed;
+	left: 50%;
+	margin-left: -400px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background: white;
+	z-index: 999;
+	border-bottom: 2px solid black;
+}
+
+.arrangeByLink {
+	color: grey;
+	margin-left: 10px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#shoppingCartPreview {
+	width: 200px;
+	height: auto;
+	padding: 10px;
+	top:-500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: red;
+	position: fixed;
+	z-index: 9001;
+}
+
+#shoppingCartMovieImage {
+	align-self: center;
+}
