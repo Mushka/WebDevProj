@@ -5,8 +5,25 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="./css/shared.css">
     <link rel="stylesheet" type="text/css" href="./css/header.css">
+    <link rel="stylesheet" type="text/css" href="./css/search.css">
     <link rel="stylesheet" type="text/css" href="./css/footer.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <style type="text/css">
+
+        input[type="text"] {
+            padding: 2px !important;
+        }
+
+        #shoppingCartCounter, #shoppingCartBtn {
+            visibility: hidden;
+        }
+
+        #spacer {
+            height: 40px;
+        }
+
+    </style>
 
     <script>
 
@@ -135,7 +152,8 @@
 
 
         $(document).ready(function() {
-            
+            // $("#shoppingCartCounter").remove();
+            // $("#shoppingCartBtn").remove();
         });
 
 
@@ -157,6 +175,8 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         <div id="navBarTop">
         	<%@ include file="header.jsp" %>
         </div>
+
+        <div id="spacer"></div>
         
         
     <div id="moviesList">
@@ -173,7 +193,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
             <div class="movieBox" id="movie<%=item.getKey()%>">
                 <div class="imageAndBuy">
-                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');"></div>
+                        <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
+                            <img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
+                        </div>
                         <div class="incDecBox">
                             <button class="incDecBtn" id="movieQuantityMinus<%=item.getKey()%>" onclick= "movieQuantityMinus(<%=item.getKey()%>);">-</button>
                             <div class="incDecDisplay" id="movieQuantity<%=item.getKey()%>"><%=item.getValue()%></div> 
