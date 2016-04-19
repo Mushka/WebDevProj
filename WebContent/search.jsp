@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Main Page</title>
+	<title>Movies</title>
 	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="./css/shared.css">
@@ -9,8 +9,6 @@
 	<link rel="stylesheet" type="text/css" href="./css/search.css">
 	<link rel="stylesheet" type="text/css" href="./css/footer.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Movies</title>
-
 	<script>
 
 
@@ -20,25 +18,26 @@
 		int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
 		String pre_title = (String) session.getAttribute("title");
 		String orderby = (String) session.getAttribute("orderby");
-	
-		/*     Object cart_counter_obj = 
-			int cart_counter = 0;
-	
-			if(cart_counter_obj != null) */
+		
+	/*     Object cart_counter_obj = 
+		int cart_counter = 0;
+		
+		if(cart_counter_obj != null) */
 		int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
-		%>
+		%>  
 
 		var limit = <%=limit%>;
 		var offset = <%=offset%>;
 		var num_of_movies = <%=num_of_movies%>;
 		var pre_title = "<%=pre_title%>";
 		var orderby = "<%=orderby%>";
+		
 		var cartCounter = <%=cart_counter%>;
 
-
 		function reload(of, li, ti, orb) {
-
+			
 			window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+
 		}
 
 
@@ -46,13 +45,13 @@
 		/*  /FabFlix/Search?username=a%40email.com&password=a2
 		 */
 			if(num_of_movies > (offset+limit))
-				reload(offset+limit, limit, pre_title, orderby); 
+				reload(offset+limit, limit, pre_title, orderby);
 			/* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
 		}
 
 
 		function prev() {
-
+				
 			if(offset > 0)
 			{
 				reload(offset-limit, limit, pre_title, orderby);
@@ -70,8 +69,8 @@
 			else var expires = "";
 			document.cookie = name+"="+value+expires+"; path=/";
 		}
-		
-		
+			
+			
 		function eraseCookie(name) {
 			
 			createCookie(name,"",-1);
@@ -91,11 +90,11 @@
 		}
 
 		$(document).ready(function() {
-		
+
 			$('.buyButton').click( function(e) {
-
+		 
+				
 				$.ajax({
-
 					url : 'ProcessShoppingCart',
 					data : "id="+this.id,
 					success : function(responseText) {
@@ -107,7 +106,7 @@
 
 					}
 				});
-				
+				 
 				var cart = $('#shoppingCartBtn');
 				var imgtodrag = $(this).parent().find("img").eq(0);
 
@@ -158,25 +157,29 @@
 		 
 
 			$('#byTitle').click( function() {
-
+				
 				toggleTitle = !toggleTitle;
-
-				if(toggleTitle) {
-					reload(offset, limit, pre_title, 'asc_t');
-				}
-				else{
-					reload(offset, limit, pre_title, 'desc_t');
-				}
+				if(toggleTitle)
+					{
+						reload(offset, limit, pre_title, 'asc_t');
+					}
+				else
+					{
+						reload(offset, limit, pre_title, 'desc_t');
+					}
 			});
 
 			$('#byYear').click( function() {
+				
 				toggleYear = !toggleYear;
-				if(toggleYear) {
-					reload(offset, limit, pre_title, 'asc_y');
-				}
-				else{
-					reload(offset, limit, pre_title, 'desc_y');
-				}
+				if(toggleYear)
+					{
+						reload(offset, limit, pre_title, 'asc_y');
+					}
+				else
+					{
+						reload(offset, limit, pre_title, 'desc_y');
+					}
 			});
 			
 			var toggleTitle = false;
@@ -192,6 +195,7 @@
 				$('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
 			}
 			
+
 			if(orderby === "asc_t")
 			{
 				toggleTitle = true;
@@ -201,6 +205,13 @@
 			{
 				$('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
 			}
+			
+			
+		<%--     <%
+				cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+			%>  
+
+			var cartCounter = <%=cart_counter%>; --%>
 			
 
 			$('#shoppingCartCounter').text(String(cartCounter));
@@ -213,9 +224,38 @@
 			{
 				$('#shoppingCartCounter').show();
 			}       
-			 
-		});
+				
+			
+		   <%--  window.onpageshow = function(evt) {
 
+				<%
+					cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+				%>  
+
+				var cartCounter = <%=cart_counter%>;
+					
+					$('#shoppingCartCounter').text(String(cartCounter));
+
+					if (cartCounter < 1) 
+					{
+					   $('#shoppingCartCounter').hide();      
+					}
+					else 
+					{
+						$('#shoppingCartCounter').show();
+					}  
+					
+					// If persisted then it is in the page cache, force a reload of the page.
+					if (evt.persisted) {
+		/*                      document.body.style.display = "none";
+		 */                     location.reload();
+
+					}
+					
+				} --%> 
+
+
+		});
 
 		/* it resets the page, and orderby*/
 		function search(text)
@@ -224,18 +264,19 @@
 		}
 
 	</script>
-
+	
 </head>
 
 <body>
 
-<%@	page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+	<%@	page language="java" contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
 
-	import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*"    
-%>
+		import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*"    
+	%>
 
 	<div id="wrapper">
+		
 		<div id="navBarTop">
 			<%@ include file="header.jsp" %>
 		</div>

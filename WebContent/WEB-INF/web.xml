@@ -106,6 +106,12 @@
 	<description></description>
 	<servlet-class>servlets.ShoppingCart</servlet-class>
 </servlet>
+<servlet>
+	<servlet-name>Search2</servlet-name>
+	<display-name>Search2</display-name>
+	<description></description>
+	<servlet-class>servlets.Search2</servlet-class>
+</servlet>
   
   <servlet-mapping>
     <servlet-name>ShowSessionServlet</servlet-name>
@@ -157,6 +163,10 @@
   <servlet-mapping>
   	<servlet-name>ShoppingCart</servlet-name>
   	<url-pattern>/ShoppingCart</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Search2</servlet-name>
+  	<url-pattern>/Search2</url-pattern>
   </servlet-mapping>
 
 	<error-page>
