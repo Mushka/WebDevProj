@@ -177,7 +177,7 @@ public class Movie {
 			e.printStackTrace();
 		    System.out.println("Invalid SQL Command. [Movie.getMovies()]\n\n" + e.toString());
 		    
-		    movies = null;
+		    movies = new ArrayList<Movie>();
 
 		}
 
@@ -204,7 +204,7 @@ public class Movie {
 			e.printStackTrace();
 		     System.out.println("Invalid SQL Command. [Movie.getGenres()]\n\n" + e.toString());
 		     
-		     genres = null;
+		     genres = new ArrayList<String>();
 		}
 
 		return genres;
@@ -233,7 +233,7 @@ public class Movie {
 			e.printStackTrace();
 		     System.out.println("Invalid SQL Command. [Movie.getStars()]\n\n" + e.toString());
 		     
-		     stars = null;
+		     stars = new ArrayList<Star>();
 		}
 
 		return stars;

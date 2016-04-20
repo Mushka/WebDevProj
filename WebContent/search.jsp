@@ -392,7 +392,7 @@
                             
                             <%                  
                             List<Star> stars = (ArrayList<Star>) m.getStars();
-                            /* for(String g : genres)  */
+
                             for(int i = 0; i < stars.size(); ++i){
                             %>
                                 
@@ -413,7 +413,7 @@
                             
                             <%                  
                             List<String> genres = (ArrayList<String>) m.getGenres();
-                            /* for(String g : genres)  */
+
                             for(int i = 0; i < genres.size(); ++i){
                             %>
                                 <%if(i < genres.size()-1){%>
