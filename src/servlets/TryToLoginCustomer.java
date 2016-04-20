@@ -27,9 +27,6 @@ public class TryToLoginCustomer extends HttpServlet
 		
 		if(request.getQueryString() == null)
 		{
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
-//			dispatcher.forward(request, response);
-//			
 			response.sendRedirect("login.html");
 		}
 		
@@ -85,20 +82,11 @@ public class TryToLoginCustomer extends HttpServlet
 			}
 			else
 			{
+				//this prints out to the AJAX call
 				out.print(user_id); 
-				
-				
 				System.out.print("Logged in user id: " + user_id); 
 
 				request.getSession().setAttribute("user_id", user_id);
-
-				
-//				response.sendRedirect("/home.jsp");
-				//We should probably redirect to another page if they login correctly
-//                RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
-//                dispatcher.forward(request, response);
-//				
-//				request.getSession().setAttribute("user_name", user_name);
 			}
 
 		} catch (Exception e)
