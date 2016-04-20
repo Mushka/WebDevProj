@@ -253,8 +253,6 @@ public class Search extends HttpServlet {
         request.getSession().setAttribute("limit", limit);
         request.getSession().setAttribute("num_of_movies", num_of_movies);
         request.getSession().setAttribute("orderby", orderby);
-
-        System.out.print("title serv: " + title);
         
         request.getSession().setAttribute("title", title);
 
