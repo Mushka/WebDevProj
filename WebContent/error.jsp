@@ -20,11 +20,12 @@
 		}
 		
 		#errorMessage{
-			font-size: 25px;
+			font-size: 35px;
 			font-weight: bold;
 			font-family: inherit;
 			-webkit-font-smoothing: antialiased;
 			color: white;
+			text-align: center;
 
 		}
 		
@@ -57,7 +58,6 @@
 				<%
 						session.setAttribute("error_message", null);
 				}%>
-				
 				
 				
 				<form action="." id="loginCredentials">
