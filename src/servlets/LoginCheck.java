@@ -68,42 +68,6 @@ public class LoginCheck implements Filter {
 				chain.doFilter(req,res);
 		    }
 		}
-
-	
-//		request.getSession()
-		
-//		
-//		HttpServletRequest req = (HttpServletRequest) request;
-////		
-//		String user_name = (String)req.getSession().getAttribute("user_name");
-//		
-//		if(user_name == null)
-//		{
-//////			((HttpServletResponse) response).sendRedirect(".");
-//	        RequestDispatcher dispatcher = request.getRequestDispatcher(".");
-//	        dispatcher.forward(request, response);
-//		}
-//		else
-//		{
-//			// pass the request along the filter chain
-//			chain.doFilter(request, response);
-//		}
-		
-//		chain.doFilter(req,res);
-		
-//		HttpServletRequest request = (HttpServletRequest) req;
-//	    HttpServletResponse response = (HttpServletResponse) res;
-//	    HttpSession session = request.getSession(false);
-//
-//	    if (session == null || session.getAttribute("user_name") == null) {
-////	        response.sendRedirect("index.html"); // No logged-in user found, so redirect to login page.
-//	        
-//	        RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
-//	        dispatcher.forward(request, response);
-//	        
-//	    } else {
-//	        chain.doFilter(req, res); // Logged-in user found, so just continue request.
-//	    }
 	}
 
 	/**

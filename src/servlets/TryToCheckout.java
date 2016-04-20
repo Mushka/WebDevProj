@@ -53,10 +53,8 @@ public class TryToCheckout extends HttpServlet {
 
 			
 			ArrayList<Map<String, Object>> results = MySQL.select(query);
-			
-//			for(Map<String, Object> row: results)
-//				
-			System.out.println(results.toString());
+							
+//			System.out.println(results.toString());
 			
 			if(!results.isEmpty())
 			{			
@@ -68,17 +66,10 @@ public class TryToCheckout extends HttpServlet {
 				{
 					for (Map.Entry<String, Integer> entry : shopping_cart.entrySet())
 					{
-					    System.out.println(entry.getKey() + "/" + entry.getValue());
+//					    System.out.println(entry.getKey() + "/" + entry.getValue());
 					    
-//					    
 					    java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
-					    
-//					    
-//					    System.out.println(date.toString());
-//					    java.sql.Date sqlDate = new java.sql.Date();
-//					    date.
-//					    date.toString();
-//					    
+					    					    
 					    for(int i = 0; i < entry.getValue(); ++i)
 					    {
 						    query = "INSERT INTO sales (customer_id, movie_id, sale_date) "
