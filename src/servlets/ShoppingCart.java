@@ -50,7 +50,11 @@ public class ShoppingCart extends HttpServlet {
 			Map<String, Integer> shopping_cart = (Map<String, Integer>) request.getSession().getAttribute("shopping_cart");
 
 			if (shopping_cart == null)
-				System.out.println("ERROR: CART IS EMPTY");
+			{
+				request.getSession().setAttribute("error_message","The shopping cart is empty");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+				dispatcher.forward(request, response);
+			}
 			
 
 			for (Map.Entry<String, Integer> item : shopping_cart.entrySet()) {
