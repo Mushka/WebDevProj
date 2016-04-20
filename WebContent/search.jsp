@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./css/header.css">
     <link rel="stylesheet" type="text/css" href="./css/search.css">
     <link rel="stylesheet" type="text/css" href="./css/footer.css">
+    <script src="shared.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <style type="text/css">
@@ -69,71 +70,33 @@
         var lName = "<%=lName%>";
 
         var adv = "<%=adv%>";
-
-        function reload(of, li, ti, orb, yr, dr, fn, ln, ad) {
-
-<%--             ti = "<%=(String) session.getAttribute("title")%>";
- --%>
-            if(ad === "true")
-            {
-             window.location.href = "./Search?adv=true&limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb + "&year=" + yr + "&director=" + dr + "&first_name=" + fn + "&last_name=" + ln;
-
-            }
-            else
-            {
-                window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
-            }
-        }
-
-        function next() {
-            
-        /*  /FabFlix/Search?username=a%40email.com&password=a2
-         */
-         
-            if(num_of_movies > (offset+limit))
-                reload(offset+limit, limit, m_title, orderby, year, director, fName, lName, adv);
-            
-            /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset+1); */
-        }
-
-        function prev() {
-             
-                
-            if(offset > 0)
-            {
-                reload(offset-limit, limit, m_title, orderby, year, director, fName, lName, adv);
-                /* window.location.href = "/FabFlix/Search?limit=" + limit + "&offset=" + (offset-1); */
-            }
-        }
-
-        function createCookie(name,value,days) {
-            
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime()+(days*24*60*60*1000));
-                var expires = "; expires="+date.toGMTString();
-            }
-            else var expires = "";
-            document.cookie = name+"="+value+expires+"; path=/";
-        }
-            
-        function eraseCookie(name) {
-            
-            createCookie(name,"",-1);
-        }
-
-        function readCookie(name) {
-            
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for(var i=0;
-            i < ca.length;i++) {
-                var c = ca[i];
-                while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-            }
-            return null;
-        }
+        
+		function reload(of, li, ti, orb, yr, dr, fn, ln, ad) {
+	
+	        if(ad === "true")
+	        {
+	         window.location.href = "./Search?adv=true&limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb + "&year=" + yr + "&director=" + dr + "&first_name=" + fn + "&last_name=" + ln;
+	
+	        }
+	        else
+	        {
+	            window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+	        }
+	    } 
+	
+	    function next() {
+	        
+	        if(num_of_movies > (offset+limit))
+	            reload(offset+limit, limit, m_title, orderby, year, director, fName, lName, adv);
+	    }
+	
+	    function prev() {
+	           
+	        if(offset > 0)
+	        {
+	            reload(offset-limit, limit, m_title, orderby, year, director, fName, lName, adv);
+	        }
+	    }  
 
         $(document).ready(function() {
 
@@ -274,11 +237,6 @@
 
         });
 
-        /* it resets the page, and orderby*/
-        function search(text)
-        {
-            reload(0, limit, text, 'asc_t', '', '', '', '', 'true');
-        }
 
     </script>
     
