@@ -45,7 +45,14 @@
 		<div id="content">
 			<div id="logoBox">
 				<span id="logoFont">404 Error</span>
+				
+				
 			</div>
+			
+							
+				<form action="." id="loginCredentials">
+				    <input type="submit" value="Go home?" class="margin40T">
+				</form>
 				
 		</div>
 	</div>

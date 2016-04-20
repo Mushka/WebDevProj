@@ -44,7 +44,7 @@
 	<div id="wrapper">
 		<div id="content">
 			<div id="logoBox">
-				<span id="logoFont">Error</span>
+				<span id="logoFont">Whoops!</span>
 			</div>
 				<%
 			   	 	String error = (String) session.getAttribute("error_message"); 
@@ -59,6 +59,10 @@
 				}%>
 				
 				
+				
+				<form action="." id="loginCredentials">
+				    <input type="submit" value="Go home?" class="margin40T">
+				</form>
 		</div>
 	</div>
 </body>
