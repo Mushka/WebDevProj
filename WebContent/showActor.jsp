@@ -206,39 +206,12 @@
         }
 
     </style>
-    <script>
 
-        $(document).ready(function() {
-
-            $('.buyButton').click( function() {
-                alert(this.id);
-            });
-
-        });
-
-    </script>
 
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Movies</title>
-
-<script>
-
-<%
-
-    Star actor = (Star) session.getAttribute("actor");
-%>  
-
-<%--     var offset = <%=offset%>;
-    var limit = <%=limit%>;
-    var pre_title = "<%=pre_title%>"; --%>
-    
-/*     alert(pre_title); */
-
-
-
-</script>
+<title>Actor</title>
 
 </head>
 
@@ -252,12 +225,11 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 %>
 
     <div id="wrapper">
-    <div id="moviesList">
-<%
+        <div id="moviesList">
 
-/*         List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
- */        
-            
+
+<%
+             Star actor = (Star) session.getAttribute("actor");
  %>         
 
             <div class="movieBox">
@@ -267,20 +239,12 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                 <div id="movieInfo">
                     <div class="info first">
                         <div class="infoTitle">Star Name:</div>
-                        <div class="infoDetail">
-                        
-<!--                         <script>var movie_id=</script>
- -->                            <%=actor.getName()%>
-                        </div>
+                        <div class="infoDetail"><%=actor.getName()%> </div>
                     </div>
                      <div class="info">
                         <div class="infoTitle">DOB:</div>
                         <div class="infoDetail"><%=actor.getDob()%></div>
                     </div>
- <%--                   <div class="info">
-                        <div class="infoTitle">Director:</div>
-                        <div class="infoDetail"><%=m.getDirector()%></div>
-                    </div>--%>
                     <div class="info">
                         <div class="infoTitle">Star ID:</div>
                         <div class="infoDetail"><%=actor.getId()%></div>
@@ -290,10 +254,8 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         <div class="infoDetail">
 <%                  
                         List<Movie> movies_starred_in = (ArrayList<Movie>) actor.getStarred_in();
-                        /* for(String g : genres)  */
                         for(int i = 0; i < movies_starred_in.size(); ++i){
 %>
-                            
                             <%if(i < movies_starred_in.size()-1){%>
                                 <a href="./ShowMovie?movie_id=<%=movies_starred_in.get(i).getId()%>"> <%=movies_starred_in.get(i).getTitle()%> <br></a>
                             <%}
@@ -305,28 +267,9 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         
                         </div>
                     </div>
-<!--                     <div class="info">
-                        <div class="infoTitle">Genres:</div>
-                        <div class="infoDetail">
-                        
-                        </div>
-                    </div> -->
                 </div>
             </div>
-
         </div>
-<!--         <div id="navBarBottom">
-            <button type="button" id="prevButton" class="navButton" onclick = "prev();">Prev</button> 
-            <button type="button" id="nextButton" class="navButton" onclick = "next();">Next</button> 
-            <div id="itemsPerPage">
-                <span style="margin: 0px 10px 0px 40px">Items per page:</span>
-                <a href="#" class="pageCount" onclick = "reload(offset, 5, pre_title);">5</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 10, pre_title);">10</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 15, pre_title);">15</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 20, pre_title);">20</a>
-                <a href="#" class="pageCount" onclick = "reload(offset, 25, pre_title);">25</a>
-            </div>
-        </div> -->
     </div>
 </body>
 </html>
