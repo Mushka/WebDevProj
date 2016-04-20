@@ -26,6 +26,24 @@
 		.searchItem {
 			margin-top: 10px;
 		}
+		
+		#shoppingMessage{
+			font-size: 40px;
+			font-weight: bold;
+			font-family: inherit;
+			-webkit-font-smoothing: antialiased;
+			color: white;
+			text-align: center;
+		}
+				
+		#confirmationFont {
+			font-size: 80px;
+			font-weight: bold;
+			font-family: inherit;
+			-webkit-font-smoothing: antialiased;
+			color: white;
+			text-align: center;
+		}
 
 	</style>
   	
@@ -34,15 +52,12 @@
 	<div id="wrapper">
 		<div id="content">
 			<div id="logoBox">
-				<span id="logoFont">Confirmation</span>
+				<span id="confirmationFont">Thank you for choosing FabFlix</span>
 			</div>
-<!-- 			<form id="advSearchBox" action="./Checkout">
-				<input type="text" name="ccn" class="first searchItem" placeholder="Creditcard Number">
-				<input type="text" name="exp_date" class="searchItem" placeholder="Expiration Date">
-				<input type="text" name="first_name" class="searchItem" placeholder="First name of creditcard holder">
-				<input type="text" name="last_name" class="searchItem" placeholder="Last name of creditcard holder">
-				<input type="submit" class="searchItem" value="Checkout">
-			</form> -->
+				<div id="shoppingMessage">Items will be shipping soon</div> 
+				<form action="." id="loginCredentials">
+				    <input type="submit" value="Go home?" class="margin40T">
+				</form>
 		</div>
 	</div>
 </body>
