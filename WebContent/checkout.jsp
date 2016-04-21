@@ -74,6 +74,23 @@
 	
 <script>
 
+function shake(div){                                
+    var interval = 100;                                                                                                 
+    var distance = 10;                                                                                                  
+    var times = 4;                                                                                                      
+
+    $(div).css('position','relative');                                                                                  
+
+    for(var iter=0;iter<(times+1);iter++){                                                                              
+        $(div).animate({ 
+            left:((iter%2==0 ? distance : distance*-1))
+            },interval);
+    }
+
+    $(div).animate({ left: 0},interval);
+}
+
+
 $("form").on('submit', function (e) {
 
 		$.ajax({
@@ -92,18 +109,17 @@ $("form").on('submit', function (e) {
             else
             {
 
-				/*         		shake($('#loginBox'));
-        		$('#wrapper').append('<div id="error" class="errorMessage"><span style="align-self: center;">Invalid Credentials</span></div>');
+         		shake($('#advSearchBox'));
+        		$('#wrapper').append('<div id="error" class="errorMessage"><span style="align-self: center;">Credentials Not Found</span></div>');
 				$('#error').animate({top:0+'px'}, {duration: 500, complete: function() {
 					setTimeout(function() {
 						$('#error').animate({top:-60+'px'}, {duration: 500, complete: function() {
 							$('#error').remove();
 						}})
 					},3000);
-				}}); */
+				}}); 
 				
-				
-				alert(responseText);
+/* 				alert(responseText); */
             }
 	    }
 	});
