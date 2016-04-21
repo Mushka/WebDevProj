@@ -26,6 +26,15 @@
 		.searchItem {
 			margin-top: 10px;
 		}
+		
+		#customInfoFont {
+			font-size: 60px;
+			font-weight: bold;
+			font-family: inherit;
+			-webkit-font-smoothing: antialiased;
+			color: white;
+		}
+				
 
 	</style>
   	
@@ -49,7 +58,7 @@
 	<div id="wrapper">
 		<div id="content">
 			<div id="logoBox">
-				<span id="logoFont">Information</span>
+				<span id="customInfoFont">Customer Information</span>
 			</div>
 			<form id="advSearchBox" action="./Checkout">
 				<input type="text" name="ccn" class="first searchItem" placeholder="Creditcard Number">
