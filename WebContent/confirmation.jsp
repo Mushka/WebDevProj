@@ -46,6 +46,25 @@
 		}
 
 	</style>
+	
+	
+	<%
+				String check = (String) request.getSession().getAttribute("checkedout");
+	
+				if(check == null)
+				{
+	%>
+					<script type="text/javascript">
+						window.location.href = 'main.jsp';
+					</script>		
+	<%
+				}
+				else
+				{
+					request.getSession().setAttribute("checkedout", null);
+				}
+
+	%>
   	
 </head>
 <body>
