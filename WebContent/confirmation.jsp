@@ -63,10 +63,7 @@
 				{
 					request.getSession().setAttribute("checkedout", null);
 				}
-				
-				
 
-	
 	%>
   	
 </head>
