@@ -39,6 +39,22 @@ img {
 	max-height: 100%;
 }
 
+.first {
+	margin-top: 0px !important;
+}
+
+.noBorderTop {
+	border-top: 0px solid white !important;
+}
+
+.noBorderLeft {
+	border-left: 0px solid white !important;
+}
+
+.searchItem {
+	margin-top: 10px;
+}
+
 .margin40T {
 	margin-top: 25px;
 }
@@ -110,6 +126,10 @@ img {
 	font-family: inherit;
 	-webkit-font-smoothing: antialiased;
 	color: white;
+}
+
+.titleFont {
+	font-size: 70px !important;
 }
 
 #loginBox {

@@ -8,14 +8,10 @@
     <link rel="stylesheet" type="text/css" href="./css/header.css">
     <link rel="stylesheet" type="text/css" href="./css/search.css">
     <link rel="stylesheet" type="text/css" href="./css/footer.css">
-    <script src="shared.js"></script>
+    <script src="./javascript/shared.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <style type="text/css">
-
-        input[type="text"] {
-            padding: 2px !important;
-        }
 
         #spacer {
             height: 80px;
@@ -39,20 +35,15 @@
         int offset = Integer.parseInt((String) session.getAttribute("offset"));
         int limit = Integer.parseInt((String) session.getAttribute("limit"));
         int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-        String orderby = (String) session.getAttribute("orderby");
         
-    /*     Object cart_counter_obj = 
-        int cart_counter = 0;
-        
-        if(cart_counter_obj != null) */
         int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
 
+        String orderby = (String) session.getAttribute("orderby");
         String m_title = (String) session.getAttribute("title");
         String year = (String) session.getAttribute("year");;
         String director = (String) session.getAttribute("director");
         String fName = (String) session.getAttribute("first_name");
         String lName = (String) session.getAttribute("last_name");
-
         String adv = (String) session.getAttribute("adv");
         %>  
 
@@ -60,15 +51,12 @@
         var offset = <%=offset%>;
         var num_of_movies = <%=num_of_movies%>;
         var orderby = "<%=orderby%>";
-        
         var cartCounter = <%=cart_counter%>;
-
         var m_title = "<%=m_title%>";
         var year = "<%=year%>";
         var director = "<%=director%>";
         var fName = "<%=fName%>";
         var lName = "<%=lName%>";
-
         var adv = "<%=adv%>";
         
 		function reload(of, li, ti, orb, yr, dr, fn, ln, ad) {
@@ -96,147 +84,7 @@
 	        {
 	            reload(offset-limit, limit, m_title, orderby, year, director, fName, lName, adv);
 	        }
-	    }  
-
-        $(document).ready(function() {
-
-            $('.buyButton').click( function(e) {
-
-                $.ajax({
-                    url : 'ProcessShoppingCart',
-                    data : "id="+this.id,
-                    success : function(responseText) {
-
-                     if(responseText === "false")
-                     {             
-                         console.log("Failed to load");
-                     }
-
-                    }
-                });
-                 
-                var cart = $('#shoppingCartBtn');
-                var imgtodrag = $(this).parent().find("img").eq(0);
-
-                cartCounter++;
-
-                if (imgtodrag) {
-                    var imgclone = imgtodrag.clone()
-                        .offset({
-                        top: imgtodrag.offset().top,
-                        left: imgtodrag.offset().left
-                    })
-                        .css({
-                        'opacity': '0.5',
-                            'position': 'absolute',
-                            'height': '150px',
-                            'width': '100px',
-                            'z-index': '9000'
-                    })
-                        .appendTo($('html'))
-                        .animate({
-                        'top': cart.offset().top + 10,
-                            'left': cart.offset().left + 10,
-                            'width': 50,
-                            'height': 75
-                    }, 500, 'easeInOutExpo');
-
-                    imgclone.animate({
-                        'width': 0,
-                            'height': 0
-                    }, function () {
-                        $(this).detach()
-                    });
-                    
-                    //checkForCount
-                    if (cartCounter < 0) {
-                        $('#shoppingCartCounter').hide();
-                    }
-                    else {
-                        $('#shoppingCartCounter').show();
-                    }
-                    
-                    $('#shoppingCartCounter').text(String(cartCounter));
-                }
-                    
-                e.preventDefault();
-                    
-            });
-         
-
-            $('#byTitle').click( function() {
-                
-                toggleTitle = !toggleTitle;
-                if(toggleTitle)
-                    {
-                        reload(offset, limit, m_title, 'asc_t', year, director, fName, lName, adv);
-                    }
-                else
-                    {
-                        reload(offset, limit, m_title, 'desc_t', year, director, fName, lName, adv);
-                    }
-            });
-
-            $('#byYear').click( function() {
-                
-                toggleYear = !toggleYear;
-                if(toggleYear)
-                    {
-                    	reload(offset, limit, m_title, 'asc_y', year, director, fName, lName, adv);
-                    }
-                else
-                    {
-                   		reload(offset, limit, m_title, 'desc_y', year, director, fName, lName, adv);
-                    }
-            });
-            
-            var toggleTitle = false;
-            var toggleYear = false;
-            
-            if(orderby === "asc_y")
-            {
-                toggleYear = true;
-                $('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
-            }
-            else if(orderby === "desc_y") 
-            {
-                $('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
-            }
-            
-
-            if(orderby === "asc_t")
-            {
-                toggleTitle = true;
-                $('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
-            }
-            else if(orderby === "desc_t")
-            {
-                $('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
-            }
-            
-            
-        <%--     <%
-                cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
-            %>  
-
-            var cartCounter = <%=cart_counter%>; --%>
-            
-
-            $('#shoppingCartCounter').text(String(cartCounter));
-
-            if (cartCounter < 1) 
-            {
-               $('#shoppingCartCounter').hide();      
-            }
-            else 
-            {
-                $('#shoppingCartCounter').show();
-            }       
-
-
-
-        });
-
+	    }
 
     </script>
     
