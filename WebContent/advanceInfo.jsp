@@ -47,29 +47,11 @@
         // set standard HTTP/1.0 no-cache header
         response.setHeader( "Pragma", "no-cache" );
 
-        int offset = Integer.parseInt((String) session.getAttribute("offset"));
-        int limit = Integer.parseInt((String) session.getAttribute("limit"));
-        int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-
         int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
-
-        String genre = (String) session.getAttribute("genre");
-        String orderby = (String) session.getAttribute("orderby");
         %>  
 
-        var limit = <%=limit%>;
-        var num_of_movies = <%=num_of_movies%>;
-        var genre = "<%=genre%>"
-        var offset = <%=offset%>;
-        var orderby = "<%=orderby%>";
         var cartCounter = <%=cart_counter%>;
-
-        function reload(of, li, ti, orb) {
-            
-            window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
-
-        }
-
+        
 	</script>
   	
 </head>
