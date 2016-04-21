@@ -96,7 +96,7 @@
 				<span id="logoFont">FabFlix</span>
 			</div>
 			<div id="searchBox">
-				<input type="text"  id="searchInput" placeholder="Search movies by title" onchange="window.location.href = './Search?title='+$(this).val()">
+				<input type="text"  id="searchInput" placeholder="Search movies by title" onchange="window.location.href = './Search?adv=true&limit=10&offset=0&title='+$(this).val()+'&orderby=asc_t&year=&director=&first_name=&last_name='">			
 			</div>
 			<div id="linksBox">
 				<a href="./ShowGenre" class="pageLink" style="margin-left: 0px;">Browse By Genre</a>
