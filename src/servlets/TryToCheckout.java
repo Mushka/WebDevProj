@@ -83,6 +83,7 @@ public class TryToCheckout extends HttpServlet {
 					}
 					
 					request.getSession().setAttribute("shopping_cart", null);
+					request.getSession().setAttribute("checkedout", "true");
 					
 					out.print("true");
 				}
