@@ -11,10 +11,6 @@
 
     <style type="text/css">
 
-        input[type="text"] {
-            padding: 2px !important;
-        }
-
         #shoppingCartCounter, #shoppingCartBtn {
             visibility: hidden;
         }

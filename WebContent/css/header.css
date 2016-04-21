@@ -2,7 +2,8 @@
 	width: 800px;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;;
+	justify-content: space-between;
+	align-items: center;
 	align-self: center;
 	background: white;
 	z-index: 999;
@@ -11,15 +12,13 @@
 #headerLogo {
 	font-family: inherit;
 	font-size: 20px;
-	align-self: center;
 	margin-right: 10px;
 	margin-left: 5px;
 	cursor: pointer;
 }
 
-#searchBtn {
-	align-self: flex-start;
-	margin-right: auto;
+#headerSearch {
+	padding: 2px !important;
 }
 
 #shoppingCartBtn {
@@ -27,7 +26,6 @@
 	width: 40px;
 	color: red;
 	cursor: pointer;
-	align-self: flex-end;
 	background: #FFD900;
 	background-image: url(../images/shoppingCart.svg);
 	background-size: 30px 30px;
@@ -41,10 +39,10 @@
 	width: 20px;
 	background: green;
 	color: white;
-	align-self: flex-end;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	margin-left: auto;
 }
 
 .arrow-up {

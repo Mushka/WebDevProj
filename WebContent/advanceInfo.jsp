@@ -4,11 +4,24 @@
 <html>
 <head>
 	<title>FlabFix - Advanced Search</title>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
-	<link id="pagestyle" rel="stylesheet" type="text/css" href="mainStyle.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="./css/shared.css">
+    <link rel="stylesheet" type="text/css" href="./css/header.css">
+    <link rel="stylesheet" type="text/css" href="./css/search.css">
+    <link rel="stylesheet" type="text/css" href="./css/footer.css">
+    <script src="./javascript/shared.js"></script>
 
 	<style type="text/css">
+
+		body, html {
+			height: 100% !important;
+		}
+
+		#headerSearch {
+			visibility: hidden !important;
+		}
+
 		#advSearchBox {
 			width: 535px;
 			padding: 40px;
@@ -21,24 +34,55 @@
 			justify-content: flex-start;
 		}
 
-		.first {
-			margin-top: 0px !important;
-		}
-
-		.searchItem {
-			margin-top: 10px;
-		}
-
 	</style>
-  	
-<%@ include file="header.jsp" %>
+
+	<script type="text/javascript">
+		<%
+        // These four lines make it so the page doesn't cache, so the shopping cart updates on back button press
+        response.setHeader( "Expires", "Sat, 6 May 1995 12:00:00 GMT" );
+        // set standard HTTP/1.1 no-cache headers
+        response.setHeader( "Cache-Control", "no-store, no-cache, must-revalidate" );
+        // set IE extended HTTP/1.1 no-cache headers
+        response.addHeader( "Cache-Control", "post-check=0, pre-check=0" );
+        // set standard HTTP/1.0 no-cache header
+        response.setHeader( "Pragma", "no-cache" );
+
+        int offset = Integer.parseInt((String) session.getAttribute("offset"));
+        int limit = Integer.parseInt((String) session.getAttribute("limit"));
+        int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
+
+        int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+
+        String genre = (String) session.getAttribute("genre");
+        String orderby = (String) session.getAttribute("orderby");
+        %>  
+
+        var limit = <%=limit%>;
+        var num_of_movies = <%=num_of_movies%>;
+        var genre = "<%=genre%>"
+        var offset = <%=offset%>;
+        var orderby = "<%=orderby%>";
+        var cartCounter = <%=cart_counter%>;
+
+        function reload(of, li, ti, orb) {
+            
+            window.location.href = "./Search?limit=" + li + "&offset=" + of + "&title=" + ti + "&orderby=" + orb;
+
+        }
+
+	</script>
   	
 </head>
 <body>
 	<div id="wrapper">
+		
+		<div id="navBarTop">
+                <%@ include file="header.jsp" %>
+        </div>
+
 		<div id="content">
 			<div id="logoBox">
-				<span id="logoFont">FabFlix</span>
+				<span id="logoFont" class="titleFont">Advanced Search</span>
 			</div>
 			<form id="advSearchBox" action="./Search">
 				<input type="hidden" name="adv" value="true">

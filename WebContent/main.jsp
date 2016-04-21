@@ -5,10 +5,13 @@
 <head>
 	<title>FlabFix - Home</title>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand">
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="./css/shared.css">
     <link rel="stylesheet" type="text/css" href="./css/header.css">
     <link rel="stylesheet" type="text/css" href="./css/footer.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+    <script src="./javascript/shared.js"></script>
 
 	<style type="text/css">
 
@@ -16,8 +19,13 @@
 			height: 100% !important;
 		}
 
-		input[type="text"] {
-			padding: 2px !important;
+		#headerSearch {
+			visibility: hidden !important;
+		}
+
+		#headerLogo {
+			/*visibility: hidden !important;*/
+			cursor: default !important;
 		}
 
 		#searchBox {
@@ -48,6 +56,32 @@
 			margin-left: 40px;
 		}
 	</style>
+
+	<script type="text/javascript">
+		<%
+        // These four lines make it so the page doesn't cache, so the shopping cart updates on back button press
+        response.setHeader( "Expires", "Sat, 6 May 1995 12:00:00 GMT" );
+        // set standard HTTP/1.1 no-cache headers
+        response.setHeader( "Cache-Control", "no-store, no-cache, must-revalidate" );
+        // set IE extended HTTP/1.1 no-cache headers
+        response.addHeader( "Cache-Control", "post-check=0, pre-check=0" );
+        // set standard HTTP/1.0 no-cache header
+        response.setHeader( "Pragma", "no-cache" );
+
+        int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+
+        String orderby = (String) session.getAttribute("orderby");
+        %>  
+
+        var orderby = "<%=orderby%>";
+        var cartCounter = <%=cart_counter%>;
+
+
+        $(document).ready(function() {
+        	$("#headerLogo").text("Welcome!");
+        });
+
+	</script>
   	
 </head>
 <body>
