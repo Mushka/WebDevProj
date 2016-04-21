@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>FlabFix - Advanced Search</title>
+	<title>Advanced Search</title>
 	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
 	<link id="pagestyle" rel="stylesheet" type="text/css" href="mainStyle.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -28,6 +28,14 @@
 		.searchItem {
 			margin-top: 10px;
 		}
+		
+		#infoFont {
+			font-size: 75px;
+			font-weight: bold;
+			font-family: inherit;
+			-webkit-font-smoothing: antialiased;
+			color: white;
+		}
 
 	</style>
   	
@@ -38,7 +46,7 @@
 	<div id="wrapper">
 		<div id="content">
 			<div id="logoBox">
-				<span id="logoFont">FabFlix</span>
+				<span id="infoFont">Advance Search</span>
 			</div>
 			<form id="advSearchBox" action="./Search">
 				<input type="hidden" name="adv" value="true">
