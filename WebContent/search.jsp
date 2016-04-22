@@ -59,6 +59,20 @@
         var lName = "<%=lName%>";
         var adv = "<%=adv%>";
         
+        function reloadMeTitle() {
+            if(toggleTitle)
+                reload(offset, limit, m_title, 'asc_t', year, director, fName, lName, adv);
+            else
+                reload(offset, limit, m_title, 'desc_t', year, director, fName, lName, adv);
+        }
+
+        function reloadMeYear() {
+            if(toggleYear)
+                reload(offset, limit, m_title, 'asc_y', year, director, fName, lName, adv);
+            else
+                reload(offset, limit, m_title, 'desc_y', year, director, fName, lName, adv);
+        }
+
 		function reload(of, li, ti, orb, yr, dr, fn, ln, ad) {
 	
 	        if(ad === "true")

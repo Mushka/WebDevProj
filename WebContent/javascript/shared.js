@@ -1,3 +1,6 @@
+var toggleTitle = false;
+var toggleYear = false;
+
 $(document).ready(function() {
 
     $('.buyButton').click( function(e) {
@@ -66,31 +69,16 @@ $(document).ready(function() {
     $('#byTitle').click( function() {
                 
         toggleTitle = !toggleTitle;
-        if(toggleTitle)
-            {
-                reload(offset, limit, m_title, 'asc_t', year, director, fName, lName, adv);
-            }
-        else
-            {
-                reload(offset, limit, m_title, 'desc_t', year, director, fName, lName, adv);
-            }
+        reloadMeTitle();
+
     });
 
     $('#byYear').click( function() {
                 
         toggleYear = !toggleYear;
-        if(toggleYear)
-            {
-            	reload(offset, limit, m_title, 'asc_y', year, director, fName, lName, adv);
-            }
-        else
-            {
-           		reload(offset, limit, m_title, 'desc_y', year, director, fName, lName, adv);
-            }
+        reloadMeYear();
+
     });
-    
-    var toggleTitle = false;
-    var toggleYear = false;
     
     if(orderby === "asc_y")
     {

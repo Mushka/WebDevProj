@@ -55,6 +55,19 @@
 		
 	/*     alert(pre_title); */
 
+	function reloadMeTitle() {
+        if(toggleTitle)
+            reload(offset, limit, genre, 'asc_t');
+        else
+            reload(offset, limit, genre, 'desc_t');
+    }
+
+    function reloadMeYear() {
+        if(toggleYear)
+            reload(offset, limit, genre, 'asc_y');
+        else
+            reload(offset, limit, genre, 'desc_y');
+    }
 
 	function reload(of, li, ge, orb) {
 		
