@@ -2,21 +2,62 @@
 <html>
 <head>
 	<title>Reports</title>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
-	<link id="pagestyle" rel="stylesheet" type="text/css" href="../css/shared.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-
+<!-- 	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+ -->
 	<style type="text/css">
-		#advSearchBox {
-			width: 535px;
-			padding: 40px;
-			border-radius: 3px;
-			background: white;
+	
+		body, html {
+			margin: 0;
+ 			height: 100%;
+ 			background: #1C5588;
+		}
+	
+		input[type="submit"] {
+			height: 56px;
+			background: #1C5588;
+			border: 0;
+			font-size: 22px;
+			font-family: 'Proxima Nova', helvetica;
+			color: white;
+		}
+		
+		input[type="submit"]:hover {
+			background: #46749D;
+		}
+		
+		#wrapper {
+		    display: flex;
+		    flex-direction: row;
+		    justify-content: center;
+		    font-family: 'Proxima Nova', helvetica;
+		}
+		
+		#content {
+			width: 800px;
+		    font-family: inherit;
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: flex-start;
+		    /* margin: auto; */
+		}
+		
+		#titleBox {
+		    display: flex;
+		    flex-direction: row;
+		    justify-content: center;
+		}
+		
+		#titleFont {
+		    font-size: 120px;
+		    font-weight: bold;
+		    font-family: inherit;
+		    -webkit-font-smoothing: antialiased;
+		    color: white;
+		}
+		
+		#reportBox {
 			font-family: inherit;
-			box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4);
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
+			color: white;
 		}
 		
 		#errorMessage{
@@ -28,14 +69,20 @@
 			text-align: center;
 
 		}
-		
-
-		.first {
-			margin-top: 0px !important;
+	
+		#loginCredentials {
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
 		}
-
-		.searchItem {
-			margin-top: 10px;
+		
+		.margin40T {
+		    margin-top: 25px;
+		}
+		
+		.homeButton {
+			align-self: center;
+			width: 200px;
 		}
 
 	</style>
@@ -44,62 +91,52 @@
 <body>
 	<div id="wrapper">
 		<div id="content">
-			<div id="logoBox">
-				<span id="logoFont">Report</span>
+			<div id="titleBox">
+				<span id="titleFont">Report</span>
 			</div>
-				<%
-			   	 	String report_page = (String) session.getAttribute("report_page"); 
-				
-					if(report_page != null){
-						
+			<div id="reportBox">
+<%
+		   	 	String report_page = (String) session.getAttribute("report_page"); 
+			
+				if(report_page != null){
 					
-						
 					if("like-predicate".equalsIgnoreCase(report_page))
-					{
-					
-				%>	
-			         	<%@ include file="../reports/like-predicate.jsp" %>
-			    <%
-
+					{	
+%>	
+				        <%@ include file="../reports/like-predicate.jsp" %>
+<%
 					}
 					else if("readme".equalsIgnoreCase(report_page))
 					{
-			    
-				%>	
-			         	<%@ include file="../reports/readme.jsp" %>
-			    <%
+%>	
+				        <%@ include file="../reports/readme.jsp" %>
+<%
 					}
 					else
 					{
-
-				%>	
-			         	<%@ include file="../reports/index.jsp" %>
-			    <%
+%>	
+				        <%@ include file="../reports/index.jsp" %>
+<%
 					}
-				%>		
+%>
+					<div id="errorMessage"><%=report_page%></div> 
+					 
+<%
+					session.setAttribute("report_page", null);
+				}
+%>
 				
-						<div id="errorMessage"><%=report_page%></div> 
-						
-						
-						
-						
-						
-							 
-				<%
-						session.setAttribute("report_page", null);
-				}%>
+			</div>
 				
 				
-				<div id="errorMessage">
-				                <a href="../css/shared.css">lol</a>
+			<div id="errorMessage">
+				<a href="../css/shared.css">lol</a>
+			</div>
 				
 				
-			</div> 
-				
-				
-				<form action="." id="loginCredentials">
-				    <input type="submit" value="Go home?" class="margin40T">
-				</form>
+			<form action="." id="loginCredentials">
+			    <input type="submit" value="Go home?" class="margin40T homeButton">
+			</form>
 		</div>
 	</div>
 </body>
