@@ -33,7 +33,7 @@
 		}
 		
 		#content {
-			width: 800px;
+			width: 600px;
 		    font-family: inherit;
 		    display: flex;
 		    flex-direction: column;
@@ -58,6 +58,8 @@
 		#reportBox {
 			font-family: inherit;
 			color: white;
+			margin-top: 20px;
+			
 		}
 		
 		#errorMessage{
@@ -119,22 +121,15 @@
 <%
 					}
 %>
-					<div id="errorMessage"><%=report_page%></div> 
 					 
 <%
 					session.setAttribute("report_page", null);
 				}
 %>
 				
-			</div>
+			</div>				
 				
-				
-			<div id="errorMessage">
-				<a href="../css/shared.css">lol</a>
-			</div>
-				
-				
-			<form action="." id="loginCredentials">
+			<form action="<%=request.getContextPath()%>/main.jsp" id="loginCredentials">
 			    <input type="submit" value="Go home?" class="margin40T homeButton">
 			</form>
 		</div>
