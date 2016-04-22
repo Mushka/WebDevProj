@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>FlabFix - Advanced Search</title>
+	<title>Reports - Index</title>
 	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
-	<link id="pagestyle" rel="stylesheet" type="text/css" href="css/shared.css">
+	<link id="pagestyle" rel="stylesheet" type="text/css" href="../css/shared.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<style type="text/css">
@@ -37,11 +37,6 @@
 		.searchItem {
 			margin-top: 10px;
 		}
-		
-		body, html {
- 			height: 100%;
-
-		}
 
 	</style>
   	
@@ -50,19 +45,8 @@
 	<div id="wrapper">
 		<div id="content">
 			<div id="logoBox">
-				<span id="logoFont">Whoops!</span>
-			</div>
-				<%
-			   	 	String error = (String) session.getAttribute("error_message"); 
-				
-					if(error != null){
-				%>		
-				
-						<div id="errorMessage"><%=error%></div> 
-							 
-				<%
-						session.setAttribute("error_message", null);
-				}%>
+				<span id="logoFont">Index</span>
+			
 				
 				
 				<form action="." id="loginCredentials">

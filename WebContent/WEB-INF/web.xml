@@ -80,6 +80,12 @@
 		<description></description>
 		<servlet-class>servlets.ShoppingCart</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Reports</servlet-name>
+		<display-name>Reports</display-name>
+		<description></description>
+		<servlet-class>servlets.Reports</servlet-class>
+	</servlet>
 
 
 
@@ -115,6 +121,10 @@
 	<servlet-mapping>
 		<servlet-name>ShoppingCart</servlet-name>
 		<url-pattern>/ShoppingCart</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Reports</servlet-name>
+		<url-pattern>/reports/*</url-pattern>
 	</servlet-mapping>
 
 	<error-page>
