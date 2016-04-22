@@ -118,11 +118,11 @@ $(document).ready(function() {
 
     if (cartCounter < 1) 
     {
-       $('#shoppingCartCounter').hide();      
+       $('#shoppingCartCounter').css("visibility", "hidden");      
     }
     else 
     {
-        $('#shoppingCartCounter').show();
+    	$('#shoppingCartCounter').css("visibility", "visible");
     }       
 
 });
