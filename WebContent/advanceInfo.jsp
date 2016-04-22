@@ -48,8 +48,11 @@
         response.setHeader( "Pragma", "no-cache" );
 
         int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+
+        String orderby = (String) session.getAttribute("orderby");
         %>  
 
+        var orderby = "<%=orderby%>";
         var cartCounter = <%=cart_counter%>;
         
 	</script>
