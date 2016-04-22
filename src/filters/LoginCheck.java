@@ -48,7 +48,7 @@ public class LoginCheck implements Filter {
 //		System.out.println("getRequestURI: " + request.getRequestURI());
 
 		
-		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html"))
+		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html") || uri.contains("reports"))
 			chain.doFilter(req,res);
 		else
 		{
