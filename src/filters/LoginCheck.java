@@ -58,7 +58,7 @@ public class LoginCheck implements Filter {
 		    if (session == null || session.getAttribute("user_id") == null) {
 //		        RequestDispatcher dispatcher = request.getRequestDispatcher("login.html");
 //		        dispatcher.forward(request, response);
-				response.sendRedirect("login.html");
+				response.sendRedirect(request.getContextPath() + "/login.html");
 		        
 		    }
 		    else

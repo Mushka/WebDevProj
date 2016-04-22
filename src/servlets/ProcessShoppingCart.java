@@ -77,6 +77,10 @@ public class ProcessShoppingCart extends HttpServlet
 			out.println(shopping_cart.toString());
 			System.out.println("Shopping cart: " + shopping_cart.toString());
 			
+			
+			if(shopping_cart.size() == 0)
+				shopping_cart = null;
+			
 			request.getSession().setAttribute("shopping_cart", shopping_cart);
 			request.getSession().setAttribute("shopping_cart_size", shopping_cart_size);
 

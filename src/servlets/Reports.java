@@ -59,14 +59,14 @@ public class Reports extends HttpServlet {
 			if(path_info != null)
 			{				
 				report_page = path_info.substring(path_info.lastIndexOf('/')+1);
-				System.out.println(report_page);
+//				System.out.println(report_page);
 				
 				
 			}
 			else
 			{
 				report_page = "index";
-				System.out.println(report_page);
+//				System.out.println(report_page);
 
 		       dispatcher = request.getRequestDispatcher("/reports/reports_index.jsp");
 
