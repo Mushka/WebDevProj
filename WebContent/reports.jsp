@@ -48,15 +48,45 @@
 				<span id="logoFont">Report</span>
 			</div>
 				<%
-			   	 	String reports_page = (String) session.getAttribute("reports_page"); 
+			   	 	String report_page = (String) session.getAttribute("report_page"); 
 				
-					if(reports_page != null){
+					if(report_page != null){
+						
+					
+						
+					if("like-predicate".equalsIgnoreCase(report_page))
+					{
+					
+				%>	
+			         	<%@ include file="../reports/like-predicate.jsp" %>
+			    <%
+
+					}
+					else if("readme".equalsIgnoreCase(report_page))
+					{
+			    
+				%>	
+			         	<%@ include file="../reports/readme.jsp" %>
+			    <%
+					}
+					else
+					{
+
+				%>	
+			         	<%@ include file="../reports/index.jsp" %>
+			    <%
+					}
 				%>		
 				
-						<div id="errorMessage"><%=reports_page%></div> 
+						<div id="errorMessage"><%=report_page%></div> 
+						
+						
+						
+						
+						
 							 
 				<%
-						session.setAttribute("reports_page", null);
+						session.setAttribute("report_page", null);
 				}%>
 				
 				
