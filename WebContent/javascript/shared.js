@@ -50,10 +50,10 @@ $(document).ready(function() {
             
             //checkForCount
             if (cartCounter < 0) {
-                $('#shoppingCartCounter').hide();
+            	$('#shoppingCartCounter').css("visibility", "hidden");
             }
             else {
-                $('#shoppingCartCounter').show();
+            	$('#shoppingCartCounter').css("visibility", "visible");
             }
             
             $('#shoppingCartCounter').text(String(cartCounter));
