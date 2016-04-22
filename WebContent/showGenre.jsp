@@ -102,6 +102,14 @@
 			
 			<%@ include file="header.jsp" %>
 			
+			<div id="arrangeBy">
+                Sort by:
+                <a id="byTitle" class="arrangeByLink">Title</a>
+                <div id="titleArrow" class="arrow-flat"></div>
+                <a id="byYear" class="arrangeByLink">Year</a>
+                <div id="yearArrow" class="arrow-flat"></div>
+            </div>
+			
 			<div>
 				<select onChange="window.document.location.href=this.options[this.selectedIndex].value;">
 					<option>Select a Genre</option>
