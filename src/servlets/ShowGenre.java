@@ -63,7 +63,7 @@ public class ShowGenre extends HttpServlet {
 
 			String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url "
 					+ "FROM movies as m, genres_in_movies as gm, genres as g "
-					+ "WHERE m.id = gm.movie_id and g.id = gm.genre_id and g.name = '" + genre + "'";
+					+ "WHERE m.id = gm.movie_id and g.id = gm.genre_id and g.name like '" + genre + "'";
 
 			String count_query = query;
 
