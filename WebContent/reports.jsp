@@ -133,7 +133,7 @@ if(report_page != null){
 					}
 					else {
 %>
-						<span id="titleFont">Report</span>
+						<span id="titleFont">Index</span>
 <%
 					} 
 				}
