@@ -84,7 +84,7 @@
 			</div>
 			
 							
-				<form action="." id="loginCredentials">
+				<form action="<%=request.getContextPath()%>/main.jsp" id="loginCredentials">
 				    <input type="submit" value="Go home?" class="margin40T">
 				</form>
 				
