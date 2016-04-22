@@ -25,6 +25,12 @@
 			background: #46749D;
 		}
 		
+		a {
+			font-size: 22px;
+			font-family: inherit;
+			color: white;
+		}
+		
 		#wrapper {
 		    display: flex;
 		    flex-direction: row;
