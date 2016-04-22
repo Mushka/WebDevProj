@@ -105,7 +105,7 @@
             <%@ include file="header.jsp" %>
 
         <div id="titleNav">
-            <a href="#" class="titleCat first" onclick = "reload(0, limit, '0', orderby, year, director, fName, lName, false);">0</a>
+            <a href="#" class="titleCat noBorderLeft" onclick = "reload(0, limit, '0', orderby, year, director, fName, lName, false);">0</a>
             <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby, year, director, fName, lName, false);">1</a>
             <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby, year, director, fName, lName, false);">2</a>
             <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby, year, director, fName, lName, false);">3</a>
