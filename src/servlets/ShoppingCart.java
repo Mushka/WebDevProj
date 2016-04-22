@@ -55,18 +55,19 @@ public class ShoppingCart extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
 				dispatcher.forward(request, response);
 			}
-			
-
-			for (Map.Entry<String, Integer> item : shopping_cart.entrySet()) {
-				Movie m = Movie.getMovie(Integer.parseInt(item.getKey()));
-				m.setGenres(Movie.getGenres(m.getId()));
-				m.setStars(Movie.getStars(m.getId()));
+			else
+			{
+				for (Map.Entry<String, Integer> item : shopping_cart.entrySet()) {
+					Movie m = Movie.getMovie(Integer.parseInt(item.getKey()));
+					m.setGenres(Movie.getGenres(m.getId()));
+					m.setStars(Movie.getStars(m.getId()));
+				}
+				
+				request.getSession().setAttribute("shopping_cart", shopping_cart);
+	
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/reviewShoppingCart.jsp");
+				dispatcher.forward(request, response);
 			}
-			
-			request.getSession().setAttribute("shopping_cart", shopping_cart);
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/reviewShoppingCart.jsp");
-			dispatcher.forward(request, response);
 
 		} catch (Exception e) {
 			request.getSession().setAttribute("error_message", "Invalid SQL Command [Search].\n\n" + e.toString());
