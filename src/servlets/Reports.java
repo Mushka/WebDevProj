@@ -68,7 +68,7 @@ public class Reports extends HttpServlet {
 				report_page = "index";
 				System.out.println(report_page);
 
-		       dispatcher = request.getRequestDispatcher("/reports_index.jsp");
+		       dispatcher = request.getRequestDispatcher("/reports/reports_index.jsp");
 
 			}
 			
