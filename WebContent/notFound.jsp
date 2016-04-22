@@ -2,44 +2,73 @@
 <html>
 <head>
 	<title>FlabFix - Advanced Search</title>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
-	<link id="pagestyle" rel="stylesheet" type="text/css" href="css/shared.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<style type="text/css">
-		#advSearchBox {
-			width: 535px;
-			padding: 40px;
-			border-radius: 3px;
-			background: white;
-			font-family: inherit;
-			box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4);
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
+	
+		body, html {
+			margin: 0;
+ 			height: 100%;
+		}
+	
+		input[type="submit"] {
+		    height: 56px;
+		    background: #1C5588;
+		    border: 0;
+		    font-size: 22px;
+		    font-family: 'Proxima Nova', helvetica;
+		    color: white;
+		}
+		
+		#wrapper {
+		    display: flex;
+		    flex-direction: row;
+		    justify-content: center;
+		    font-family: 'Proxima Nova', helvetica;
+		    height: 100%;
+		    background: #1C5588;
+		}
+		
+		#content {
+		    font-family: inherit;
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    margin: auto;
+		}
+		
+		#logoBox {
+		    display: flex;
+		    flex-direction: row;
+		    justify-content: center;
+		}
+		
+		#logoFont {
+		    font-size: 120px;
+		    font-weight: bold;
+		    font-family: inherit;
+		    -webkit-font-smoothing: antialiased;
+		    color: white;
 		}
 		
 		#errorMessage{
-			font-size: 25px;
+			font-size: 35px;
 			font-weight: bold;
 			font-family: inherit;
 			-webkit-font-smoothing: antialiased;
 			color: white;
+			text-align: center;
 
+		}
+	
+		#loginCredentials {
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
 		}
 		
-
-		.first {
-			margin-top: 0px !important;
-		}
-
-		.searchItem {
-			margin-top: 10px;
-		}
-		
-		body, html {
- 			height: 100%;
-
+		.margin40T {
+		    margin-top: 25px;
 		}
 
 	</style>
