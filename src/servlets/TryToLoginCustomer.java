@@ -29,6 +29,8 @@ public class TryToLoginCustomer extends HttpServlet
 		{
 			response.sendRedirect("login.html");
 		}
+
+
 		
 		
 		
@@ -49,44 +51,62 @@ public class TryToLoginCustomer extends HttpServlet
 		try
 		{
 
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
 
-			String query = "select id from customers where email like '"+username+"' and password like '"+password+"'";
-
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			Statement selectStmt = db_connection.createStatement();
-			ResultSet results = selectStmt.executeQuery(query);
-
-			boolean empty = true;
-
-			String user_id = "";
-
-			while(results.next()){
-
-				empty = false;
-
-				user_id = results.getString("id");
-
-				break;
-			}
-
-			results.close();
-			selectStmt.close();
-			db_connection.close();
-
-			if(empty)
-			{
+			String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+			System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+			// Verify CAPTCHA.
+			boolean valid = VerifyUtils.verify(gRecaptchaResponse);
+			if (!valid) {
+			    //errorString = "Captcha invalid!";
+			  //   out.println("<HTML>" +
+					// "<HEAD><TITLE>" +
+					// "MovieDB: Error" +
+					// "</TITLE></HEAD>\n<BODY>" +
+					// "<P>Recaptcha WRONG!!!! </P></BODY></HTML>");
+			  //   return;
 				out.print("false");
 			}
 			else
 			{
-				//this prints out to the AJAX call
-				out.print(user_id); 
-				System.out.print("Logged in user id: " + user_id); 
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
 
-				request.getSession().setAttribute("user_id", user_id);
+				String query = "select id from customers where email like '"+username+"' and password like '"+password+"'";
+
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+				Statement selectStmt = db_connection.createStatement();
+				ResultSet results = selectStmt.executeQuery(query);
+
+				boolean empty = true;
+
+				String user_id = "";
+
+				while(results.next()){
+
+					empty = false;
+
+					user_id = results.getString("id");
+
+					break;
+				}
+
+				results.close();
+				selectStmt.close();
+				db_connection.close();
+
+				if(empty)
+				{
+					out.print("false");
+				}
+				else
+				{
+					//this prints out to the AJAX call
+					out.print(user_id); 
+					System.out.print("Logged in user id: " + user_id); 
+
+					request.getSession().setAttribute("user_id", user_id);
+				}
 			}
 
 		} catch (Exception e)
