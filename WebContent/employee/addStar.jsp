@@ -8,13 +8,13 @@
 </head>
 <body>
 
-				<form id="starInfo" method="GET">
-					<input type="text" name="first_name" placeholder="First Name">
-					<input type="text" name="last_name" placeholder="Last Name">
-					<input type="text" name="dob" placeholder="Date of Birth">
-					<input type="text" name="photo_url" placeholder="Photo Url">
-					<input type="submit" value="Add Star">
-				</form>
+		<form id="starInfo" action="<%=request.getContextPath()%>/employee/AddStar" method="GET">
+			<input type="text" name="first_name" placeholder="First Name">
+			<input type="text" name="last_name" placeholder="Last Name">
+			<input type="text" name="dob" placeholder="yyyy-mm-dd">
+			<input type="text" name="photo_url" placeholder="Photo Url">
+			<input type="submit" value="Add Star">
+		</form>
 
 </body>
 </html>

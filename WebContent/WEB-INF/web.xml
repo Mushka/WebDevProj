@@ -124,6 +124,12 @@
 		<description></description>
 		<servlet-class>servlets.ShowSchema</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AddStar</servlet-name>
+		<display-name>AddStar</display-name>
+		<description></description>
+		<servlet-class>servlets.AddStar</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
 		<url-pattern>/main</url-pattern>
@@ -177,6 +183,10 @@
 	<servlet-mapping>
 		<servlet-name>ShowSchema</servlet-name>
 		<url-pattern>/employee/ShowSchema</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddStar</servlet-name>
+		<url-pattern>/employee/AddStar</url-pattern>
 	</servlet-mapping>
 
 	<error-page>
