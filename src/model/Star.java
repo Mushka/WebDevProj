@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.lang.StringBuilder;
 
 public class Star {
 	
@@ -33,6 +34,26 @@ public class Star {
 		this.photo_url = photo_url;
 	}
 	
+	public String toString(){
+		StringBuilder starInfo = new StringBuilder();
+		starInfo.append(this.id + " ");
+		starInfo.append(this.first_name + " ");
+		starInfo.append(this.last_name + " ");
+		starInfo.append("" + this.dob + " ");
+		starInfo.append(this.photo_url + "\n");
+		if(null != starred_in){
+			starInfo.append("Starred in:\n");
+			for(Movie s : starred_in)
+				starInfo.append(s.toString() + "\n");
+		}
+		return starInfo.toString();
+	}
+	
+	public void addToStarred_in(Movie m){
+		if(null != starred_in){
+			starred_in.add(m);
+		}
+	}
 	public int getId() {
 		return id;
 	}
