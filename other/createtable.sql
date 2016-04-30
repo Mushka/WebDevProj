@@ -69,3 +69,9 @@ CREATE TABLE sales(
     FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE employees(
+    email varchar(50)  NOT NULL PRIMARY KEY,
+    password varchar(20) NOT NULL,
+    fullname varchar(100)
+);
+
