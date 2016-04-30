@@ -13,7 +13,7 @@ import javax.servlet.http.*;
 
 import model.*;
 
-public class TryToLoginCustomer extends HttpServlet
+public class TryToLoginEmployee extends HttpServlet
 {
 	public String getServletInfo()
 	{
@@ -27,19 +27,10 @@ public class TryToLoginCustomer extends HttpServlet
 		
 		if(request.getQueryString() == null)
 		{
-			response.sendRedirect("login.html");
+			response.sendRedirect("login_emp.html");
 		}
 
 
-		
-		
-		
-		Integer shopping_cart_size = (Integer) request.getSession().getAttribute("shopping_cart_size");
-		
-		if(shopping_cart_size == null)
-			request.getSession().setAttribute("shopping_cart_size", 0);
-		
-		
 		String loginUser = Credentials.admin;
 		String loginPasswd = Credentials.password;
 		String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
@@ -61,10 +52,10 @@ public class TryToLoginCustomer extends HttpServlet
 			}
 			else
 			{
-				String username = request.getParameter("username");
+				String email = request.getParameter("email");
 				String password = request.getParameter("password");
 
-				String query = "select id from customers where email like '"+username+"' and password like '"+password+"'";
+				String query = "select email from employees where email like '"+email+"' and password like '"+password+"'";
 
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -73,13 +64,13 @@ public class TryToLoginCustomer extends HttpServlet
 
 				boolean empty = true;
 
-				String user_id = "";
+				String emp_email = "";
 
 				while(results.next()){
 
 					empty = false;
 
-					user_id = results.getString("id");
+					emp_email = results.getString("email");
 
 					break;
 				}
@@ -95,10 +86,10 @@ public class TryToLoginCustomer extends HttpServlet
 				else
 				{
 					//this prints out to the AJAX call
-					out.print(user_id); 
-					System.out.print("Logged in user id: " + user_id); 
+					out.print(emp_email); 
+					System.out.println("Logged in employee id: " + emp_email); 
 
-					request.getSession().setAttribute("user_id", user_id);
+					request.getSession().setAttribute("emp_email", emp_email);
 				}
 			}
 
