@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>FlabFix - Advanced Search</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<style type="text/css">
 	

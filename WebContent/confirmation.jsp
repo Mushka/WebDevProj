@@ -4,7 +4,7 @@
 	<title>FlabFix - Advanced Search</title>
 	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
 	<link id="pagestyle" rel="stylesheet" type="text/css" href="mainStyle.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<style type="text/css">
 		#advSearchBox {
