@@ -41,14 +41,19 @@ public class LoginCheck implements Filter {
 		HttpServletRequest request = (HttpServletRequest)req;
 		String uri = request.getRequestURI();
 
-//		System.out.println("Uri: " + uri);
+		System.out.println("relative_path: " + request.getRequestURI().substring(request.getContextPath().length()));
+		String relative_path = request.getRequestURI().substring(request.getContextPath().length());
+		System.out.println("uri: " + uri);
+		System.out.println("relative_path: " + relative_path);
+		System.out.println("---");
+
 
 //		System.out.println("getContextPath: " + request.getContextPath());
 //		System.out.println("getAuthType: " + request.getAuthType());
 //		System.out.println("getRequestURI: " + request.getRequestURI());
 
 		
-		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html") || uri.contains("reports"))
+		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html") || uri.endsWith("login_emp.html") || uri.endsWith("_dashboard") || uri.endsWith("TryToLoginEmployee") || relative_path.startsWith("/employee") || uri.contains("reports"))
 			chain.doFilter(req,res);
 		else
 		{

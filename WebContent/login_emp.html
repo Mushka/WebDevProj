@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Emp Login</title>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand' rel='stylesheet' type='text/css'>
+	<link id="pagestyle" rel="stylesheet" type="text/css" href="./css/shared.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<style type="text/css">
+
+	body, html {
+ 	height: 100%;
+
+
+	#employeeFont {
+		font-size: 50px;
+		font-weight: bold;
+		font-family: inherit;
+		-webkit-font-smoothing: antialiased;
+		color: white;
+	}
+
+}
+</style>
+  	
+</head>
+<body>
+	<div id="wrapper">
+		<div id="content">
+			<div id="logoBox">
+				<span id="employeeFont">Employee Login</span>
+			</div>
+			<div id="loginBox">
+				<form id="loginCredentials" method="POST">
+					<input type="text" name="email" placeholder="Email">
+					<input type="password" name="password" placeholder="Password" class="margin40T">
+					<input type="submit" value="Log In" class="margin40T">
+
+				<div class="g-recaptcha" data-sitekey="6Ld5nx4TAAAAALY9nzlULe9sTfaaiDrZwFlHha0D"></div>
+				</form>
+			</div>
+			<div id="signUpLink">
+				<p>
+					Don't have an account? <span style="text-decoration: underline;">Sign Up</span>
+				</p>
+			</div>
+		</div>
+	</div>
+	
+<script>
+
+	function shake(div){                                
+	    var interval = 100;                                                                                                 
+	    var distance = 10;                                                                                                  
+	    var times = 4;                                                                                                      
+
+	    $(div).css('position','relative');                                                                                  
+
+	    for(var iter=0;iter<(times+1);iter++){                                                                              
+	        $(div).animate({ 
+	            left:((iter%2==0 ? distance : distance*-1))
+	            },interval);
+	    }
+
+	    $(div).animate({ left: 0},interval);
+	}
+
+	
+	$(document).ready(function() {
+
+		$('#logoFont').on('click', function(){
+			shake($('#loginBox'));
+			$('#wrapper').append('<div id="error" class="errorMessage"><span style="align-self: center;">Invalid Credentials</span></div>');
+			$('#error').animate({top:0+'px'}, {duration: 500, complete: function() {
+				setTimeout(function() {
+					$('#error').animate({top:-60+'px'}, {duration: 500, complete: function() {
+						$('#error').remove();
+					}})
+				},3000);
+			}});
+		});
+
+	 	$("form").on('submit', function (e) {
+
+	 		$.ajax({
+		 		/*url is the location of the servlet, i believe */
+	            url : 'TryToLoginEmployee',
+	            data : $(this).serialize(),
+	            success : function(responseText) {
+	            	
+	            	console.log(responseText);
+			            	
+		            if(responseText === "false")
+	            	{		      
+	            		shake($('#loginBox'));
+	            		$('#wrapper').append('<div id="error" class="errorMessage"><span style="align-self: center;">Invalid Credentials</span></div>');
+						$('#error').animate({top:0+'px'}, {duration: 500, complete: function() {
+							setTimeout(function() {
+								$('#error').animate({top:-60+'px'}, {duration: 500, complete: function() {
+									$('#error').remove();
+								}})
+							},3000);
+						}});
+	            	}
+		            else
+		            {
+	/* 		            		http://www.quirksmode.org/js/cookies.html */
+/* 						eraseCookie("loggedin");
+	    				createCookie("loggedin", responseText , 0); */
+	    				
+	    				/* let's not link to jsp files*/
+	    				window.location.href = './_dashboard'; 
+		            }
+			    }
+			});
+	 		   
+	 		e.preventDefault();
+	 	});
+	});
+			
+</script>
+
+</body>
+</html>
