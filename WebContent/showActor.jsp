@@ -20,7 +20,7 @@
     </style>
 
 
-  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Actor</title>
