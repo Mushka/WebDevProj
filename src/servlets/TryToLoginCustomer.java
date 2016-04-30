@@ -56,14 +56,7 @@ public class TryToLoginCustomer extends HttpServlet
 			System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
 			// Verify CAPTCHA.
 			boolean valid = VerifyUtils.verify(gRecaptchaResponse);
-			if (!valid) {
-			    //errorString = "Captcha invalid!";
-			  //   out.println("<HTML>" +
-					// "<HEAD><TITLE>" +
-					// "MovieDB: Error" +
-					// "</TITLE></HEAD>\n<BODY>" +
-					// "<P>Recaptcha WRONG!!!! </P></BODY></HTML>");
-			  //   return;
+			if (Credentials.RECAPTCHA_STATE && !valid) {
 				out.print("false");
 			}
 			else
