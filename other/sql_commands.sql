@@ -73,3 +73,9 @@ select m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url
 from movies as m, genres_in_movies as gm, genres as g
 where m.id = gm.movie_id and g.id = gm.genre_id and g.name = 'Thriller'
 order by g.name, m.title, m.year, m.director;
+
+-- inserts the ta's account into the db
+
+INSERT INTO employees()
+VALUES ('classta@course.edu', 'classta', 'TA CS122B');
+
