@@ -8,22 +8,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.sql.*;
+
 public class Parser extends DefaultHandler{
 	
 	
 	private HashMap<String, Movie> myMovies;
+	private HashMap<String, String> myMovieIds;
 	private HashSet<String> myGenres;
+	private HashMap<String, HashSet<String>> myGenresMovies;
 	private HashMap<String, Star> myStars;
 	private HashSet<String> duplicateMovieActorChecker;
 
@@ -41,13 +46,17 @@ public class Parser extends DefaultHandler{
 	private String tempTitle;
 	private String tempActor;
 	
+	private Connection dbcon = null;
+	
 	public Parser(String f, boolean printToConsole){
 		this.movieFile = f;
 		this.starFile = "";
 		this.castFile = "";
 		this.type = XMLtype.Movies;
 		this.myMovies = new HashMap<String,Movie>(); 
+		this.myMovieIds = new HashMap<String, String>();
 		this.myGenres = new HashSet<String>();
+		this.myGenresMovies = new HashMap<String, HashSet<String>>();
 		runParser(printToConsole);
 	}
 	
@@ -57,7 +66,9 @@ public class Parser extends DefaultHandler{
 		this.castFile = fileNameCast;
 		this.type = XMLtype.Movies;
 		this.myMovies = new HashMap<String,Movie>(); 
+		this.myMovieIds = new HashMap<String, String>();
 		this.myGenres = new HashSet<String>();
+		this.myGenresMovies = new HashMap<String, HashSet<String>>();
 		this.myStars = new HashMap<String, Star>(); 
 		this.duplicateMovieActorChecker = new HashSet<String>();
 		runParser(printToConsole);
@@ -180,13 +191,19 @@ public class Parser extends DefaultHandler{
 		switch(movieTag.toLowerCase()){
 			case "cats":
 				tempMovie.setGenres(tempGenre);
-				addGenres(tempGenre);
+				addGenres(tempMovie, tempGenre);
+				fixGenres(tempGenre);
 				tempGenre.clear();
 				break;
 			case "film":
 				myMovies.put(tempMovie.getTitle().toLowerCase().trim(), tempMovie);
+				myMovieIds.put(tempMovie.getTitle().toLowerCase().trim(), "0");
 				break;
 			case "t":
+				if(tempVal.contains("'"))
+					tempVal =  tempVal.replaceAll("'", "''");
+				if(tempVal.contains("\\"))
+					tempVal = tempVal.replace("\\","\\\\");
 				tempMovie.setTitle(tempVal.trim());
 				break;
 			case "year":
@@ -204,12 +221,25 @@ public class Parser extends DefaultHandler{
 	public void starEndElement(String starTag){
 		if(starTag.equalsIgnoreCase("actor"))
 			myStars.put(tempStar.getName().toLowerCase().trim(), tempStar);
-		else if(starTag.equalsIgnoreCase("firstname"))
+		else if(starTag.equalsIgnoreCase("firstname")){
+			if(tempVal.contains("'"))
+				tempVal =  tempVal.replaceAll("'", "''");
 			tempStar.setFirst_name(tempVal.trim());
-		else if(starTag.equalsIgnoreCase("familyname"))
+		}else if(starTag.equalsIgnoreCase("familyname")){
+			if(tempVal.contains("'"))
+				tempVal =  tempVal.replaceAll("'", "''");
 			tempStar.setLast_name(tempVal.trim());
-		else if(starTag.equalsIgnoreCase("dob"))
-			tempStar.setDob(tempVal.trim());
+		}else if(starTag.equalsIgnoreCase("dob")){
+			if("".equals(tempVal.trim()))
+				tempVal = "9999";
+			if(tempVal.contains("+"))
+				tempVal = tempVal.replace("+", "");
+			try{
+				int test = Integer.parseInt(tempVal.trim());
+				tempStar.setDob(test + "/01/01");
+			}
+			catch(Exception e){ tempStar.setDob("9999/01/01"); }
+		}
 	}
 	//matches movies with their stars if they exist, if they do it fixes it in the star hash
 	public void castEndElement(String castTag){
@@ -230,7 +260,22 @@ public class Parser extends DefaultHandler{
 		}
 	}
 	//adds genres so no repeat genres
-	public void addGenres(ArrayList<String> genres){
+	public void addGenres(Movie movie, ArrayList<String> genres){
+		for(String s : genres){
+			if(myGenresMovies.containsKey(movie.getTitle() + " " + movie.getYear() + " " + movie.getDirector())){
+				HashSet<String> genreFixer = myGenresMovies.get(movie.getTitle() + " " + movie.getYear() + " " + movie.getDirector());
+				genreFixer.add(s);
+				myGenresMovies.put(movie.getTitle() + " " + movie.getYear() + " " + movie.getDirector(), genreFixer);
+			}else{
+				HashSet<String> genreFixer = new HashSet<String>();
+				genreFixer.add(s);
+				myGenresMovies.put(movie.getTitle() + " " + movie.getYear() + " " + movie.getDirector(), genreFixer);
+			}
+		}
+	}
+	
+	//fixes duplicates
+	public void fixGenres(ArrayList<String> genres){
 		for(String s : genres){
 			if(!myGenres.contains(s))
 				myGenres.add(s);
@@ -246,6 +291,24 @@ public class Parser extends DefaultHandler{
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(getContent());
+			bw.close();
+			System.out.println("Successfully wrote to file at : " + fileLoc);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Could not write to file");
+		}
+	}
+	
+	public void printToFile(String fileLoc, String contents){
+		System.out.println("Attempting to write Log File");
+		try {			
+			File file = new File(fileLoc);
+			if (!file.exists()) 
+				file.createNewFile();
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(contents);
 			bw.close();
 			System.out.println("Successfully wrote to file at : " + fileLoc);
 
@@ -291,6 +354,78 @@ public class Parser extends DefaultHandler{
 		return content.toString();
 	}
 	
+	public void insertIntoDataBase() throws Exception{
+		String loginUser = Credentials.admin;
+		String loginPasswd = Credentials.password;
+		String loginUrl = "jdbc:mysql://localhost:3306/moviedb";		
+		try{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			this.dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+		}catch (Exception ex) {
+			System.out.println("Cannot connect to the database.");
+			System.exit(-1);
+		}
+		this.dbcon.setAutoCommit(false);
+		insertMovies();
+		insertStars();
+		insertGenres();
+		this.dbcon.commit();
+		processMoviesAndGenres();
+	}
+	public void insertMovies() throws Exception{
+		Statement statement = dbcon.createStatement();
+		StringBuilder batchInsertQuery = new StringBuilder();
+		batchInsertQuery.append("INSERT INTO movies (title, year, director) VALUES");
+		for(Movie m : myMovies.values())
+			batchInsertQuery.append(" ('" + " " + m.getTitle() + "', " + m.getYear() + ", '"+ m.getDirector() + "'),\n");
+		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
+        statement.executeUpdate(batchInsertQuery.toString());
+        statement.close();
+	}
+	
+	public void insertStars() throws Exception{
+		Statement statement = dbcon.createStatement();
+		StringBuilder batchInsertQuery = new StringBuilder();
+		batchInsertQuery.append("INSERT INTO stars (first_name, last_name, dob) VALUES");
+		for(Star s : myStars.values())
+			batchInsertQuery.append(" ('" + s.getFirst_name() + "', '" + s.getLast_name() + "', '"+ s.getDob() + "'),\n");
+		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
+		printToFile("/home/josh/Documents/122B_Movie_Sources/query1.txt", batchInsertQuery.toString());
+        statement.executeUpdate(batchInsertQuery.toString());
+        statement.close();
+	}
+	public void insertGenres() throws Exception{
+		Statement statement = dbcon.createStatement();
+		StringBuilder batchInsertQuery = new StringBuilder();
+		batchInsertQuery.append("INSERT INTO genres (name) VALUES");
+		for(String s : myGenres)
+			batchInsertQuery.append(" ('" + s + "'),");
+		batchInsertQuery.setCharAt(batchInsertQuery.length()-1, ';');
+        statement.executeUpdate(batchInsertQuery.toString());
+        statement.close();
+	}
+	public void processMoviesAndGenres(){
+		ArrayList<Map<String, Object>> results;
+		try {
+			results = MySQL.select("SELECT * FROM movies;");
+		    for (Map<String, Object> row : results){
+		        String id = row.get("id").toString();
+		        String title = row.get("title").toString();
+				if(title.contains("'"))
+					title =  title.replaceAll("'", "''");
+				if(title.contains("\\"))
+					title = title.replace("\\","\\\\");
+		        if(myMovieIds.containsKey(title.toLowerCase().trim()))
+		        	myMovieIds.put(title.toLowerCase().trim(), id);
+		    }
+		}catch (Exception e) {System.out.println("The cluck");}
+		for(Entry<String, String> s :myMovieIds.entrySet()){
+			System.out.println(s.getKey() + " " + s.getValue());
+		}
+	}
+	
+	
+	
 	//HOW TO USE PARSER
 	public static void main(String[] args) {
 		String mFile = "/home/josh/Documents/122B_Movie_Sources/mains243.xml";
@@ -299,12 +434,22 @@ public class Parser extends DefaultHandler{
 		
 		long startTime = System.currentTimeMillis();
 		
+		//Can either take a movie file or all 3 XML files, and a boolean if you want to print to console
 		//Parser spe = new Parser(mFile, true);
-		Parser spe = new Parser(mFile, sFile, cFile, true);
+		Parser spe = new Parser(mFile, sFile, cFile, false);
+		try {
+			//spe.insertIntoDataBase();
+		} catch (Exception e) {
+			System.out.println("Fuck");
+			e.printStackTrace();
+		}
+		
+		spe.processMoviesAndGenres();
 		
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("time: " + estimatedTime/1000.0 + " secs");
 		
+		//Prints Log File file for all the 
 		spe.printLogFile("/home/josh/Documents/122B_Movie_Sources/results.txt");
 
 	}
