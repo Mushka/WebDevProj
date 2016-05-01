@@ -29,6 +29,7 @@ public class Parser extends DefaultHandler{
 	private HashMap<String, String> myMovieIds;
 	private HashMap<String, String> myGenresIds;
 	private HashMap<String, Star> myStars;
+	private HashMap<String, String> myStarIds;
 	private HashSet<String> duplicateMovieActorChecker;
 
 	private String movieFile;
@@ -67,6 +68,7 @@ public class Parser extends DefaultHandler{
 		this.myMovieIds = new HashMap<String, String>();
 		this.myGenresIds = new HashMap<String, String>();
 		this.myStars = new HashMap<String, Star>(); 
+		this.myStarIds = new HashMap<String, String>();
 		this.duplicateMovieActorChecker = new HashSet<String>();
 		runParser(printToConsole);
 	}
@@ -148,8 +150,10 @@ public class Parser extends DefaultHandler{
 			if(s.getValue().getStarred_in() == null)
 				actorsToRemove.add(s.getKey());
 		}
-		for(String s : actorsToRemove)
+		for(String s : actorsToRemove){
 			myStars.remove(s);
+			myStarIds.remove(s);
+		}
 	}
 
 	//used to check beginning tag and allocate space approprately 
@@ -214,15 +218,18 @@ public class Parser extends DefaultHandler{
 		}
 	}
 	public void starEndElement(String starTag){
-		if(starTag.equalsIgnoreCase("actor"))
+		if(starTag.equalsIgnoreCase("actor")){
 			myStars.put(tempStar.getName().toLowerCase().trim(), tempStar);
-		else if(starTag.equalsIgnoreCase("firstname")){
+			myStarIds.put(tempStar.getName().toLowerCase().trim(),"0");
+		}else if(starTag.equalsIgnoreCase("firstname")){
 			if(tempVal.contains("'"))
 				tempVal =  tempVal.replaceAll("'", "''");
 			tempStar.setFirst_name(tempVal.trim());
 		}else if(starTag.equalsIgnoreCase("familyname")){
 			if(tempVal.contains("'"))
 				tempVal =  tempVal.replaceAll("'", "''");
+			if(tempVal.contains("\\"))
+				tempVal = tempVal.replace("\\","\\\\");
 			tempStar.setLast_name(tempVal.trim());
 		}else if(starTag.equalsIgnoreCase("dob")){
 			if("".equals(tempVal.trim()))
@@ -350,6 +357,9 @@ public class Parser extends DefaultHandler{
 		insertMovies();
 		insertStars();
 		insertGenres();
+		this.dbcon.commit();
+		
+		this.dbcon.setAutoCommit(false);
 		processMoviesAndGenres();
 		processStarsInMovies();
 		this.dbcon.commit();
@@ -372,7 +382,6 @@ public class Parser extends DefaultHandler{
 		for(Star s : myStars.values())
 			batchInsertQuery.append(" ('" + s.getFirst_name() + "', '" + s.getLast_name() + "', '"+ s.getDob() + "'),\n");
 		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
-		//printToFile("/home/josh/Documents/122B_Movie_Sources/query1.txt", batchInsertQuery.toString());
         statement.executeUpdate(batchInsertQuery.toString());
         statement.close();
 	}
@@ -417,6 +426,10 @@ public class Parser extends DefaultHandler{
 		    for (Map<String, Object> row : results){
 		        String id = row.get("id").toString();
 		        String name = row.get("name").toString();
+				if(name.contains("'"))
+					name =  name.replaceAll("'", "''");
+				if(name.contains("\\"))
+					name = name.replace("\\","\\\\");
 		        if(myGenresIds.containsKey(name.trim()))
 		        	myGenresIds.put(name.trim(), id);
 		    }
@@ -426,45 +439,67 @@ public class Parser extends DefaultHandler{
 		HashSet<String> genMovs = new HashSet<String>();
 		for(Entry<String, Movie> m : myMovies.entrySet()){
 			if(m.getValue().getGenres() != null){
-				for(String g : m.getValue().getGenres()){
+				for(String g : m.getValue().getGenres())
 					genMovs.add(myGenresIds.get(g) + "," + myMovieIds.get(m.getKey()));
-				}
 			}
 		}
 		return genMovs;
 	}
 	
 	public void insertGenresWithMovies(HashSet<String> genMov) throws SQLException{
-		/////////////////////THIS IS UNNEEDED
-		String loginUser = Credentials.admin;
-		String loginPasswd = Credentials.password;
-		String loginUrl = "jdbc:mysql://localhost:3306/moviedb";		
-		try{
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			this.dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-		}catch (Exception ex) {
-			System.out.println("Cannot connect to the database.");
-			System.exit(-1);
-		}
-		this.dbcon.setAutoCommit(false);
-		///////////////////////////////
 		Statement statement = dbcon.createStatement();
 		StringBuilder batchInsertQuery = new StringBuilder();
 		batchInsertQuery.append("INSERT INTO genres_in_movies (genre_id, movie_id) VALUES");
 		for(String s : genMov)
 			batchInsertQuery.append(" (" + s + "),\n");
 		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
-		printToFile("/home/josh/Documents/122B_Movie_Sources/query1.txt", batchInsertQuery.toString());
         statement.executeUpdate(batchInsertQuery.toString());
         statement.close();
-        //////////////////////////////THIS TOO
-		this.dbcon.commit();
 	}
 
-	public void processStarsInMovies(){
-		
+	public void processStarsInMovies() throws SQLException{
+		getStarIds();
+		HashSet<String> starsWithMovieId = matchStarsWithMovies();
+		insertStarsWithMovieId(starsWithMovieId);
 	}
-
+	
+	public void getStarIds(){
+		ArrayList<Map<String, Object>> results;
+		try {
+			results = MySQL.select("SELECT * FROM stars;");
+		    for (Map<String, Object> row : results){
+		        String id = row.get("id").toString();
+		        String name = row.get("first_name").toString().trim();
+		        name += " "+ row.get("last_name").toString().trim();
+				if(name.contains("'"))
+					name =  name.replaceAll("'", "''");
+				if(name.contains("\\"))
+					name = name.replace("\\","\\\\");
+		        if(myStarIds.containsKey(name.toLowerCase().trim()))
+		        	myStarIds.put(name.toLowerCase().trim(), id);
+		    }
+		}catch (Exception e) {System.out.println("The cluck");}
+	}
+	public HashSet<String> matchStarsWithMovies(){
+		HashSet<String> starsMov = new HashSet<String>();
+		for(Entry<String, Star> s : myStars.entrySet()){
+			if(s.getValue().getStarred_in() != null){
+				for(Movie m : s.getValue().getStarred_in())
+					starsMov.add(myStarIds.get(s.getKey())+ ", " + myMovieIds.get(m.getTitle().toLowerCase().trim()));
+			}
+		}
+		return starsMov;
+	}
+	public void insertStarsWithMovieId(HashSet<String> starMov) throws SQLException{
+		Statement statement = dbcon.createStatement();
+		StringBuilder batchInsertQuery = new StringBuilder();
+		batchInsertQuery.append("INSERT INTO stars_in_movies (star_id, movie_id) VALUES");
+		for(String s : starMov)
+			batchInsertQuery.append(" (" + s + "),\n");
+		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
+        statement.executeUpdate(batchInsertQuery.toString());
+        statement.close();
+	}
 	
 	//HOW TO USE PARSER
 	public static void main(String[] args) {
@@ -477,17 +512,10 @@ public class Parser extends DefaultHandler{
 		//Can either take a movie file or all 3 XML files, and a boolean if you want to print to console
 		//Parser spe = new Parser(mFile, true);
 		Parser spe = new Parser(mFile, sFile, cFile, false);
-		try {
-			//spe.insertIntoDataBase();
-		} catch (Exception e) {
-			System.out.println("Fuck");
-			e.printStackTrace();
-		}
 		
 		try {
-			//spe.processMoviesAndGenres();
+			spe.insertIntoDataBase();
 		} catch (Exception e) {
-			System.out.println("Damn");
 			e.printStackTrace();
 		}
 		
@@ -495,7 +523,7 @@ public class Parser extends DefaultHandler{
 		System.out.println("time: " + estimatedTime/1000.0 + " secs");
 		
 		//Prints Log File file for all the 
-		spe.printLogFile("/home/josh/Documents/122B_Movie_Sources/results.txt");
+		//spe.printLogFile("/home/josh/Documents/122B_Movie_Sources/results.txt");
 
 	}
 
