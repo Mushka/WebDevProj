@@ -82,7 +82,7 @@ public class AddStar extends HttpServlet {
 			if("NULL".equals(photo_url))
 				addStar += photo_url + ");";
 			else
-				addStar += "'" + photo_url + ");";
+				addStar += "'" + photo_url + "');";
 			
 			System.out.println(addStar);
 			
