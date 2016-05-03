@@ -37,7 +37,7 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>EmployeeCheck</filter-name>
-		<url-pattern>/employee/*</url-pattern>
+		<url-pattern>/_dashboard/*</url-pattern>
 	</filter-mapping>
 
 
@@ -211,23 +211,23 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ShowSchema</servlet-name>
-		<url-pattern>/employee/ShowSchema</url-pattern>
+		<url-pattern>/_dashboard/ShowSchema</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>AddStar</servlet-name>
-		<url-pattern>/employee/AddStar</url-pattern>
+		<url-pattern>/_dashboard/AddStar</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>AddMovie</servlet-name>
-		<url-pattern>/employee/AddMovie</url-pattern>
+		<url-pattern>/_dashboard/AddMovie</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ProcessAddMovie</servlet-name>
-		<url-pattern>/employee/ProcessAddMovie</url-pattern>
+		<url-pattern>/_dashboard/ProcessAddMovie</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ProcessAddStar</servlet-name>
-		<url-pattern>/employee/ProcessAddStar</url-pattern>
+		<url-pattern>/_dashboard/ProcessAddStar</url-pattern>
 	</servlet-mapping>
 
 	<error-page>
