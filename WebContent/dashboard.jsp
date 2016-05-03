@@ -9,9 +9,9 @@
 <body>
 
 
-<button type="button" onclick="window.location.href = './employee/AddStar'; ">New Star</button>
-<button type="button" onclick="window.location.href = './employee/ShowSchema'; ">Show Schema</button>
-<button type="button" onclick="window.location.href = './employee/AddMovie'; ">Add Movie</button>
+<button type="button" onclick="window.location.href = './_dashboard/AddStar'; ">New Star</button>
+<button type="button" onclick="window.location.href = './_dashboard/ShowSchema'; ">Show Schema</button>
+<button type="button" onclick="window.location.href = './_dashboard/AddMovie'; ">Add Movie</button>
 
 
 </body>
