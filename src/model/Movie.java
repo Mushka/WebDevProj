@@ -21,6 +21,17 @@ public class Movie {
 	private ArrayList<Star> stars = null;
 	private ArrayList<String> genres = null;
 
+	
+	public Movie() {
+		super();
+		this.id = -1;
+		this.title = null;
+		this.year = -1;
+		this.director = null;
+		this.bannar_url = null;
+		this.trailer_url = null;
+	}
+	
 	public Movie(int id, String title, int year, String director, String bannar_url, String trailer_url) {
 		super();
 		this.id = id;
@@ -30,6 +41,8 @@ public class Movie {
 		this.bannar_url = bannar_url;
 		this.trailer_url = trailer_url;
 	}
+	
+	
 
 	public Movie(int id, String title, int year, String director, String bannar_url, String trailer_url,
 			ArrayList<Star> stars, ArrayList<String> genres) {
