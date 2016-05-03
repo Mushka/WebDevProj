@@ -148,6 +148,18 @@
 		<servlet-name>AddMovie</servlet-name>
 		<jsp-file>/employee/addMovie.jsp</jsp-file>
 	</servlet>
+	<servlet>
+		<servlet-name>ProcessAddMovie</servlet-name>
+		<display-name>ProcessAddMovie</display-name>
+		<description></description>
+		<servlet-class>servlets.ProcessAddMovie</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ProcessAddStar</servlet-name>
+		<display-name>ProcessAddStar</display-name>
+		<description></description>
+		<servlet-class>servlets.ProcessAddStar</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
@@ -208,6 +220,14 @@
 	<servlet-mapping>
 		<servlet-name>AddMovie</servlet-name>
 		<url-pattern>/employee/AddMovie</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProcessAddMovie</servlet-name>
+		<url-pattern>/employee/ProcessAddMovie</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProcessAddStar</servlet-name>
+		<url-pattern>/employee/ProcessAddStar</url-pattern>
 	</servlet-mapping>
 
 	<error-page>

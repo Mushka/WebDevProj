@@ -15,7 +15,7 @@
 
 		 		$.ajax({
 			 		/*url is the location of the servlet, i believe */
-		            url : 'AddMovie',
+		            url : 'ProcessAddMovie',
 		            data : $(this).serialize(),
 		            success : function(responseText) {
 		            	

@@ -13,7 +13,7 @@
 
 		 		$.ajax({
 			 		/*url is the location of the servlet, i believe */
-		            url : 'AddStar',
+		            url : 'ProcessAddStar',
 		            data : $(this).serialize(),
 		            success : function(responseText) {
 		            	
