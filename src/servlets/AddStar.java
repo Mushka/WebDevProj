@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +33,10 @@ public class AddStar extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+			PrintWriter out = response.getWriter();
+
+
 		try {
 			String addStar = "INSERT INTO stars (first_name, last_name, dob, photo_url) VALUES (";
 
@@ -42,7 +49,7 @@ public class AddStar extends HttpServlet {
 				first_name = "";
 			if (last_name == null || "".equals(last_name))
 				last_name = "";
-			if (dob == null || "".equals(dob))
+			if (dob == null || "".equals(dob) || !isValidDate(dob))
 				dob = "NULL";
 			if (photo_url == null || "".equals(photo_url))
 				photo_url = "NULL";
@@ -92,13 +99,11 @@ public class AddStar extends HttpServlet {
 			
 			if(n == -1)
 			{
-				request.getSession().setAttribute("error_message", "Must have a first and/or lastname. Date must be in yyyy-mm-dd format");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-				dispatcher.forward(request, response);	
+				out.println("Oh no! You didn't satisfy the requirments above.");
 			}
 			else
 			{
-				response.getWriter().append("Added " + last_name + " successfully. Rows Affected: " + n);
+				out.println("The star '" + last_name + "'' was created."); // Rows Affected: " + n);
 			}
 
 		} catch (Exception e) {
@@ -118,5 +123,16 @@ public class AddStar extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
+	protected static boolean isValidDate(String inDate) {
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    dateFormat.setLenient(false);
+	    try {
+	      dateFormat.parse(inDate.trim());
+	    } catch (ParseException pe) {
+	      return false;
+	    }
+	    return true;
+	}
+	
 }
