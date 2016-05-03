@@ -24,13 +24,13 @@ import model.Credentials;
 /**
  * Servlet implementation class AddMovie
  */
-public class AddMovie extends HttpServlet {
+public class ProcessAddMovie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddMovie() {
+    public ProcessAddMovie() {
         super();
         // TODO Auto-generated constructor stub
     }
