@@ -56,8 +56,8 @@ public class TryToLoginCustomer extends HttpServlet
 			System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
 			// Verify CAPTCHA.
 			boolean valid = VerifyUtils.verify(gRecaptchaResponse);
-			if (!valid) {
-				out.print("false");
+            if (Credentials.RECAPTCHA_STATE && !valid) {
+            	out.print("false");
 			}
 			else
 			{

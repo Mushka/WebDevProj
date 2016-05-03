@@ -118,24 +118,41 @@
 		<description></description>
 		<servlet-class>servlets.TryToLoginEmployee</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>ShowSchema</servlet-name>
-		<display-name>ShowSchema</display-name>
-		<description></description>
-		<servlet-class>servlets.ShowSchema</servlet-class>
+		<jsp-file>/employee/showSchema.jsp</jsp-file>
 	</servlet>
+<!-- 
 	<servlet>
 		<servlet-name>AddStar</servlet-name>
 		<display-name>AddStar</display-name>
 		<description></description>
 		<servlet-class>servlets.AddStar</servlet-class>
+	</servlet> -->
+
+	<servlet>
+		<servlet-name>AddStar</servlet-name>
+		<jsp-file>/employee/addStar.jsp</jsp-file>
 	</servlet>
+
+<!-- 	<servlet>
+		<servlet-name>AddMovie</servlet-name>
+		<display-name>AddMovie</display-name>
+		<description></description>
+		<servlet-class>servlets.AddMovie</servlet-class>
+	</servlet> -->
+
+
+	<servlet>
+		<servlet-name>AddMovie</servlet-name>
+		<jsp-file>/employee/addMovie.jsp</jsp-file>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
 		<url-pattern>/main</url-pattern>
 	</servlet-mapping>
-
-
 	<servlet-mapping>
 		<servlet-name>Search</servlet-name>
 		<url-pattern>/Search</url-pattern>
@@ -187,6 +204,10 @@
 	<servlet-mapping>
 		<servlet-name>AddStar</servlet-name>
 		<url-pattern>/employee/AddStar</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddMovie</servlet-name>
+		<url-pattern>/employee/AddMovie</url-pattern>
 	</servlet-mapping>
 
 	<error-page>
