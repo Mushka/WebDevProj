@@ -17,6 +17,13 @@
         }
 
     </style>
+
+    <%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"
+
+        import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*" 
+               
+    %>
   
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -32,14 +39,14 @@
         // set standard HTTP/1.0 no-cache header
         response.setHeader( "Pragma", "no-cache" );
 
-        int offset = Integer.parseInt((String) session.getAttribute("offset"));
-        int limit = Integer.parseInt((String) session.getAttribute("limit"));
-        int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
+        int offset = Integer.parseInt(Objects.toString(session.getAttribute("offset"), "10"));
+        int limit = Integer.parseInt(Objects.toString(session.getAttribute("limit"), "0"));
+        int num_of_movies = Integer.parseInt(Objects.toString(session.getAttribute("num_of_movies"), "0"));
+        int cart_counter = Integer.parseInt(Objects.toString(session.getAttribute("shopping_cart_size"), "0"));
 
-        int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+        String genre = Objects.toString(session.getAttribute("genre"), "0");
+        String orderby = Objects.toString(session.getAttribute("orderby"), "asc_t");
 
-        String genre = (String) session.getAttribute("genre");
-        String orderby = (String) session.getAttribute("orderby");
         %>  
 
         var limit = <%=limit%>;
@@ -61,14 +68,6 @@
 
 <body>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-
-import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*" 
-       
-%>
-
-
 
     <div id="wrapper">
        
@@ -81,42 +80,51 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
         <div id="moviesList">
             <%
 
-            Movie m = (Movie) session.getAttribute("movie");
-                     
+            Movie m = (session.getAttribute("movie") == null) ? new Movie() : (Movie) session.getAttribute("movie");
+
+            /*  this takes into account if they are null */
+            String mv_bannar_url = Objects.toString(m.getBannar_url(), "");
+            String mv_id = Objects.toString(m.getId(), "");
+            String mv_title = Objects.toString(m.getTitle(), "");
+            String mv_year = Objects.toString(m.getYear(), "");
+            String mv_director = Objects.toString(m.getDirector(), "");
+            String mv_trailer_url = Objects.toString(m.getTrailer_url(), "");
+            
             %>         
 
             <div class="movieBox">
                 <div class="imageAndBuy">
-                    <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
-                        <img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
+                    <div class="movieImage" style="background-image: url('<%=mv_bannar_url%>');">
+                        <img src='<%=mv_bannar_url%>' onerror= "this.src = './images/no-image.jpg';">
                     </div>
-                    <button type="button" id=<%=m.getId()%> class="buyButton">Add to Cart</button> 
+                    <button type="button" id=<%=mv_id%> class="buyButton">Add to Cart</button> 
                 </div>
                 <div id="movieInfo">
                     <div class="info first">
                         <div class="infoTitle">Title:</div>
                         <div class="infoDetail">
-                            <a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
+                            <a href="./ShowMovie?movie_id=<%=mv_id%>"><%=mv_title%></a>
                         </div>
                     </div>
                     <div class="info">
                         <div class="infoTitle">Year:</div>
-                        <div class="infoDetail"><%=m.getYear()%></div>
+                        <div class="infoDetail"><%=mv_year%></div>
                     </div>
                     <div class="info">
                         <div class="infoTitle">Director:</div>
-                        <div class="infoDetail"><%=m.getDirector()%></div>
+                        <div class="infoDetail"><%=mv_director%></div>
                     </div>
                     <div class="info">
                         <div class="infoTitle">Movie ID:</div>
-                        <div class="infoDetail"><%=m.getId()%></div>
+                        <div class="infoDetail"><%=mv_id%></div>
                     </div>
                     <div class="info">
                         <div class="infoTitle">Stars:</div>
                         <div class="infoDetail">
 <%                  
-                        List<Star> stars = (ArrayList<Star>) m.getStars();
-                        /* for(String g : genres)  */
+
+                        List<Star> stars = (m.getStars() == null) ? new ArrayList<Star>() : (ArrayList<Star>) m.getStars();
+
                         for(int i = 0; i < stars.size(); ++i){
 %>
                             
@@ -137,8 +145,8 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                         
                         
 <%                  
-                        List<String> genres = (ArrayList<String>) m.getGenres();
-                        /* for(String g : genres)  */
+                        List<String> genres = (m.getGenres() == null) ? new ArrayList<String>() : (ArrayList<String>) m.getGenres();
+
                         for(int i = 0; i < genres.size(); ++i){
 %>
                             <%if(i < genres.size()-1){%>
@@ -155,7 +163,7 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
                     <div class="info">
                         <div class="infoTitle">Trailer:</div>
                         <div class="infoDetail">
-                            <a href=<%=m.getTrailer_url()%>>Click here</a>
+                            <a href=<%=mv_trailer_url%>>Click here</a>
                              to watch the movie trailer
                         </div>
                     </div>

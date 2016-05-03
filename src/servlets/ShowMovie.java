@@ -44,17 +44,23 @@ public class ShowMovie extends HttpServlet {
 			String movie_id = request.getParameter("movie_id");
 						
 			if(movie_id==null)
-				movie_id = "135001";
+			{
+				request.getSession().setAttribute("error_message", "No movie was selected!");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+				dispatcher.forward(request, response);
+			}
+			else
+			{
+		       	Movie movie = Movie.getMovie(Integer.parseInt(movie_id));
+		       	
+		        request.getSession().setAttribute("movie", movie);
+		        
+		        //TODO Create MOIVE PAGE
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("/showMovie.jsp");
+		        dispatcher.forward(request, response);
+			}
 			
-		
-       	Movie movie = Movie.getMovie(Integer.parseInt(movie_id));
-       	
-        request.getSession().setAttribute("movie", movie);
-        
-        //TODO Create MOIVE PAGE
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/showMovie.jsp");
-        dispatcher.forward(request, response);
-        
+	
 	    } catch (Exception e){
 	    	
 			request.getSession().setAttribute("error_message", "Invalid SQL Command [ShowGenre].\n\n" + e.toString());

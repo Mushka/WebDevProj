@@ -18,9 +18,16 @@
         }
 
     </style>
+    
+   <%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"
+
+        import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*"    
+    %>
 
     <script>
 
+    
 
         <%
         // These four lines make it so the page doesn't cache, so the shopping cart updates on back button press
@@ -32,19 +39,19 @@
         // set standard HTTP/1.0 no-cache header
         response.setHeader( "Pragma", "no-cache" );
 
-        int offset = Integer.parseInt((String) session.getAttribute("offset"));
-        int limit = Integer.parseInt((String) session.getAttribute("limit"));
-        int num_of_movies = Integer.parseInt((String) session.getAttribute("num_of_movies"));
-        
-        int cart_counter =  Integer.parseInt(session.getAttribute("shopping_cart_size").toString());
+        int offset = Integer.parseInt(Objects.toString(session.getAttribute("offset"), "10"));
+        int limit = Integer.parseInt(Objects.toString(session.getAttribute("limit"), "0"));
+        int num_of_movies = Integer.parseInt(Objects.toString(session.getAttribute("num_of_movies"), "0"));
+        int cart_counter = Integer.parseInt(Objects.toString(session.getAttribute("shopping_cart_size"), "0"));
 
-        String orderby = (String) session.getAttribute("orderby");
-        String m_title = (String) session.getAttribute("title");
-        String year = (String) session.getAttribute("year");;
-        String director = (String) session.getAttribute("director");
-        String fName = (String) session.getAttribute("first_name");
-        String lName = (String) session.getAttribute("last_name");
-        String adv = (String) session.getAttribute("adv");
+        String orderby = Objects.toString(session.getAttribute("orderby"), "asc_t");
+        String m_title = Objects.toString(session.getAttribute("title"), "");
+        String year = Objects.toString(session.getAttribute("year"), "");
+        String director = Objects.toString(session.getAttribute("director"), "");
+        String fName = Objects.toString(session.getAttribute("first_name"), "");
+        String lName = Objects.toString(session.getAttribute("last_name"), "");
+        String adv = Objects.toString(session.getAttribute("adv"), "false");
+
         %>  
 
         var limit = <%=limit%>;
@@ -106,11 +113,6 @@
 
 <body>
 
-    <%@ page language="java" contentType="text/html; charset=UTF-8"
-        pageEncoding="UTF-8"
-
-        import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet.http.*, javax.servlet.*, model.*"    
-    %>
 
     <div id="wrapper">
         
@@ -171,95 +173,102 @@
         <div id="moviesList">
         
             <%
-            List<Movie> movies = (ArrayList<Movie>) session.getAttribute("movies");
+
+            List<Movie> movies = (session.getAttribute("movies") == null) ? new ArrayList<Movie>() : (ArrayList<Movie>) session.getAttribute("movies");
             
             for(Movie m : movies) { 
+
+                /*  this takes into account if they are null */
+                String mv_bannar_url = Objects.toString(m.getBannar_url(), "");
+                String mv_id = Objects.toString(m.getId(), "");
+                String mv_title = Objects.toString(m.getTitle(), "");
+                String mv_year = Objects.toString(m.getYear(), "");
+                String mv_director = Objects.toString(m.getDirector(), "");
+                String mv_trailer_url = Objects.toString(m.getTrailer_url(), "");
+                   
             %>         
 
                 <div class="movieBox">
-
-                    <div class="imageAndBuy">
-
-                        <div class="movieImage" style="background-image: url('<%=m.getBannar_url()%>');">
-                            <img src='<%=m.getBannar_url()%>' onerror= "this.src = './images/no-image.jpg';">
-                        </div>
-
-                        <button type="button" id='<%=m.getId()%>' class="buyButton">Add to Cart</button> 
+                <div class="imageAndBuy">
+                    <div class="movieImage" style="background-image: url('<%=mv_bannar_url%>');">
+                        <img src='<%=mv_bannar_url%>' onerror= "this.src = './images/no-image.jpg';">
                     </div>
+                    <button type="button" id=<%=mv_id%> class="buyButton">Add to Cart</button> 
+                </div>
+                <div id="movieInfo">
+                    <div class="info first">
+                        <div class="infoTitle">Title:</div>
+                        <div class="infoDetail">
+                            <a href="./ShowMovie?movie_id=<%=mv_id%>"><%=mv_title%></a>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Year:</div>
+                        <div class="infoDetail"><%=mv_year%></div>
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Director:</div>
+                        <div class="infoDetail"><%=mv_director%></div>
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Movie ID:</div>
+                        <div class="infoDetail"><%=mv_id%></div>
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Stars:</div>
+                        <div class="infoDetail">
+<%                  
 
-                    <div id="movieInfo">
-                        <div class="info first">
-                            <div class="infoTitle">Title:</div>
-                            <div class="infoDetail">
-                                <a href="./ShowMovie?movie_id=<%=m.getId()%>"><%=m.getTitle()%></a>
-                            </div>
-                        </div>
-                        <div class="info">
-                            <div class="infoTitle">Year:</div>
-                            <div class="infoDetail"><%=m.getYear()%></div>
-                        </div>
-                        <div class="info">
-                            <div class="infoTitle">Director:</div>
-                            <div class="infoDetail"><%=m.getDirector()%></div>
-                        </div>
-                        <div class="info">
-                            <div class="infoTitle">Movie ID:</div>
-                            <div class="infoDetail"><%=m.getId()%></div>
-                        </div>
-                        <div class="info">
-                            <div class="infoTitle">Stars:</div>
-                            <div class="infoDetail">
+                        List<Star> stars = (m.getStars() == null) ? new ArrayList<Star>() : (ArrayList<Star>) m.getStars();
+
+                        for(int i = 0; i < stars.size(); ++i){
+%>
                             
-                            <%                  
-                            List<Star> stars = (ArrayList<Star>) m.getStars();
-
-                            for(int i = 0; i < stars.size(); ++i){
-                            %>
-                                
-                                <%if(i < stars.size()-1){%>
-                                    <a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%>,</a>
-                                <%}
-                                else{%>
-                                    <a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%></a>
-                                <%}%>
+                            <%if(i < stars.size()-1){%>
+                                <a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%>,</a>
+                            <%}
+                            else{%>
+                                <a href="./ShowStar?star_id=<%=stars.get(i).getId()%>"><%=stars.get(i).getName()%></a>
+                            <%}%>
+                    
+                        <%}%>   
                         
-                            <%}%>   
-                            
-                            </div>
                         </div>
-                        <div class="info">
-                            <div class="infoTitle">Genres:</div>
-                            <div class="infoDetail">
-                            
-                            <%                  
-                            List<String> genres = (ArrayList<String>) m.getGenres();
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Genres:</div>
+                        <div class="infoDetail">
+                        
+                        
+<%                  
+                        List<String> genres = (m.getGenres() == null) ? new ArrayList<String>() : (ArrayList<String>) m.getGenres();
 
-                            for(int i = 0; i < genres.size(); ++i){
-                            %>
-                                <%if(i < genres.size()-1){%>
-                                    <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%>,</a>
-                                <%}
-                                else{%>
-                                    <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=<%=limit%>&offset=0" ><%=genres.get(i)%></a>
-                                <%}%>
-                                                    
-                            <%}%>   
+                        for(int i = 0; i < genres.size(); ++i){
+%>
+                            <%if(i < genres.size()-1){%>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=10&offset=0" ><%=genres.get(i)%>,</a>
+                            <%}
+                            else{%>
+                                <a href="./ShowGenre?genre=<%=genres.get(i)%>&limit=10&offset=0" ><%=genres.get(i)%></a>
+                            <%}%>
+                                                
+                        <%}%>   
 
-                            </div>
                         </div>
-                        <div class="info">
-                            <div class="infoTitle">Trailer:</div>
-                            <div class="infoDetail">
-                                <a href=<%=m.getTrailer_url()%>>Click here</a>
-                                 to watch the movie trailer
-                            </div>
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Trailer:</div>
+                        <div class="infoDetail">
+                            <a href=<%=mv_trailer_url%>>Click here</a>
+                             to watch the movie trailer
                         </div>
-                        <div class="info">
-                            <div class="infoTitle">Price:</div>
-                            <div class="infoDetail">$15.99</div>
-                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="infoTitle">Price:</div>
+                        <div class="infoDetail">$15.99</div>
                     </div>
                 </div>
+            </div>
 
             <%}%>  
             </div>
