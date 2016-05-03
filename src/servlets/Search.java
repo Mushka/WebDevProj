@@ -193,7 +193,7 @@ public class Search extends HttpServlet {
 
 		String query = "";
 
-		if(advance == null)
+		if(advance == null || !advance.equals("true"))
 		{
 			query = "SELECT * FROM movies WHERE title like '"+title+"%'";
 		
