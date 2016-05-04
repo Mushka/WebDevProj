@@ -43,8 +43,6 @@ public class ShowGenre extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		response.setContentType("text/html"); // Response mime type
-		PrintWriter out = response.getWriter();
-
 		try {
 			String limit = request.getParameter("limit");
 			String offset = request.getParameter("offset");
@@ -56,7 +54,23 @@ public class ShowGenre extends HttpServlet {
 			if (offset == null)
 				offset = "0";
 			if (genre == null)
-				genre = "Thriller";
+			{
+//				grab first genre
+                ArrayList<Map<String, Object>> results = MySQL.select("select name from genres order by name limit 1");
+                
+                if (results != null && !results.isEmpty())
+        		{                			
+                	Map<String, Object> row = results.get(0);
+                	genre = (row.get("name")).toString();
+        		}
+                else
+                {
+        			request.getSession().setAttribute("error_message", "There doesn't seem to be any genres!");
+        			RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+        			dispatcher.forward(request, response);
+        			return;
+        		}
+			}
 
 			if (orderby == null)
 				orderby = "asc_t";
