@@ -180,9 +180,9 @@
 
                 /*  this takes into account if they are null */
                 String mv_bannar_url = Objects.toString(m.getBannar_url(), "");
-                String mv_id = Objects.toString(m.getId(), "");
+                String mv_id = m.getId() == -1 ? "" :  Integer.toString(m.getId());
                 String mv_title = Objects.toString(m.getTitle(), "");
-                String mv_year = Objects.toString(m.getYear(), "");
+                String mv_year = m.getYear() == -1 ? "" : Integer.toString(m.getYear());
                 String mv_director = Objects.toString(m.getDirector(), "");
                 String mv_trailer_url = Objects.toString(m.getTrailer_url(), "");
                    
