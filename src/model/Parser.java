@@ -112,6 +112,7 @@ public class Parser extends DefaultHandler{
 			ie.printStackTrace();
 		}
 	}
+	
 	//Completely for error checking
 	public void printMovies(){
 		System.out.println("No of Movies '" + myMovies.size() + "'.");
@@ -173,11 +174,12 @@ public class Parser extends DefaultHandler{
 	
 	//temp value buffer which gets changed during every tag iteration
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		tempVal = new String(ch,start,length);
+		tempVal += new String(ch,start,length);
 	}
 
 	//finds closing tag and checks it enters it in the appropriate data structure
 	public void endElement(String uri, String localName, String qName) throws SAXException {
+		
 		if(this.type == XMLtype.Movies){
 			movieEndElement(qName);
 		}else if(this.type == XMLtype.Stars){
@@ -246,6 +248,12 @@ public class Parser extends DefaultHandler{
 	//matches movies with their stars if they exist, if they do it fixes it in the star hash
 	public void castEndElement(String castTag){
 		if(castTag.equalsIgnoreCase("t")){
+			if(tempVal.contains("'"))
+				tempVal =  tempVal.replaceAll("'", "''");
+			if(tempVal.contains("\\"))
+				tempVal = tempVal.replace("\\","\\\\");
+			if(tempVal.contains("&"))
+				tempVal = tempVal.replace("&", "and");
 			tempTitle = tempVal.toLowerCase().trim();
 		}else if(castTag.equalsIgnoreCase("a")){
 			tempActor = tempVal.toLowerCase().trim();
@@ -364,12 +372,14 @@ public class Parser extends DefaultHandler{
 		processStarsInMovies();
 		this.dbcon.commit();
 	}
+	
 	public void insertMovies() throws Exception{
 		Statement statement = dbcon.createStatement();
 		StringBuilder batchInsertQuery = new StringBuilder();
 		batchInsertQuery.append("INSERT INTO movies (title, year, director) VALUES");
-		for(Movie m : myMovies.values())
-			batchInsertQuery.append(" ('" + " " + m.getTitle() + "', " + m.getYear() + ", '"+ m.getDirector() + "'),\n");
+		for(Movie m : myMovies.values()){
+				batchInsertQuery.append(" ('" + m.getTitle() + "', " + m.getYear() + ", '"+ m.getDirector() + "'),\n");
+		}
 		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
         statement.executeUpdate(batchInsertQuery.toString());
         statement.close();
@@ -435,6 +445,7 @@ public class Parser extends DefaultHandler{
 		    }
 		}catch (Exception e) {System.out.println("The cluck");}
 	}
+	
 	public HashSet<String> matchMoviesWithGenres(){
 		HashSet<String> genMovs = new HashSet<String>();
 		for(Entry<String, Movie> m : myMovies.entrySet()){
@@ -501,6 +512,7 @@ public class Parser extends DefaultHandler{
         statement.close();
 	}
 	
+
 	//HOW TO USE PARSER
 	public static void main(String[] args) {
 		String mFile = "/home/josh/Documents/122B_Movie_Sources/mains243.xml";
