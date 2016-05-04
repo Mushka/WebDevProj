@@ -1,9 +1,9 @@
--- DROP DATABASE IF EXISTS moviedb;
--- CREATE DATABASE moviedb;
+DROP DATABASE IF EXISTS moviedb;
+CREATE DATABASE moviedb;
 
--- USE moviedb;
+USE moviedb;
 
--- DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS movies;
 CREATE TABLE movies(
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title varchar(100) NOT NULL,
@@ -75,3 +75,8 @@ CREATE TABLE employees(
     fullname varchar(100)
 );
 
+use moviedb;
+insert into creditcards values ('b', 'a', 'c', '1999-11-18'); 
+insert into customers values (1, 'a', 'b', 'b', 'asdf', 'a', 'b');
+
+select * from movies where title like '%atman%';
