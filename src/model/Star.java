@@ -12,6 +12,15 @@ public class Star {
 	private String photo_url;
 	private ArrayList<Movie> starred_in = null;
 
+	public Star() {
+		super();
+		this.id = -1;
+		this.first_name = null;
+		this.last_name = null;
+		this.dob = null;
+		this.photo_url = null;
+		this.starred_in = null;
+	}	
 
 	public Star(int id, String first_name, String last_name, String dob, String photo_url,
 			ArrayList<Movie> starred_in) {

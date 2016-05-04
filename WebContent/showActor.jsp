@@ -48,25 +48,33 @@ import="java.sql.*, java.util.*, javax.sql.*, java.io.IOException, javax.servlet
 
 
 <%
-             Star actor = (Star) session.getAttribute("actor");
+
+            Star actor = (session.getAttribute("actor") == null) ? new Star() : (Star) session.getAttribute("actor");
+
+                /*  this takes into account if they are null */
+                String a_photo_url = Objects.toString(actor.getPhoto_url(), "");
+                String a_name = Objects.toString(actor.getName(), "");
+                String a_dob = Objects.toString(actor.getDob(), "");
+                String a_id = actor.getId() == -1 ? "" :  Integer.toString(actor.getId());
+
  %>         
 
             <div class="movieBox">
                 <div class="imageAndBuy">
-                    <div class="movieImage" style="background-image: url('<%=actor.getPhoto_url()%>');"></div>
+                    <div class="movieImage" style="background-image: url('<%=a_photo_url%>');"></div>
                 </div>
                 <div id="movieInfo">
                     <div class="info first">
                         <div class="infoTitle">Star Name:</div>
-                        <div class="infoDetail"><%=actor.getName()%> </div>
+                        <div class="infoDetail"><%=a_name%> </div>
                     </div>
                      <div class="info">
                         <div class="infoTitle">DOB:</div>
-                        <div class="infoDetail"><%=actor.getDob()%></div>
+                        <div class="infoDetail"><%=a_dob%></div>
                     </div>
                     <div class="info">
                         <div class="infoTitle">Star ID:</div>
-                        <div class="infoDetail"><%=actor.getId()%></div>
+                        <div class="infoDetail"><%=a_id%></div>
                     </div> 
                     <div class="info">
                         <div class="infoTitle">Starred in:</div>
