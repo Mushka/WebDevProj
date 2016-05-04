@@ -46,39 +46,46 @@ public class ShowStar extends HttpServlet {
             String star_id = request.getParameter("star_id");
                         
             if(star_id==null)
-                star_id = "658017";
-            
-        String query = "SELECT * FROM stars WHERE id = " + star_id;
+            {
+				request.getSession().setAttribute("error_message", "No star was selected!");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+				dispatcher.forward(request, response);
+            }
+            else
+            {
+            	String query = "SELECT * FROM stars WHERE id = " + star_id;
 
-        ArrayList<Map<String, Object>> results = MySQL.select(query);
-        
-        Star actor = null;
-        
-        for(Map<String, Object> row : results)
-            actor = new Star(((Integer)row.get("id")).intValue(), row.get("first_name").toString(), row.get("last_name").toString(), row.get("dob").toString(), row.get("photo_url").toString());
-        
-        if(actor == null)
-        	System.out.println("DO SOMETHING ABOUT THIS BITCH"); //TODO
+                ArrayList<Map<String, Object>> results = MySQL.select(query);
+                
+                Star actor = null;
+                
+                for(Map<String, Object> row : results)
+                    actor = new Star(((Integer)row.get("id")).intValue(), row.get("first_name").toString(), row.get("last_name").toString(), row.get("dob").toString(), row.get("photo_url").toString());
+                
+                if(actor == null)
+                	System.out.println("DO SOMETHING ABOUT THIS BITCH"); //TODO
 
-        ArrayList<Movie> movies_starred_in = new ArrayList<Movie>();
-        
-        query = "select m.title, m.year, m.director, m.banner_url, m.trailer_url, m.id "
-        		+ "from stars_in_movies as sm, stars as s, movies as m "
-        		+ "where sm.star_id = s.id and m.id = sm.movie_id and s.id = " + actor.getId() + " "
-        		+ "order by m.title;";
-  
-        results = MySQL.select(query);
-        
-        for(Map<String, Object> row : results)
-        	movies_starred_in.add(new Movie(((Integer) row.get("id")).intValue(), row.get("title").toString(), ((Integer)row.get("year")).intValue(),
-					row.get("director").toString(), row.get("banner_url").toString(), row.get("trailer_url").toString()));        
-        
-        actor.setStarred_in(movies_starred_in);
-        
-        request.getSession().setAttribute("actor", actor);
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/showActor.jsp");
-        dispatcher.forward(request, response);
+                ArrayList<Movie> movies_starred_in = new ArrayList<Movie>();
+                
+                query = "select m.title, m.year, m.director, m.banner_url, m.trailer_url, m.id "
+                		+ "from stars_in_movies as sm, stars as s, movies as m "
+                		+ "where sm.star_id = s.id and m.id = sm.movie_id and s.id = " + actor.getId() + " "
+                		+ "order by m.title;";
+          
+                results = MySQL.select(query);
+                
+                for(Map<String, Object> row : results)
+                	movies_starred_in.add(new Movie(((Integer) row.get("id")).intValue(), row.get("title").toString(), ((Integer)row.get("year")).intValue(),
+        					row.get("director").toString(), row.get("banner_url").toString(), row.get("trailer_url").toString()));        
+                
+                actor.setStarred_in(movies_starred_in);
+                
+                request.getSession().setAttribute("actor", actor);
+                
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/showActor.jsp");
+                dispatcher.forward(request, response);
+                
+            }
         
         } catch (Exception e){
         	
