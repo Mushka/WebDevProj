@@ -135,9 +135,29 @@ public class Movie {
 		try {
 			results = MySQL.select(query);
 
-			m = new Movie(((Integer) results.get(0).get("id")).intValue(), results.get(0).get("title").toString(), ((Integer)results.get(0).get("year")).intValue(),
-						results.get(0).get("director").toString(), results.get(0).get("banner_url").toString(), results.get(0).get("trailer_url").toString());
+			// m = new Movie(((Integer) results.get(0).get("id")).intValue(), results.get(0).get("title").toString(), ((Integer)results.get(0).get("year")).intValue(),
+			// 			results.get(0).get("director").toString(), results.get(0).get("banner_url").toString(), results.get(0).get("trailer_url").toString());
 
+			
+			Map<String, Object> row = results.get(0);
+			
+			//there was a get id from the row but it is also passed in
+			
+			String title = row.get("title").toString();
+			int year = ((Integer)row.get("year")).intValue();
+			String director = row.get("director").toString();
+			
+			String banner_url = "";
+			if(row.get("banner_url") != null)
+				banner_url = row.get("banner_url").toString();
+			
+			String trailer_url = "";
+			if(row.get("trailer_url") != null)
+				trailer_url = row.get("trailer_url").toString();
+			
+			m = new Movie(id, title, year, 
+					director, banner_url, trailer_url);
+		
 	        m.setGenres(Movie.getGenres(id));
 	        m.setStars(Movie.getStars(id));
 	 
@@ -197,12 +217,12 @@ public class Movie {
 		return movies;
 	}
 
-	public static ArrayList<String> getGenres(int id) {
+	public static ArrayList<String> getGenres(int m_id) {
 		ArrayList<String> genres = new ArrayList<String>();
 
 		String query = "select g.name as 'genre' "
 				+ "from movies as m, genres_in_movies as gm, genres as g where m.id = gm.movie_id and g.id = gm.genre_id and m.id = "
-				+ id + " " + "order by g.name, m.title, m.year, m.director;";
+				+ m_id + " " + "order by g.name, m.title, m.year, m.director;";
 
 		ArrayList<Map<String, Object>> results = null;
 
@@ -224,13 +244,13 @@ public class Movie {
 	}
 	
 
-	public static ArrayList<Star> getStars(int id) {
+	public static ArrayList<Star> getStars(int m_id) {
     	
     	ArrayList<Star> stars = new ArrayList<Star>();
     	
         String query =     		
 	              "select s.id, s.first_name, s.last_name, s.dob, s.photo_url "
-	              + "from movies as m, stars as s, stars_in_movies as sm where m.id = sm.movie_id and s.id = sm.star_id and m.id = " + id + " "
+	              + "from movies as m, stars as s, stars_in_movies as sm where m.id = sm.movie_id and s.id = sm.star_id and m.id = " + m_id + " "
 	              + "order by s.first_name, s.last_name;";
 
 		ArrayList<Map<String, Object>> results = null;
@@ -239,7 +259,22 @@ public class Movie {
 			results = MySQL.select(query);
 
 			for (Map<String, Object> row : results)
-            	stars.add(new Star(((Integer)row.get("id")).intValue(), row.get("first_name").toString(), row.get("last_name").toString(), row.get("dob").toString(), row.get("photo_url").toString()));
+			{
+
+				int s_id = ((Integer) row.get("id")).intValue();
+				String first_name = row.get("first_name").toString();
+				String last_name = row.get("last_name").toString();
+				
+				String dob = "";
+				if(row.get("dob") != null)
+					dob = row.get("dob").toString();
+				
+				String photo_url = "";
+				if(row.get("photo_url") != null)
+					photo_url = row.get("photo_url").toString();
+
+				stars.add(new Star(s_id, first_name, last_name, dob, photo_url));
+			}
 					
 		} catch (Exception e) {
 
