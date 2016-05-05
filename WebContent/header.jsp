@@ -128,14 +128,9 @@
 
                             if(movie['stars'] != 'undefined'){
 
-                                $.each( movie['stars'], function(j, star) {
-                                    
-                                    console.log( "  Star: " + j);          
-                                    console.log( "     name: " + star['full_name']);    
-                                    console.log( "     id: " + star['id'] );        
-
-                                    $("#moviesList").append('\
-                                    <a href="./ShowStar?star_id=' + star["id"] + ' > ' + star["id"] + ',</a>');
+                                $.each(movie['stars'], function(j, star) {
+                                           
+                                    $("#moviesList").append('<a href="./ShowStar?star_id=' + star["id"] + '">' + star["full_name"] + ',</a>');
 
                                 }); 
                             }
@@ -148,25 +143,31 @@
 
                         if(movie['genres'] != 'undefined'){
 
-                                $.each( movie['stars'], function(j, genres) {
+                                $.each(movie['genres'], function(j, genre) {
                                     
-                                    $("#moviesList").append('\
-                                    <a href="./ShowGenre?genre=' + genre + ' %>&limit=10&offset=0' > ' + star["id"] + ',</a>');
+                                    $("#moviesList").append('<a href="./ShowGenre?genre=' + genre + '&limit=10&offset=0"> ' + genre + ',</a>');
 
                                 }); 
-                            }
+                        }
 
 
+                    $("#moviesList").append('\
+                            </div>\
+                        </div>\
+                        <div class="info">\
+                        <div class="infoTitle">Trailer:</div>\
+                        <div class="infoDetail">\
+                            <a href=' + movie['trailer_url']+ ' >Click here</a> to watch the movie trailer\
+                        </div>\
+                    </div>\
+                    <div class="info">\
+                        <div class="infoTitle">Price:</div>\
+                        <div class="infoDetail">$15.99</div>\
+                    </div>\
+                </div>\
+            </div>');
 
 
-
-	                            <div class="info">\
-	                                <div class="infoTitle">Price:</div>\
-	                                <div class="infoDetail">$15.99</div>\
-	                            </div>\
-	                        </div>\
-	                    </div>');
-	                    	
                		});  
         		}
       	   	}	
