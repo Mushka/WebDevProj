@@ -120,6 +120,46 @@
 	                                <div class="infoTitle">Movie ID:</div>\
 	                                <div class="infoDetail">' + movie["id"] + ' </div>\
 	                            </div>\
+                                <div class="info">\
+                                <div class="infoTitle">Stars:</div>\
+                                <div class="infoDetail">');
+
+
+
+                            if(movie['stars'] != 'undefined'){
+
+                                $.each( movie['stars'], function(j, star) {
+                                    
+                                    console.log( "  Star: " + j);          
+                                    console.log( "     name: " + star['full_name']);    
+                                    console.log( "     id: " + star['id'] );        
+
+                                    $("#moviesList").append('\
+                                    <a href="./ShowStar?star_id=' + star["id"] + ' > ' + star["id"] + ',</a>');
+
+                                }); 
+                            }
+                        $("#moviesList").append('\
+                            </div>\
+                        </div>\
+                        <div class="info">\
+                        <div class="infoTitle">Genres:</div>\
+                        <div class="infoDetail">');
+
+                        if(movie['genres'] != 'undefined'){
+
+                                $.each( movie['stars'], function(j, genres) {
+                                    
+                                    $("#moviesList").append('\
+                                    <a href="./ShowGenre?genre=' + genre + ' %>&limit=10&offset=0' > ' + star["id"] + ',</a>');
+
+                                }); 
+                            }
+
+
+
+
+
 	                            <div class="info">\
 	                                <div class="infoTitle">Price:</div>\
 	                                <div class="infoDetail">$15.99</div>\
