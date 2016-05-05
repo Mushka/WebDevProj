@@ -160,6 +160,12 @@
 		<description></description>
 		<servlet-class>servlets.ProcessAddStar</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SearchAjax</servlet-name>
+		<display-name>SearchAjax</display-name>
+		<description></description>
+		<servlet-class>servlets.SearchAjax</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
@@ -228,6 +234,10 @@
 	<servlet-mapping>
 		<servlet-name>ProcessAddStar</servlet-name>
 		<url-pattern>/_dashboard/ProcessAddStar</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SearchAjax</servlet-name>
+		<url-pattern>/SearchAjax</url-pattern>
 	</servlet-mapping>
 
 	<error-page>
