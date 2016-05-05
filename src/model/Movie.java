@@ -116,6 +116,9 @@ public class Movie {
 	public void setGenres(ArrayList<String> genres) {
 		this.genres = genres;
 	}
+	public void addToGenres(String s){
+		this.genres.add(s);
+	}
 
 	public ArrayList<String> getGenres() {
 		return genres;

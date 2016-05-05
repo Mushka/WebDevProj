@@ -45,6 +45,9 @@ public class Parser extends DefaultHandler{
 	
 	private String tempTitle;
 	private String tempActor;
+	private String tempDirector;
+	
+	private boolean checker = false;
 	
 	private Connection dbcon = null;
 	
@@ -75,7 +78,7 @@ public class Parser extends DefaultHandler{
 	
 	public void runParser(boolean print){
 		parseDocument();
-		removeStarsWithoutMovies();
+		//removeStarsWithoutMovies();
 		if(print){
 			if(this.type == XMLtype.Movies){
 				printMovies();
@@ -90,7 +93,6 @@ public class Parser extends DefaultHandler{
 		//get a factory
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		try {
-		
 			//get a new instance of parser
 			SAXParser sp = spf.newSAXParser();
 			//parse the file and also register this class for call backs
@@ -162,8 +164,10 @@ public class Parser extends DefaultHandler{
 		//reset
 		tempVal = "";
 		if(this.type == XMLtype.Movies){
-			if(qName.equalsIgnoreCase("film"))
+			if(qName.equalsIgnoreCase("film")){
 				tempMovie = new Movie(0,"",0,"","","" );
+				checker = true;
+			}
 			if(qName.equalsIgnoreCase("cats"))
 				tempGenre = new ArrayList<String>();
 		}else if(this.type == XMLtype.Stars){
@@ -193,12 +197,24 @@ public class Parser extends DefaultHandler{
 		//id is unneeded when entered in the database, and is created upon insertion
 		switch(movieTag.toLowerCase()){
 			case "cats":
-				tempMovie.setGenres(tempGenre);
+				if(!myMovies.containsKey(tempMovie.getTitle().toLowerCase().trim() + " " + tempMovie.getDirector().toLowerCase().trim()))
+					tempMovie.setGenres(tempGenre);
+				else{
+					Movie movieFixer = myMovies.get(tempMovie.getTitle().toLowerCase().trim() + " " + tempMovie.getDirector().toLowerCase().trim());
+					if(movieFixer.getGenres() == null)
+						movieFixer.setGenres(new ArrayList<String>());
+					for(String s : tempGenre){
+						//System.out.println(tempMovie.getTitle() + " " + s);
+						movieFixer.addToGenres(s);
+					}
+					myMovies.put(tempMovie.getTitle().toLowerCase().trim()+ " " + tempMovie.getDirector().toLowerCase().trim(), movieFixer);
+				}
 				fixGenres(tempGenre);
 				break;
 			case "film":
-				myMovies.put(tempMovie.getTitle().toLowerCase().trim(), tempMovie);
-				myMovieIds.put(tempMovie.getTitle().toLowerCase().trim(), "0");
+				if(!myMovies.containsKey(tempMovie.getTitle().toLowerCase().trim() + " " + tempMovie.getDirector().toLowerCase().trim()))
+					myMovies.put(tempMovie.getTitle().toLowerCase().trim() + " " + tempMovie.getDirector().toLowerCase().trim(), tempMovie);
+				myMovieIds.put(tempMovie.getTitle().toLowerCase().trim() + " " + tempMovie.getDirector().toLowerCase().trim(), "0");
 				break;
 			case "t":
 				if(tempVal.contains("'"))
@@ -212,7 +228,16 @@ public class Parser extends DefaultHandler{
 				catch(Exception e){ tempMovie.setYear(9999); }
 				break;
 			case "dirn" :
-				tempMovie.setDirector(tempVal.trim());
+				if(tempMovie.getTitle().equals("Batman and Robin"))
+					System.out.println(tempVal);
+				if(checker){
+					checker = false;
+					if(tempVal.contains("'"))
+						tempVal =  tempVal.replaceAll("'", "''");
+					if(tempVal.contains("\\"))
+						tempVal = tempVal.replace("\\","\\\\");
+					tempMovie.setDirector(tempVal.trim());
+				}
 				break;
 			case "cat":
 				tempGenre.add(tempVal.trim());
@@ -221,20 +246,23 @@ public class Parser extends DefaultHandler{
 	}
 	public void starEndElement(String starTag){
 		if(starTag.equalsIgnoreCase("actor")){
+			if(tempStar.getDob().trim().equals("")) tempStar.setDob("9999/01/01");
 			myStars.put(tempStar.getName().toLowerCase().trim(), tempStar);
 			myStarIds.put(tempStar.getName().toLowerCase().trim(),"0");
 		}else if(starTag.equalsIgnoreCase("firstname")){
 			if(tempVal.contains("'"))
 				tempVal =  tempVal.replaceAll("'", "''");
+			if(tempVal.contains("\\"))
+				tempVal = tempVal.replace("\\","\\\\");
 			tempStar.setFirst_name(tempVal.trim());
 		}else if(starTag.equalsIgnoreCase("familyname")){
 			if(tempVal.contains("'"))
-				tempVal =  tempVal.replaceAll("'", "''");
+				tempVal =  tempVal.replace("'", "''");
 			if(tempVal.contains("\\"))
 				tempVal = tempVal.replace("\\","\\\\");
 			tempStar.setLast_name(tempVal.trim());
 		}else if(starTag.equalsIgnoreCase("dob")){
-			if("".equals(tempVal.trim()))
+			if(tempVal.trim().equals(""))
 				tempVal = "9999";
 			if(tempVal.contains("+"))
 				tempVal = tempVal.replace("+", "");
@@ -257,16 +285,22 @@ public class Parser extends DefaultHandler{
 			tempTitle = tempVal.toLowerCase().trim();
 		}else if(castTag.equalsIgnoreCase("a")){
 			tempActor = tempVal.toLowerCase().trim();
-			if(!duplicateMovieActorChecker.contains(tempTitle + " " + tempActor)){
-				duplicateMovieActorChecker.add(tempTitle + " " + tempActor);
-				if((myStars.containsKey(tempActor))&&(myMovies.containsKey(tempTitle))){
+			if(!duplicateMovieActorChecker.contains(tempTitle + " " + tempDirector + " " + tempActor)){
+				duplicateMovieActorChecker.add(tempTitle + " " + tempDirector + " " + tempActor);
+				if((myStars.containsKey(tempActor))&&(myMovies.containsKey(tempTitle + " " + tempDirector))){
 					Star starFixer = myStars.get(tempActor);
 					if(starFixer.getStarred_in() == null)
 						starFixer.setStarred_in(new ArrayList<Movie>());
-					starFixer.addToStarred_in(myMovies.get(tempTitle));
+					starFixer.addToStarred_in(myMovies.get(tempTitle+ " " + tempDirector));
 					myStars.put(tempActor, starFixer);
 				}
 			}
+		}else if(castTag.equalsIgnoreCase("is")){
+			if(tempVal.contains("'"))
+				tempVal =  tempVal.replaceAll("'", "''");
+			if(tempVal.contains("\\"))
+				tempVal = tempVal.replace("\\","\\\\");
+			tempDirector = tempVal.toLowerCase().trim();
 		}
 	}
 	
@@ -392,6 +426,7 @@ public class Parser extends DefaultHandler{
 		for(Star s : myStars.values())
 			batchInsertQuery.append(" ('" + s.getFirst_name() + "', '" + s.getLast_name() + "', '"+ s.getDob() + "'),\n");
 		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
+		printToFile("/home/josh/Documents/122B_Movie_Sources/results.txt", batchInsertQuery.toString());
         statement.executeUpdate(batchInsertQuery.toString());
         statement.close();
 	}
@@ -419,12 +454,19 @@ public class Parser extends DefaultHandler{
 		    for (Map<String, Object> row : results){
 		        String id = row.get("id").toString();
 		        String title = row.get("title").toString();
+		        String director = row.get("director").toString();
 				if(title.contains("'"))
 					title =  title.replaceAll("'", "''");
 				if(title.contains("\\"))
 					title = title.replace("\\","\\\\");
-		        if(myMovieIds.containsKey(title.toLowerCase().trim()))
-		        	myMovieIds.put(title.toLowerCase().trim(), id);
+				if(director.contains("'"))
+					director =  director.replaceAll("'", "''");
+				if(director.contains("\\"))
+					director = director.replace("\\","\\\\");
+		        if(myMovieIds.containsKey(title.toLowerCase().trim() + " " + director.toLowerCase().trim()))
+		        	myMovieIds.put(title.toLowerCase().trim()+ " " + director.toLowerCase().trim(), id);
+		        //else
+		        	//System.out.println(title + " " + director + " " + id);
 		    }
 		}catch (Exception e) {System.out.println("The cluck");}
 	}
@@ -496,7 +538,7 @@ public class Parser extends DefaultHandler{
 		for(Entry<String, Star> s : myStars.entrySet()){
 			if(s.getValue().getStarred_in() != null){
 				for(Movie m : s.getValue().getStarred_in())
-					starsMov.add(myStarIds.get(s.getKey())+ ", " + myMovieIds.get(m.getTitle().toLowerCase().trim()));
+					starsMov.add(myStarIds.get(s.getKey())+ ", " + myMovieIds.get(m.getTitle().toLowerCase().trim() + " " + m.getDirector().toLowerCase().trim()));
 			}
 		}
 		return starsMov;
