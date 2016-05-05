@@ -575,7 +575,7 @@ public class Parser extends DefaultHandler{
 		
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("time: " + estimatedTime/1000.0 + " secs");
-		
+
 		//Prints Log File file for all the 
 		//spe.printLogFile("/home/josh/Documents/122B_Movie_Sources/results.txt");
 
