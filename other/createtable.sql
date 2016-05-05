@@ -3,7 +3,6 @@ CREATE DATABASE moviedb;
 
 USE moviedb;
 
-DROP TABLE IF EXISTS movies;
 CREATE TABLE movies(
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title varchar(100) NOT NULL,
@@ -75,14 +74,5 @@ CREATE TABLE employees(
     fullname varchar(100)
 );
 
-use moviedb;
-insert into creditcards values ('b', 'a', 'c', '1999-11-18'); 
-insert into customers values (1, 'a', 'b', 'b', 'asdf', 'a', 'b');
-
-select * from movies where title like '%atman%';
-
-select * from stars_in_movies where movie_id > 6932;
-
-select * from stars where last_name like 'De Niro';
-
-select * from stars where last_name like 'Pitt';
+use moviedb_project3_grading;
+select * from genres;
