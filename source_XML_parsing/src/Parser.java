@@ -215,23 +215,39 @@ public class Parser extends DefaultHandler{
 				myMovieIds.put(tempMovie.getTitle().toLowerCase().trim() + " " + tempMovie.getDirector().toLowerCase().trim(), "0");
 				break;
 			case "t":
-				if(tempVal.contains("'"))
+				if(tempVal.contains("'")){
+					System.out.println("Inconsistent " + tempVal);
 					tempVal =  tempVal.replaceAll("'", "''");
-				if(tempVal.contains("\\"))
+					System.out.println("Cleaned " + tempVal);
+				}
+				if(tempVal.contains("\\")){
+					System.out.println("Inconsistent " + tempVal);
 					tempVal = tempVal.replace("\\","\\\\");
+					System.out.println("Cleaned " + tempVal);
+				}
 				tempMovie.setTitle(tempVal.trim());
 				break;
 			case "year":
 				try{ tempMovie.setYear(Integer.parseInt(tempVal.trim()));}
-				catch(Exception e){ tempMovie.setYear(9999); }
+				catch(Exception e){
+					System.out.println("Inconsistent " + tempVal);
+					tempMovie.setYear(9999); 
+					System.out.println("Cleaned " + tempVal);
+				}
 				break;
 			case "dirn" :
 				if(checker){
 					checker = false;
-					if(tempVal.contains("'"))
+					if(tempVal.contains("'")){
+						System.out.println("Inconsistent " + tempVal);
 						tempVal =  tempVal.replaceAll("'", "''");
-					if(tempVal.contains("\\"))
+						System.out.println("Cleaned " + tempVal);
+					}
+					if(tempVal.contains("\\")){
+						System.out.println("Inconsistent " + tempVal);
 						tempVal = tempVal.replace("\\","\\\\");
+						System.out.println("Cleaned " + tempVal);
+					}
 					tempMovie.setDirector(tempVal.trim());
 				}
 				break;
@@ -242,31 +258,61 @@ public class Parser extends DefaultHandler{
 	}
 	public void starEndElement(String starTag){
 		if(starTag.equalsIgnoreCase("actor")){
-			if(tempStar.getDob().trim().equals("")) tempStar.setDob("9999/01/01");
+			if(tempStar.getDob().trim().equals("")){ 
+				if(!tempStar.getFirst_name().equals(""))
+					System.out.println("NO DOB " + tempStar.getFirst_name() + " " +tempStar.getLast_name());
+				tempStar.setDob("9999/01/01");
+				if(!tempStar.getFirst_name().equals(""))
+					System.out.println("Cleaned " + "9999/01/01");
+			}
 			myStars.put(tempStar.getName().toLowerCase().trim(), tempStar);
 			myStarIds.put(tempStar.getName().toLowerCase().trim(),"0");
 		}else if(starTag.equalsIgnoreCase("firstname")){
-			if(tempVal.contains("'"))
+			if(tempVal.contains("'")){
+				System.out.println("Inconsistent " + tempVal);
 				tempVal =  tempVal.replaceAll("'", "''");
-			if(tempVal.contains("\\"))
+				System.out.println("Cleaned " + tempVal);
+			}
+			if(tempVal.contains("\\")){
+				System.out.println("Inconsistent " + tempVal);
 				tempVal = tempVal.replace("\\","\\\\");
+				System.out.println("Cleaned " + tempVal);
+			}
 			tempStar.setFirst_name(tempVal.trim());
 		}else if(starTag.equalsIgnoreCase("familyname")){
-			if(tempVal.contains("'"))
+			if(tempVal.contains("'")){
+				System.out.println("Inconsistent " + tempVal);
 				tempVal =  tempVal.replace("'", "''");
-			if(tempVal.contains("\\"))
+				System.out.println("Cleaned " + tempVal);
+			}
+			if(tempVal.contains("\\")){
+				System.out.println("Inconsistent " + tempVal);
 				tempVal = tempVal.replace("\\","\\\\");
+				System.out.println("Cleaned " + tempVal);
+			}
 			tempStar.setLast_name(tempVal.trim());
 		}else if(starTag.equalsIgnoreCase("dob")){
-			if(tempVal.trim().equals(""))
+			if(tempVal.trim().equals("")){
+				if(!tempStar.getFirst_name().equals(""))
+					System.out.println("NO DOB " + tempStar.getFirst_name() + " " +tempStar.getLast_name());
 				tempVal = "9999";
-			if(tempVal.contains("+"))
+				if(!tempStar.getFirst_name().equals(""))
+					System.out.println("Cleaned " + "9999/01/01");
+			}
+			if(tempVal.contains("+")){
+				System.out.println("Inconsistent " + tempVal + "/01/01");
 				tempVal = tempVal.replace("+", "");
+				System.out.println("Cleaned " + "9999/01/01");
+			}
 			try{
 				int test = Integer.parseInt(tempVal.trim());
 				tempStar.setDob(test + "/01/01");
 			}
-			catch(Exception e){ tempStar.setDob("9999/01/01"); }
+			catch(Exception e){ 
+				System.out.println("Inconsistent " + tempVal);
+				tempStar.setDob("9999/01/01"); 
+				System.out.println("Cleaned " + "9999/01/01");
+			}
 		}
 	}
 	//matches movies with their stars if they exist, if they do it fixes it in the star hash
