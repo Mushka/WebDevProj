@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS moviedb_project3_grading; 
-CREATE DATABASE moviedb_project3_grading; 
+CREATE DATABASE IF NOT EXISTS moviedb_project3_grading; 
 USE moviedb_project3_grading;
 
 CREATE TABLE movies(
