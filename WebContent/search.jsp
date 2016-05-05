@@ -120,44 +120,44 @@
             
             <%@ include file="header.jsp" %>
 
-        <div id="titleNav">
-            <a href="#" class="titleCat noBorderLeft" onclick = "reload(0, limit, '0', orderby, year, director, fName, lName, false);">0</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby, year, director, fName, lName, false);">1</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby, year, director, fName, lName, false);">2</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby, year, director, fName, lName, false);">3</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby, year, director, fName, lName, false);">4</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby, year, director, fName, lName, false);">5</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby, year, director, fName, lName, false);">6</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby, year, director, fName, lName, false);">7</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby, year, director, fName, lName, false);">8</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby, year, director, fName, lName, false);">9</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby, year, director, fName, lName, false);">A</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby, year, director, fName, lName, false);">B</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby, year, director, fName, lName, false);">C</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby, year, director, fName, lName, false);">D</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby, year, director, fName, lName, false);">E</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby, year, director, fName, lName, false);">F</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby, year, director, fName, lName, false);">G</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby, year, director, fName, lName, false);">H</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby, year, director, fName, lName, false);">I</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby, year, director, fName, lName, false);">J</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby, year, director, fName, lName, false);">K</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby, year, director, fName, lName, false);">L</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby, year, director, fName, lName, false);">M</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby, year, director, fName, lName, false);">N</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby, year, director, fName, lName, false);">O</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby, year, director, fName, lName, false);">P</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby, year, director, fName, lName, false);">Q</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby, year, director, fName, lName, false);">R</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby, year, director, fName, lName, false);">S</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby, year, director, fName, lName, false);">T</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby, year, director, fName, lName, false);">U</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby, year, director, fName, lName, false);">V</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby, year, director, fName, lName, false);">W</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby, year, director, fName, lName, false);">X</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby, year, director, fName, lName, false);">Y</a>
-            <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby, year, director, fName, lName, false);">Z</a>
-        </div>
+            <div id="titleNav">
+                <a href="#" class="titleCat noBorderLeft" onclick = "reload(0, limit, '0', orderby, year, director, fName, lName, false);">0</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '1', orderby, year, director, fName, lName, false);">1</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '2', orderby, year, director, fName, lName, false);">2</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '3', orderby, year, director, fName, lName, false);">3</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '4', orderby, year, director, fName, lName, false);">4</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '5', orderby, year, director, fName, lName, false);">5</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '6', orderby, year, director, fName, lName, false);">6</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '7', orderby, year, director, fName, lName, false);">7</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '8', orderby, year, director, fName, lName, false);">8</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, '9', orderby, year, director, fName, lName, false);">9</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'A', orderby, year, director, fName, lName, false);">A</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'B', orderby, year, director, fName, lName, false);">B</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'C', orderby, year, director, fName, lName, false);">C</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'D', orderby, year, director, fName, lName, false);">D</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'E', orderby, year, director, fName, lName, false);">E</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'F', orderby, year, director, fName, lName, false);">F</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'G', orderby, year, director, fName, lName, false);">G</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'H', orderby, year, director, fName, lName, false);">H</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'I', orderby, year, director, fName, lName, false);">I</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'J', orderby, year, director, fName, lName, false);">J</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'K', orderby, year, director, fName, lName, false);">K</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'L', orderby, year, director, fName, lName, false);">L</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'M', orderby, year, director, fName, lName, false);">M</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'N', orderby, year, director, fName, lName, false);">N</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'O', orderby, year, director, fName, lName, false);">O</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'P', orderby, year, director, fName, lName, false);">P</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Q', orderby, year, director, fName, lName, false);">Q</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'R', orderby, year, director, fName, lName, false);">R</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'S', orderby, year, director, fName, lName, false);">S</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'T', orderby, year, director, fName, lName, false);">T</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'U', orderby, year, director, fName, lName, false);">U</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'V', orderby, year, director, fName, lName, false);">V</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'W', orderby, year, director, fName, lName, false);">W</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'X', orderby, year, director, fName, lName, false);">X</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Y', orderby, year, director, fName, lName, false);">Y</a>
+                <a href="#" class="titleCat" onclick = "reload(0, limit, 'Z', orderby, year, director, fName, lName, false);">Z</a>
+            </div>
 
             <div id="arrangeBy">
                 Sort by:
