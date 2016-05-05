@@ -8,6 +8,7 @@ public class Star {
 	private int id;
 	private String first_name;
 	private String last_name;
+	private String full_name;
 	private String dob;
 	private String photo_url;
 	private ArrayList<Movie> starred_in = null;
@@ -31,6 +32,8 @@ public class Star {
 		this.dob = dob;
 		this.photo_url = photo_url;
 		this.starred_in = starred_in;
+		
+		this.full_name = getName();
 	}
 
 	public Star(int id, String first_name, String last_name, String dob, String photo_url) {
@@ -40,6 +43,8 @@ public class Star {
 		this.last_name = last_name;
 		this.dob = dob;
 		this.photo_url = photo_url;
+		
+		this.full_name = getName();
 	}
 	
 	public String toString(){
@@ -79,6 +84,7 @@ public class Star {
 
 	public void setFirst_name(String first_name) {
 		this.first_name = first_name;
+		this.full_name = getName();
 	}
 
 
@@ -89,6 +95,7 @@ public class Star {
 
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
+		this.full_name = getName();
 	}
 
 

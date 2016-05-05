@@ -139,6 +139,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import model.*;
 
 /**
@@ -162,8 +164,6 @@ public class SearchAjax extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	
         response.setContentType("text/html");    // Response mime type
         PrintWriter out = response.getWriter();
   
@@ -263,15 +263,11 @@ public class SearchAjax extends HttpServlet {
 
 		request.getSession().setAttribute("adv", advance);
 
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
-        dispatcher.forward(request, response);
+        out.print(new Gson().toJson(movies));
         
 	    } catch (Exception e)
 	    {
-			request.getSession().setAttribute("error_message", "Invalid SQL Command [Search].\n\n" + e.toString());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-			dispatcher.forward(request, response);
+	    	out.print("false");
 	    }
 	}
 

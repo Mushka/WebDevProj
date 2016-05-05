@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import com.google.gson.Gson;
+
 
 public class Movie {
 
@@ -127,6 +129,11 @@ public class Movie {
 	public String toString()
 	{
 		return "Id: " + id + " " + "Title: " + title + " " + "Year: " + year + " " + "Director: " + director + " ";
+	}
+	
+	public String toJson()
+	{
+		return new Gson().toJson(this);
 	}
 	
 	public static Movie getMovie(int id)
