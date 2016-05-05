@@ -80,3 +80,9 @@ insert into creditcards values ('b', 'a', 'c', '1999-11-18');
 insert into customers values (1, 'a', 'b', 'b', 'asdf', 'a', 'b');
 
 select * from movies where title like '%atman%';
+
+select * from stars_in_movies where movie_id > 6932;
+
+select * from stars where last_name like 'De Niro';
+
+select * from stars where last_name like 'Pitt';
