@@ -4,6 +4,7 @@ echo "Creating Tables"
 mysql --user="classta" --password="classta" < createtable.sql
 echo "COMPLETE"
 echo "Compiling Java Resources"
+mkdir -p ./bin
 javac ./src/*.java -d ./bin/
 echo "COMPLETE"
 echo "Running XML Parser"
