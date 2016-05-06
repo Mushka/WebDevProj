@@ -618,5 +618,5 @@ public class Parser extends DefaultHandler{
 		System.out.println("time: " + estimatedTime/1000.0 + " secs");
 
 	}
-
 }
+
