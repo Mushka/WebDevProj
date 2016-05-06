@@ -426,7 +426,7 @@ public class Parser extends DefaultHandler{
 		for(Star s : myStars.values())
 			batchInsertQuery.append(" ('" + s.getFirst_name() + "', '" + s.getLast_name() + "', '"+ s.getDob() + "'),\n");
 		batchInsertQuery.setCharAt(batchInsertQuery.length()-2, ';');
-		printToFile("/home/josh/Documents/122B_Movie_Sources/results.txt", batchInsertQuery.toString());
+		// printToFile("/home/josh/Documents/122B_Movie_Sources/results.txt", batchInsertQuery.toString());
         statement.executeUpdate(batchInsertQuery.toString());
         statement.close();
 	}
@@ -557,9 +557,9 @@ public class Parser extends DefaultHandler{
 
 	//HOW TO USE PARSER
 	public static void main(String[] args) {
-		String mFile = "/home/josh/Documents/122B_Movie_Sources/mains243.xml";
-		String sFile = "/home/josh/Documents/122B_Movie_Sources/actors63.xml";
-		String cFile = "/home/josh/Documents/122B_Movie_Sources/casts124.xml";
+		String mFile = args[0]; //"/home/josh/Documents/122B_Movie_Sources/mains243.xml";
+		String sFile = args[1]; //"/home/josh/Documents/122B_Movie_Sources/actors63.xml";
+		String cFile = args[2]; //"/home/josh/Documents/122B_Movie_Sources/casts124.xml";
 		
 		long startTime = System.currentTimeMillis();
 		
