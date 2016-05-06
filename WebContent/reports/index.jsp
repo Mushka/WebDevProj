@@ -1,2 +1,3 @@
 - <a href="./reports/readme">Readme</a><br>
-- <a href="./reports/like-predicate">Like Predicate</a>
+- <a href="./reports/like-predicate">Like Predicate</a><br>
+- <a href="./reports/xml_parsing_optimization">XML Parsing Optimization</a>

@@ -13,7 +13,12 @@ if(report_page != null){
 %>
 	<title>Readme</title>
 <%
-	}
+	}	
+	else if("xml_parsing_optimization".equalsIgnoreCase(report_page)) {
+		%>
+		<title>XML Parsing Optimization</title>
+	<%
+		}
 	else {
 %>
 	<title>Reports</title>
@@ -131,6 +136,11 @@ if(report_page != null){
 						<span id="titleFont">Readme</span>
 <%
 					}
+					else if("xml_parsing_optimization".equalsIgnoreCase(report_page)) {
+%>
+						<span id="titleFont">XML Parsing Optimization</span>
+<%
+					}
 					else {
 %>
 						<span id="titleFont">Index</span>
@@ -157,6 +167,12 @@ if(report_page != null){
 				        <%@ include file="../reports/readme.jsp" %>
 <%
 					}
+					else if("xml_parsing_optimization".equalsIgnoreCase(report_page))
+					{
+%>	
+				        <%@ include file="../reports/xml_parsing_optimization.jsp" %>
+<%
+					}
 					else
 					{
 %>	
@@ -174,7 +190,7 @@ if(report_page != null){
 				
 			<div id="reportNavBox">
 <%
-				if("like-predicate".equalsIgnoreCase(report_page) || "readme".equalsIgnoreCase(report_page))
+				if("like-predicate".equalsIgnoreCase(report_page) || "readme".equalsIgnoreCase(report_page) || "xml_parsing_optimization".equalsIgnoreCase(report_page))
 				{	
 %>	
 				<input type="button" class="margin40T homeButton" onclick="location.href='<%=request.getContextPath()%>/reports';" value="Back to Index" />
