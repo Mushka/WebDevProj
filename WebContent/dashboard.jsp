@@ -53,7 +53,7 @@
 		
 		$(document).ready(function() {
 		    //schemaText = schemaText.replace(/\n/g, "<br>");
-			$("#schemaText").html("<b> SCHEMA: </b> <br>");
+			$("#schemaText").html(""); 
 			$("#schemaText").append(schemaText);
 			
 			//AddStar
