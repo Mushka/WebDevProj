@@ -160,6 +160,18 @@ img {
 	justify-content: center;
 }
 
+#employeeFont {
+	font-size: 50px;
+	font-weight: bold;
+	font-family: inherit;
+	-webkit-font-smoothing: antialiased;
+	color: white;
+}
+
+.g-recaptcha {
+	align-self: center;
+}
+
 #signUpLink {
 	display: flex;
 	flex-direction: row;
@@ -214,4 +226,52 @@ img {
 	border-left: 2px solid white;
 	border-right: 2px solid white;
 	border-bottom: 2px solid white;
+}
+
+.dashboardNav {
+	padding: 4px 0px 4px 0px;
+	margin: 10px 0px 0px 0px;
+	border-bottom: 1px solid black;
+	background: grey;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.dashboardNavItem {
+	background: grey;
+	border: 1px solid black;
+	padding: 4px 10px;
+}
+
+.dashboardNavItem:hover {
+	background: red;
+}
+
+.dashboardNavItemActive {
+	background: white !important;
+	border-bottom: 1px solid white;
+}
+
+#dashboardContent {
+	width: 800px;
+	font-family: inherit;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
+}
+
+.dashboardContentItem {
+	background: white;
+	padding: 10px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.dashboardContentForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 }

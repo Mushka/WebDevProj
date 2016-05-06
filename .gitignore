@@ -7,6 +7,7 @@
 !/WebContent/
 !/other/
 !README.md
+!source_XML_parsing
 
 #	export
 #	importCredentials.java

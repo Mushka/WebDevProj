@@ -74,5 +74,5 @@ CREATE TABLE employees(
     fullname varchar(100)
 );
 
-use moviedb_project3_grading;
-select * from genres;
+INSERT INTO employees()
+VALUES ('classta@course.edu', 'classta', 'TA CS122B');
