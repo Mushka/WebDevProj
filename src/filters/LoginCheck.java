@@ -52,8 +52,8 @@ public class LoginCheck implements Filter {
 //		System.out.println("getAuthType: " + request.getAuthType());
 //		System.out.println("getRequestURI: " + request.getRequestURI());
 
-		
-		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html") || uri.endsWith("login_emp.html") || uri.endsWith("_dashboard") || uri.endsWith("TryToLoginEmployee") || relative_path.startsWith("/_dashboard") || uri.contains("reports"))
+		//uri.endsWith("SearchAjax") because we need to access this from android
+		if(uri.endsWith(".css") || uri.endsWith(".ttf") || uri.endsWith(".js") || uri.endsWith("TryToLoginCustomer") || uri.endsWith("login.html") || uri.endsWith("login_emp.html") || uri.endsWith("_dashboard") || uri.endsWith("TryToLoginEmployee") || relative_path.startsWith("/_dashboard") || uri.contains("reports") || uri.endsWith("SearchAjax"))
 			chain.doFilter(req,res);
 		else
 		{
