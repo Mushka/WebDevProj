@@ -166,6 +166,31 @@
 		<description></description>
 		<servlet-class>servlets.SearchAjax</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AndroidGetMovie</servlet-name>
+		<display-name>AndroidGetMovie</display-name>
+		<description></description>
+		<servlet-class>servlets.AndroidGetMovie</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AndroidGetStar</servlet-name>
+		<display-name>AndroidGetStar</display-name>
+		<description></description>
+		<servlet-class>servlets.AndroidGetStar</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AndroidLogin</servlet-name>
+		<display-name>AndroidLogin</display-name>
+		<description></description>
+		<servlet-class>servlets.AndroidLogin</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>AndroidSearch</servlet-name>
+		<display-name>AndroidSearch</display-name>
+		<description></description>
+		<servlet-class>servlets.AndroidSearch</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
@@ -239,7 +264,22 @@
 		<servlet-name>SearchAjax</servlet-name>
 		<url-pattern>/SearchAjax</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>AndroidGetMovie</servlet-name>
+		<url-pattern>/AndroidGetMovie</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AndroidGetStar</servlet-name>
+		<url-pattern>/AndroidGetStar</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AndroidLogin</servlet-name>
+		<url-pattern>/AndroidLogin</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AndroidSearch</servlet-name>
+		<url-pattern>/AndroidSearch</url-pattern>
+	</servlet-mapping>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/notFound.jsp</location>
