@@ -192,11 +192,12 @@ public class SearchAjax extends HttpServlet {
 				orderby = "asc_t";
 
 		String query = "";
+		ArrayList<String> queryList = new ArrayList<String>();
 
 		if(advance == null)
 		{
-			query = "SELECT * FROM movies WHERE title like '"+title+"%'";
-		
+			for(String s : title.split(" "))
+				queryList.add("SELECT * FROM movies WHERE title like '%"+s+"%'");			
 		}
 		else
 		{
@@ -236,18 +237,39 @@ public class SearchAjax extends HttpServlet {
 		}
 		
 		query += " LIMIT "+ limit +" OFFSET "+offset;
-
-        List<Movie> movies = Movie.getMovies(query);
-        	 
+		
+        List<Movie> movies = new ArrayList<Movie>();
+        List<Movie> allMovies = null;
+        if(advance == null){
+        	allMovies = Movie.getMovies(queryList.get(0));
+        	for(int i = 1; i < queryList.size(); i++ ){
+        		List<Movie> copyMovies = new ArrayList<Movie>(allMovies);
+        		List<Movie> nextWord = Movie.getMovies(queryList.get(i));
+        		copyMovies.removeAll(nextWord);
+        		allMovies.removeAll(copyMovies);
+        		System.out.println("WTF");
+        	}
+        	for(int j = Integer.parseInt(offset); j < Integer.parseInt(limit) + Integer.parseInt(offset); j++){
+        		try{
+        			movies.add(allMovies.get(j));
+        		}catch(Exception e){
+        			break;
+        		}
+        	}
+        }else
+        	movies = Movie.getMovies(query);
+        
         if(advance == null)
     		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
         else
     		count_query = "SELECT COUNT(distinct m.id) as count " + count_query.substring(count_query.indexOf("FROM"));
 
-		
-		String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
+        String num_of_movies = "";
+		if(advance == null)
+			num_of_movies = Integer.toString(movies.size());
+		else
+			num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
 //		System.out.println(num_of_movies);
-	            
         request.getSession().setAttribute("movies", movies);
         request.getSession().setAttribute("offset", offset);
         request.getSession().setAttribute("limit", limit);
@@ -264,7 +286,7 @@ public class SearchAjax extends HttpServlet {
 		request.getSession().setAttribute("adv", advance);
 
         out.print(new Gson().toJson(movies));
-        
+
 	    } catch (Exception e)
 	    {
 	    	out.print("false");

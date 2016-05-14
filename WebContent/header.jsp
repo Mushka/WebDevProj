@@ -1,12 +1,12 @@
-
 <script type="text/javascript">
+
     function goHome() {
         window.open("main.jsp","_self");
     }
     
     
     /* it resets the page, and orderby, but keeps the limit if it is set*/
-/*     function search(text)
+    function search(text)
     {
         
         if (typeof limit === "undefined")
@@ -18,31 +18,34 @@
             window.location.href = "./Search?adv=true&limit=" + limit + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
         }       
         
-    } */
+    } 
     
-    $(document).ready(function(){        
-        $('#headerSearch').keyup(function(){
-        	
-        	
+    $(document).ready(function(){   
+    	
+    	$( "#headerSearch" ).autocomplete();
+    	
+        $('#headerSearch').keyup(function(e){
+/*         	if(e.keyCode === 13)
+        		alert("!"); */
         	var text = document.getElementById('headerSearch').value;
         	
-        	var search = "";
+        	var search1 = "";
         	
             if (typeof limit === "undefined")
             {
-            	search += "adv=true&limit=" + 10 + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
+            	search1 += "adv=true&limit=" + 10 + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
             }
             else
             {
-            	search += "adv=true&limit=" + limit + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
+            	search1 += "adv=true&limit=" + limit + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
             }  
 
             //alert(search);
-        	
+        	var movie_list  = [];
             
             $.ajax({
                 url : 'SearchAjax',
-                data : search,
+                data : search1,
                 success : function(responseText) {
 
                  if(responseText === "false")
@@ -51,137 +54,31 @@
                  }
                  else
                	 {
-                   
-                    
-                    $( "#moviesList" ).empty();
- 
-                	//alert(responseText);
-                	//console.log(responseText);  	       	
-                	var movies_json = jQuery.parseJSON(responseText);
-                	
-               	 	console.log("----");  	       	
-
-                	
+                	var movies_json = jQuery.parseJSON(responseText);  	               	    
                 	$.each(movies_json, function(i,movie) {
-              
-                		console.log( "Movie: " + i);          
-	            			console.log( "  id: " + movie['id'] );    
-	            			console.log( "  title: " + movie['title'] );    
-	            			console.log( "  year: " + movie['year'] );    
-	            			console.log( "  director: " + movie['director'] );    
-	            			console.log( "  bannar_url: " + movie['bannar_url'] );  
-	            			console.log( "  trailer_url: " + movie['trailer_url'] );  
-	            			
-	                    	if(movie['stars'] != 'undefined'){
-
-		                    	$.each( movie['stars'], function(j, star) {
-		                            
-	                    			console.log( "  Star: " + j);          
-	    	            			console.log( "     name: " + star['full_name']);    
-	    	            			console.log( "     id: " + star['id'] );        
-	                    		}); 
-	                    	}
-                    	
-	                    	
-	                    	if(movie['genres'] != 'undefined'){
-                    	
-		                    	$.each(movie['genres'], function(j, genre) {
-		                    		
-	                    			console.log( "  Genre: " + j);          
-	    	            			console.log( "     genre: " + genre );    
-	                    		}); 
-	                    	}
-
-                	
-	                	$("#moviesList").append('\
-	                        <div class="movieBox">\
-	                        <div class="imageAndBuy">\
-	                            <div class="movieImage" style="background-image: url(' + movie["bannar_url"] + ');">\
-	                            <img src=' + movie["bannar_url"] + ' onerror= "this.src =\'./images/no-image.jpg\';">\
-                                </div>\
-	                            <button type="button" id=' + movie["id"] + ' class="buyButton">Add to Cart</button>\
-	                        </div>\
-	                        <div id="movieInfo">\
-	                            <div class="info first">\
-	                                <div class="infoTitle">Title:</div>\
-	                                <div class="infoDetail">\
-	                                    <a href="./ShowMovie?movie_id=' + movie["id"] + '">' + movie["title"] + '</a>\
-	                                </div>\
-	                            </div>\
-	                            <div class="info">\
-	                                <div class="infoTitle">Year:</div>\
-	                                <div class="infoDetail">' + movie["year"] + ' </div>\
-	                            </div>\
-	                            <div class="info">\
-	                                <div class="infoTitle">Director:</div>\
-	                                <div class="infoDetail">' + movie["director"] + ' </div>\
-	                            </div>\
-	                            <div class="info">\
-	                                <div class="infoTitle">Movie ID:</div>\
-	                                <div class="infoDetail">' + movie["id"] + ' </div>\
-	                            </div>\
-                                <div class="info">\
-                                <div class="infoTitle">Stars:</div>\
-                                <div class="infoDetail">');
-
-
-
-                            if(movie['stars'] != 'undefined'){
-
-                                $.each(movie['stars'], function(j, star) {
-                                           
-                                    $("#moviesList").append('<a href="./ShowStar?star_id=' + star["id"] + '">' + star["full_name"] + ',</a>');
-
-                                }); 
-                            }
-                        $("#moviesList").append('\
-                            </div>\
-                        </div>\
-                        <div class="info">\
-                        <div class="infoTitle">Genres:</div>\
-                        <div class="infoDetail">');
-
-                        if(movie['genres'] != 'undefined'){
-
-                                $.each(movie['genres'], function(j, genre) {
-                                    
-                                    $("#moviesList").append('<a href="./ShowGenre?genre=' + genre + '&limit=10&offset=0"> ' + genre + ',</a>');
-
-                                }); 
-                        }
-
-
-                    $("#moviesList").append('\
-                            </div>\
-                        </div>\
-                        <div class="info">\
-                        <div class="infoTitle">Trailer:</div>\
-                        <div class="infoDetail">\
-                            <a href=' + movie['trailer_url']+ ' >Click here</a> to watch the movie trailer\
-                        </div>\
-                    </div>\
-                    <div class="info">\
-                        <div class="infoTitle">Price:</div>\
-                        <div class="infoDetail">$15.99</div>\
-                    </div>\
-                </div>\
-            </div>');
-
-
+            		    movie_list.push(movie['title']);
                		});  
         		}
+                 
       	   	}	
 		});
+        $( "#headerSearch" ).autocomplete({
+        	source: movie_list
+          });
      });
+	$("#headerSearch").keydown(function(event){
+	    if(event.keyCode == 13) {
+			search(document.getElementById('headerSearch').value);
+	    }
+	 });
 });
     
 
 
 </script>
-
 <div id="searchBar">
 	<div id="headerLogo" onclick="goHome()">FabFlix</div>
-	<input type="text" id="headerSearch" name=search_bar placeholder="Search Title" style="height: 20px; align-self: center;">
+<input type="text" id="headerSearch" name=search_bar placeholder="Search Title" style="height: 20px; align-self: center;">
     <div id="shoppingCartCounter" style="text-align: center;">0</div>
     <div id="shoppingCartBtn" placeholder="Shopping Cart" onclick="window.location.href = './ShoppingCart'"></div>
 </div>
