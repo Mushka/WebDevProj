@@ -202,7 +202,7 @@ public class Search extends HttpServlet {
 			}
 			else
 			{	
-				if(k  != wordsToSearch.length - 1){
+				if((k  != wordsToSearch.length - 1)||(wordsToSearch.length == 1)){
 					query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
 							+ "FROM movies as m, stars_in_movies as sm, stars as s "
 							+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "

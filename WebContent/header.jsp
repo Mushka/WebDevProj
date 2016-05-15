@@ -54,8 +54,10 @@
                  }
                  else
                	 {
+                	//console.log(responseText);
                 	var movies_json = jQuery.parseJSON(responseText);  	               	    
                 	$.each(movies_json, function(i,movie) {
+                		console.log(movie['title']);
             		    movie_list.push(movie['title']);
                		});  
         		}
