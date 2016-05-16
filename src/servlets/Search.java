@@ -246,13 +246,23 @@ public class Search extends HttpServlet {
         List<Movie> movies = new ArrayList<Movie>();
         HashMap<String, Movie>  allMovies = new HashMap<String, Movie>();
         if(advance != null|| (!("".equals(wordsToSearch[0]))) || (wordsToSearch.length != 1 && wordsToSearch[0].length() != 1)){
-    		for(Movie m : Movie.getMovies(queryList.get(0)))
-    			allMovies.put(m.toString(), m);
+    		if("asc_y".equals(orderby) || "desc_y".equals(orderby)){
+	        	for(Movie m : Movie.getMovies(queryList.get(0)))
+	    			allMovies.put(m.toStringYear(), m);
+    		}else{
+	        	for(Movie m : Movie.getMovies(queryList.get(0)))
+	    			allMovies.put(m.toStringTitle(), m);
+    		}
         	for(int i = 1; i < queryList.size(); i++){
                 HashMap<String, Movie> copyMovies = new HashMap<String, Movie>(allMovies);	
                 HashMap<String, Movie> nextWord = new HashMap<String, Movie>();
-        		for(Movie m : Movie.getMovies(queryList.get(i)))
-        			nextWord.put(m.toString(), m);
+        		if("asc_y".equals(orderby) || "desc_y".equals(orderby)){
+	        		for(Movie m : Movie.getMovies(queryList.get(i)))
+	        			nextWord.put(m.toStringYear(), m);
+        		}else{
+	        		for(Movie m : Movie.getMovies(queryList.get(i)))
+	        			nextWord.put(m.toStringTitle(), m);
+        		}
         		for(Entry<String, Movie> m : nextWord.entrySet())
         			copyMovies.remove(m.getKey());   		
         		for(Entry<String, Movie> m : copyMovies.entrySet())
@@ -260,13 +270,24 @@ public class Search extends HttpServlet {
         	}
         	SortedSet<String> sortedMovies = new TreeSet<String>(allMovies.keySet());
         	ArrayList<String> movieFinder = new ArrayList<String>(sortedMovies);
-        	for(int j = Integer.parseInt(offset); j < ((Integer.parseInt(limit) + Integer.parseInt(offset))-1); j++){
-        		try{
-        			movies.add(allMovies.get(movieFinder.get(j)));
-        		}catch(Exception e){
-        			out.print("Wtf " + j);
-        			break;
-        		}
+        	if("desc_t".equals(orderby)||"desc_y".equals(orderby)){
+	        	for(int j = (allMovies.size()-Integer.parseInt(offset))-1; j >= (allMovies.size()-(Integer.parseInt(limit)+Integer.parseInt(offset)))-1; j--){
+	        		try{
+	        			movies.add(allMovies.get(movieFinder.get(j)));
+	        		}catch(Exception e){
+	        			out.print("Wtf " + j);
+	        			break;
+	        		}
+	        	}
+        	}else{
+	        	for(int j = Integer.parseInt(offset); j < ((Integer.parseInt(limit) + Integer.parseInt(offset))-1); j++){
+	        		try{
+	        			movies.add(allMovies.get(movieFinder.get(j)));
+	        		}catch(Exception e){
+	        			out.print("Wtf " + j);
+	        			break;
+	        		}
+	        	}
         	}
         }else
         	movies = Movie.getMovies(query);
