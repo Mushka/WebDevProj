@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:700|Quicksand">
 	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+	<link href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="./css/shared.css">
     <link rel="stylesheet" type="text/css" href="./css/header.css">
     <link rel="stylesheet" type="text/css" href="./css/footer.css">
@@ -78,8 +79,44 @@
 
 
         $(document).ready(function() {
-        	$("#headerLogo").text("Welcome!");
-        });
+        	$("#headerLogo").text("Welcome!"); 
+        	
+        	$("#searchInput").autocomplete({
+        		/* autoFocus: true, */
+        		delay: 0,
+        		minLength: 1,
+        		source: function(request, response) {
+
+                	//var newLim = (limit === "undefined" ? 10 : limit);
+                    search1 = "adv=true&limit=" + 10 + "&offset=" + 0 + "&title=" + request.term + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
+                    
+                    console.log("Entered");
+                    
+                    $.ajax({
+                    	url : 'SearchAjax',
+                        data : search1,
+                        success : function(responseText) {
+                        	
+                        	var movie_list = [];
+    						
+                        	if(responseText === "false")            
+    						    console.log("Failed to load");
+    						else
+    							movie_list = JSON.parse(responseText).map(function(movie){return movie.title;});
+    						
+    						response(movie_list);
+              	   		}
+        			});
+        		}
+        	});
+        	
+        	$("#searchInput").keypress(function(e) {
+        		if(e.keyCode == 13) {
+					e.preventDefault();
+					window.location.href = './Search?adv=true&limit=10&offset=0&title='+$(this).val()+'&orderby=asc_t&year=&director=&first_name=&last_name=';
+        		}
+       		});
+    	});
 
 	</script>
   	
