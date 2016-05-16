@@ -130,7 +130,15 @@ public class Movie {
 	{
 		return "Id: " + id + " " + "Title: " + title + " " + "Year: " + year + " " + "Director: " + director + " ";
 	}
-	
+	public String toStringTitle()
+	{
+		return "Title: " + title + " " + "Year: " + year + " " + "Director: " + director + " "+ "Id: " + id ;
+	}
+	public String toStringYear()
+	{
+		return "Year: " + year + " " + "Title: " + title + " " +  "Director: " + director + " "+ "Id: " + id;
+
+	}
 	public String toJson()
 	{
 		return new Gson().toJson(this);
