@@ -23,7 +23,19 @@ $(document).ready(function() {
 						console.log("Failed to load movie info for " + this.title)
 					}
 					obj = JSON.parse(responseText);
-					var formatedResponse = "<div>" + obj.title + "</div>";
+					console.log(obj);
+					var formatedResponse = 
+						"<div id='movieInfo'><div class='info first tt'><div class='infoTitle'>Title:</div><div class='infoDetail'>" + 
+						obj.title + 
+						"</div></div><div class='info'><div class='infoTitle'>Year:</div><div class='infoDetail'>" + 
+						obj.year + 
+						"</div></div><div class='info'><div class='infoTitle'>Director:</div><div class='infoDetail'>" + 
+						obj.director + 
+						"</div></div><div class='info'><div class='infoTitle'>Stars:</div><div class='infoDetail'>" + 
+						obj.stars.map(function(d){return d.full_name;}).join(', ').toString() + 
+						"</div></div><div class='info'><div class='infoTitle'>Genres:</div><div class='infoDetail'>" + 
+						obj.genres.join(', ').toString() +
+						"</div></div><div class='info'><div class='infoTitle'>Price:</div><div class='infoDetail'>$15.99</div></div></div>";
 					callback(formatedResponse);
 				}
 			})

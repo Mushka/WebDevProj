@@ -284,6 +284,10 @@ img {
 	position: absolute;
 } */
 
+ui-tooltip {
+    max-width: 700px;
+}
+
 .ui-autocomplete {
 	z-index: 99999;	
 }
