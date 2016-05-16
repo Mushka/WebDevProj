@@ -16,6 +16,7 @@
     $(document).ready(function(){   
     	
     	$("#headerSearch").autocomplete({
+    		/* autoFocus: true, */
     		delay: 0,
     		minLength: 1,
     		source: function(request, response) {
@@ -27,10 +28,13 @@
                 	url : 'SearchAjax',
                     data : search1,
                     success : function(responseText) {
-						if(responseText === "false")            
+                    	
+                    	var movie_list = [];
+						
+                    	if(responseText === "false")            
 						    console.log("Failed to load");
 						else
-							var movie_list = JSON.parse(responseText).map(function(movie){return movie.title;});
+							movie_list = JSON.parse(responseText).map(function(movie){return movie.title;});
 						
 						response(movie_list);
           	   		}
