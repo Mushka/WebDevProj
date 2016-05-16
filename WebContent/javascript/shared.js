@@ -13,7 +13,6 @@ $(document).ready(function() {
 //            });
 //        }
 		content: function(callback) {
-			console.log(this.title);
 			var movieID = parseInt(this.title);
 			$.ajax({
 				url: 'AndroidGetMovie',

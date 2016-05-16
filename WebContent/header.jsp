@@ -6,78 +6,44 @@
     
     
     /* it resets the page, and orderby, but keeps the limit if it is set*/
-    function search(text)
-    {
-        
-        if (typeof limit === "undefined")
-        {
-            window.location.href = "./Search?adv=true&limit=" + 10 + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
-        }
-        else
-        {
-            window.location.href = "./Search?adv=true&limit=" + limit + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
-        }       
-        
+    function search(text) {        
+    	
+    	var newLim = (limit === "undefined" ? 10 : limit);
+      
+        window.location.href = "./Search?adv=true&limit=" + newLim + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
     } 
     
     $(document).ready(function(){   
     	
-    	$( "#headerSearch" ).autocomplete({
-    		autoFocus: true,
-    		delay: 500,
-    		minLength: 1
+    	$("#headerSearch").autocomplete({
+    		delay: 0,
+    		minLength: 1,
+    		source: function(request, response) {
+
+            	var newLim = (limit === "undefined" ? 10 : limit);
+                search1 = "adv=true&limit=" + newLim + "&offset=" + 0 + "&title=" + request.term + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
+                
+                $.ajax({
+                	url : 'SearchAjax',
+                    data : search1,
+                    success : function(responseText) {
+						if(responseText === "false")            
+						    console.log("Failed to load");
+						else
+							var movie_list = JSON.parse(responseText).map(function(movie){return movie.title;});
+						
+						response(movie_list);
+          	   		}
+    			});
+    		}
     	});
     	
-        $('#headerSearch').keyup(function(e){
-/*         	if(e.keyCode === 13)
-        		alert("!"); */
-        	var text = document.getElementById('headerSearch').value;
-        	
-        	var search1 = "";
-        	
-            if (typeof limit === "undefined")
-            {
-            	search1 += "adv=true&limit=" + 10 + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
-            }
-            else
-            {
-            	search1 += "adv=true&limit=" + limit + "&offset=" + 0 + "&title=" + text + "&orderby=" + 'asc_t' + "&year=&director=&first_name=&last_name=";
-            }  
-
-            //alert(search);
-        	var movie_list  = [];
-            
-            $.ajax({
-                url : 'SearchAjax',
-                data : search1,
-                success : function(responseText) {
-
-                 if(responseText === "false")
-                 {             
-                     console.log("Failed to load");
-                 }
-                 else
-               	 {
-                	//console.log(responseText);
-                	var movies_json = jQuery.parseJSON(responseText);  	               	    
-                	$.each(movies_json, function(i,movie) {
-                		console.log(movie['title']);
-            		    movie_list.push(movie['title']);
-               		});  
-        		}
-                 
-      	   	}	
-		});
-        $( "#headerSearch" ).autocomplete({
-        	source: movie_list
-          });
-     });
-	$("#headerSearch").keydown(function(event){
-	    if(event.keyCode == 13) {
-			search(document.getElementById('headerSearch').value);
-	    }
-	 });
-});
+    	$("#headerSearch").keydown(function(event){
+    	    if(event.keyCode == 13) {
+    			search(document.getElementById('headerSearch').value);
+    	    }
+    	});
+	});
     
 
 
