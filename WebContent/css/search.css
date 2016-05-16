@@ -23,7 +23,7 @@
 	border-top: 2px solid black;
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-start;
+	justify-content: center;
 	font-family: inherit;
 }
 
@@ -35,17 +35,38 @@
 	font-family: inherit;
 }
 
+.imageAndTrailer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-family: inherit;
+	background: #CCCCCC;
+}
+
 .movieImage {
-	width: 100px;
-	height: 150px;
+	max-width: 100px;
+	max-height: 150px;
 	overflow: hidden;
+	align-self: center;
+	background-repeat: no-repeat;
+}
+
+.trailerButton {
+	width: 100%;
+	height: 25px;
+	text-align: center;
+	align-self: center;
+}
+
+.movieTitle {
+	font-size: 25px;
+	margin-left: 25px;
 	align-self: center;
 }
 
 .buyButton {
 	width: 120px;
-	height: 26px;
-	margin-top: 25px;
+	height: 30px;
 	padding: 3px;
 	border: 0px solid white;
 	border-radius: 3px;
@@ -54,7 +75,8 @@
 	text-align: center;
 	color: white;
 	background: green;
-	align-self: center;
+	align-self:	center;
+	margin-left: auto;
 }
 
 .navButton {
