@@ -22,7 +22,11 @@
     
     $(document).ready(function(){   
     	
-    	$( "#headerSearch" ).autocomplete();
+    	$( "#headerSearch" ).autocomplete({
+    		autoFocus: true,
+    		delay: 500,
+    		minLength: 1
+    	});
     	
         $('#headerSearch').keyup(function(e){
 /*         	if(e.keyCode === 13)
