@@ -193,6 +193,7 @@ public class Search extends HttpServlet {
 				orderby = "asc_t";
 
 		String query = "";
+		String count_query= "";
 		ArrayList<String> queryList = new ArrayList<String>();
 		String wordsToSearch[] = title.split(" ");
 		for(int k = 0; k < wordsToSearch.length; k++){	
@@ -222,7 +223,7 @@ public class Search extends HttpServlet {
 				if (lName != null)
 					query += " AND s.last_name like '%" + lName + "%'";
 			}
-			
+			count_query = query;
 			switch(orderby)
 			{
 			default:
@@ -241,7 +242,6 @@ public class Search extends HttpServlet {
 			queryList.add(query);
     	}
 		query += " LIMIT "+ limit +" OFFSET "+offset;
-		String count_query = query;
 		
         List<Movie> movies = new ArrayList<Movie>();
         HashMap<String, Movie>  allMovies = new HashMap<String, Movie>();
