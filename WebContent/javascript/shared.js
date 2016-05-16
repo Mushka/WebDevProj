@@ -2,6 +2,33 @@ var toggleTitle = false;
 var toggleYear = false;
 
 $(document).ready(function() {
+	
+	$( ".tt" ).tooltip({
+//		position: {
+//			my: "left bottom+30"
+//		},
+//        content: function(callback) {
+//            $.get('preview.php',{}, function(data) {
+//                callback(data); //call the callback function to return the value
+//            });
+//        }
+		content: function(callback) {
+			console.log(this.title);
+			var movieID = parseInt(this.title);
+			$.ajax({
+				url: 'AndroidGetMovie',
+				data: "movie_id="+movieID,
+				success: function(responseText) {
+					if(responseText === "false") {
+						console.log("Failed to load movie info for " + this.title)
+					}
+					obj = JSON.parse(responseText);
+					var formatedResponse = "<div>" + obj.title + "</div>";
+					callback(formatedResponse);
+				}
+			})
+		}
+	});
 
     $('.buyButton').click( function(e) {
 

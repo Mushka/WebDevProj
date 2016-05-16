@@ -275,3 +275,15 @@ img {
 	flex-direction: column;
 	justify-content: flex-start;
 }
+
+/* .ui-tooltip {
+	width: 200px;
+	height: 200px;
+	background: white;
+	border: 3px solid black;
+	position: absolute;
+} */
+
+.ui-autocomplete {
+	z-index: 99999;	
+}
