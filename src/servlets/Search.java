@@ -195,109 +195,55 @@ public class Search extends HttpServlet {
 
 		String query = "";
 		String count_query= "";
-		ArrayList<String> queryList = new ArrayList<String>();
 		String wordsToSearch[] = title.split(" ");
+		String partsOfTitles = "";
 		for(int k = 0; k < wordsToSearch.length; k++){	
-			if(advance == null || !advance.equals("true") || "".equals(wordsToSearch) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
-			{
-				query = "SELECT * FROM movies WHERE title like '"+title+"%'";
-			}
+			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
+				partsOfTitles += "%"+wordsToSearch[k] +"%";
 			else
-			{	
-				if((k  != wordsToSearch.length - 1)||(wordsToSearch.length == 1)){
-					query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
-							+ "FROM movies as m, stars_in_movies as sm, stars as s "
-							+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
-							+ "AND m.title like '%" + wordsToSearch[k] + "%'";
-				}else{
-					query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
-							+ "FROM movies as m, stars_in_movies as sm, stars as s "
-							+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
-							+ "AND m.title like '% " + wordsToSearch[k] + "%'";
-				}
-				if (year != null)
-					query += " AND m.year like '%" + year + "'";
-				if (director != null)
-					query += " AND m.director like '%" + director + "%'";
-				if (fName != null) 
-					query += " AND s.first_name like '%" + fName + "%'";
-				if (lName != null)
-					query += " AND s.last_name like '%" + lName + "%'";
-			}
-			count_query = query;
-			switch(orderby)
-			{
-			default:
-				query += " order by title";
-				break;
-			case "desc_t":
-				query += " order by title DESC";
-				break;
-			case "asc_y":
-				query += " order by year, title";
-				break;
-			case "desc_y":
-				query += " order by year DESC, title";
-				break;
-			}
-			queryList.add(query);
+				partsOfTitles += " "+wordsToSearch[k] +"%";
     	}
+		if(advance == null || !advance.equals("true") || "".equals(wordsToSearch) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
+		{
+			query = "SELECT * FROM movies WHERE title like '"+title+"%'";
+		}
+		else
+		{	
+			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
+						+ "FROM movies as m, stars_in_movies as sm, stars as s "
+						+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
+						+ "AND m.title like '" + partsOfTitles + "'";
+			if (year != null)
+				query += " AND m.year like '%" + year + "'";
+			if (director != null)
+				query += " AND m.director like '%" + director + "%'";
+			if (fName != null) 
+				query += " AND s.first_name like '%" + fName + "%'";
+			if (lName != null)
+				query += " AND s.last_name like '%" + lName + "%'";
+		}
+		count_query = query;
+		switch(orderby)
+		{
+		default:
+			query += " order by title";
+			break;
+		case "desc_t":
+			query += " order by title DESC";
+			break;
+		case "asc_y":
+			query += " order by year, title";
+			break;
+		case "desc_y":
+			query += " order by year DESC, title";
+			break;
+		}
 		query += " LIMIT "+ limit +" OFFSET "+offset;
 		
         List<Movie> movies = new ArrayList<Movie>();
-        HashMap<String, Movie>  allMovies = new HashMap<String, Movie>();
-        if(advance != null|| (!("".equals(wordsToSearch[0]))) || (wordsToSearch.length != 1 && wordsToSearch[0].length() != 1)){
-    		if("asc_y".equals(orderby) || "desc_y".equals(orderby)){
-	        	for(Movie m : Movie.getMovies(queryList.get(0)))
-	    			allMovies.put(m.toStringYear(), m);
-    		}else{
-	        	for(Movie m : Movie.getMovies(queryList.get(0)))
-	    			allMovies.put(m.toStringTitle(), m);
-    		}
-        	for(int i = 1; i < queryList.size(); i++){
-                HashMap<String, Movie> copyMovies = new HashMap<String, Movie>(allMovies);	
-        		if("asc_y".equals(orderby) || "desc_y".equals(orderby)){
-	        		for(Movie m : Movie.getMovies(queryList.get(i)))
-	        			copyMovies.remove(m.toStringYear()); 
-        		}else{
-	        		for(Movie m : Movie.getMovies(queryList.get(i)))
-	        			copyMovies.remove(m.toStringTitle()); 
-        		}
-        		allMovies.keySet().removeAll(copyMovies.keySet());
-        	}
-        	ArrayList<String> movieFinder = new ArrayList<String>(allMovies.keySet());
-        	Collections.sort(movieFinder);
-        	if("desc_t".equals(orderby)||"desc_y".equals(orderby)){
-	        	for(int j = (allMovies.size()-Integer.parseInt(offset))-1; j >= (allMovies.size()-(Integer.parseInt(limit)+Integer.parseInt(offset)))-1; j--){
-	        		try{
-	        			movies.add(allMovies.get(movieFinder.get(j)));
-	        		}catch(Exception e){
-	        			out.print("Wtf " + j);
-	        			break;
-	        		}
-	        	}
-        	}else{
-	        	for(int j = Integer.parseInt(offset); j < ((Integer.parseInt(limit) + Integer.parseInt(offset))-1); j++){
-	        		try{
-	        			movies.add(allMovies.get(movieFinder.get(j)));
-	        		}catch(Exception e){
-	        			out.print("Wtf " + j);
-	        			break;
-	        		}
-	        	}
-        	}
-        }else
-        	movies = Movie.getMovies(query);
-        if(advance == null || "".equals(wordsToSearch[0]) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
-    		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
-        
-        String num_of_movies =  "";
-        System.out.println(count_query);
-        if(advance == null || "".equals(wordsToSearch[0]) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
-        	num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
-        else 
-        	num_of_movies = Integer.toString(allMovies.size());
-        
+        movies = Movie.getMovies(query);
+    	count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
+        String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();        
         request.getSession().setAttribute("movies", movies);
         request.getSession().setAttribute("offset", offset);
         request.getSession().setAttribute("limit", limit);
