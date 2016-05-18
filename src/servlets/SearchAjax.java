@@ -129,6 +129,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -248,19 +249,15 @@ public class SearchAjax extends HttpServlet {
         HashMap<String, Movie>  allMovies = new HashMap<String, Movie>();
         if(advance != null|| (!("".equals(wordsToSearch[0]))) || (wordsToSearch.length != 1 && wordsToSearch[0].length() != 1)){
     		for(Movie m : Movie.getMovies(queryList.get(0)))
-    			allMovies.put(m.toString(), m);
+    			allMovies.put(m.toStringTitle(), m);
         	for(int i = 1; i < queryList.size(); i++){
                 HashMap<String, Movie> copyMovies = new HashMap<String, Movie>(allMovies);	
-                HashMap<String, Movie> nextWord = new HashMap<String, Movie>();
         		for(Movie m : Movie.getMovies(queryList.get(i)))
-        			nextWord.put(m.toString(), m);
-        		for(Entry<String, Movie> m : nextWord.entrySet())
-        			copyMovies.remove(m.getKey());   		
-        		for(Entry<String, Movie> m : copyMovies.entrySet())
-        			allMovies.remove(m.getKey());
+        			copyMovies.remove(m.toStringTitle()); 
+        		allMovies.keySet().removeAll(copyMovies.keySet());
         	}
-        	SortedSet<String> sortedMovies = new TreeSet<String>(allMovies.keySet());
-        	ArrayList<String> movieFinder = new ArrayList<String>(sortedMovies);
+        	ArrayList<String> movieFinder = new ArrayList<String>(allMovies.keySet());
+        	Collections.sort(movieFinder);
         	for(int j = Integer.parseInt(offset); j < ((Integer.parseInt(limit) + Integer.parseInt(offset))-1); j++){
         		try{
         			movies.add(allMovies.get(movieFinder.get(j)));
