@@ -129,6 +129,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -255,21 +256,17 @@ public class Search extends HttpServlet {
     		}
         	for(int i = 1; i < queryList.size(); i++){
                 HashMap<String, Movie> copyMovies = new HashMap<String, Movie>(allMovies);	
-                HashMap<String, Movie> nextWord = new HashMap<String, Movie>();
         		if("asc_y".equals(orderby) || "desc_y".equals(orderby)){
 	        		for(Movie m : Movie.getMovies(queryList.get(i)))
-	        			nextWord.put(m.toStringYear(), m);
+	        			copyMovies.remove(m.toStringYear()); 
         		}else{
 	        		for(Movie m : Movie.getMovies(queryList.get(i)))
-	        			nextWord.put(m.toStringTitle(), m);
+	        			copyMovies.remove(m.toStringTitle()); 
         		}
-        		for(Entry<String, Movie> m : nextWord.entrySet())
-        			copyMovies.remove(m.getKey());   		
-        		for(Entry<String, Movie> m : copyMovies.entrySet())
-        			allMovies.remove(m.getKey());
+        		allMovies.keySet().removeAll(copyMovies.keySet());
         	}
-        	SortedSet<String> sortedMovies = new TreeSet<String>(allMovies.keySet());
-        	ArrayList<String> movieFinder = new ArrayList<String>(sortedMovies);
+        	ArrayList<String> movieFinder = new ArrayList<String>(allMovies.keySet());
+        	Collections.sort(movieFinder);
         	if("desc_t".equals(orderby)||"desc_y".equals(orderby)){
 	        	for(int j = (allMovies.size()-Integer.parseInt(offset))-1; j >= (allMovies.size()-(Integer.parseInt(limit)+Integer.parseInt(offset)))-1; j--){
 	        		try{
