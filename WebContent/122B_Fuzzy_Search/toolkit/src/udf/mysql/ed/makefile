@@ -27,7 +27,7 @@ libedrec.so: edrec.c
 
 .PHONY: test
 test:
-	cat ed.sql edth.sql edrec.sql | mysql --user=root --database=mysql --password=theend06
+	cat ed.sql edth.sql edrec.sql | mysql --user=root --database=mysql --password=password234
 
 .PHONY: clean
 clean:
