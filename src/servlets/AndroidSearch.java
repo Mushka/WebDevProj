@@ -2,16 +2,10 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +51,6 @@ public class AndroidSearch extends HttpServlet {
 			String lName = request.getParameter("last_name");
 
 			String advance =  request.getParameter("adv");
-			
-//			System.out.println(advance);
 					
 			if(limit==null)
 				limit = "10";
@@ -70,20 +62,25 @@ public class AndroidSearch extends HttpServlet {
 				orderby = "asc_t";
 
 		String query = "";
-
-		if(advance == null)
+		String count_query= "";
+		String wordsToSearch[] = title.split(" ");
+		String partsOfTitles = "";
+		for(int k = 0; k < wordsToSearch.length; k++){	
+			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
+				partsOfTitles += "%"+wordsToSearch[k] +"%";
+			else
+				partsOfTitles += " "+wordsToSearch[k] +"%";
+    	}
+		if(advance == null || !advance.equals("true") || "".equals(wordsToSearch) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
 		{
-			query = "SELECT * FROM movies WHERE title like '"+title+"%'";
-		
+			query = "SELECT * FROM movies as m WHERE title like '"+title+"%'";
 		}
 		else
-		{
-			
+		{	
 			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
-					+ "FROM movies as m, stars_in_movies as sm, stars as s "
-					+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
-					+ "AND m.title like '%" + title + "%'";
-
+						+ "FROM movies as m, stars_in_movies as sm, stars as s "
+						+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
+						+ "AND m.title like '" + partsOfTitles + "'";
 			if (year != null)
 				query += " AND m.year like '%" + year + "'";
 			if (director != null)
@@ -93,10 +90,7 @@ public class AndroidSearch extends HttpServlet {
 			if (lName != null)
 				query += " AND s.last_name like '%" + lName + "%'";
 		}
-
-
-		String count_query = query;
-		
+		count_query = query;
 		switch(orderby)
 		{
 		default:
@@ -112,24 +106,32 @@ public class AndroidSearch extends HttpServlet {
 			query += " order by year DESC, title";
 			break;
 		}
-		
 		query += " LIMIT "+ limit +" OFFSET "+offset;
-
-        List<Movie> movies = Movie.getMovies(query);
-        	 
+		
+        List<Movie> movies = new ArrayList<Movie>();
+        movies = Movie.getMovies(query);
         if(advance == null)
     		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
         else
     		count_query = "SELECT COUNT(distinct m.id) as count " + count_query.substring(count_query.indexOf("FROM"));
-
-		
-		String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
-//		System.out.println(num_of_movies);
-	            
-		
-		out.print(num_of_movies+";");
-        out.print(new Gson().toJson(movies));
+        String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
+        request.getSession().setAttribute("movies", movies);
+        request.getSession().setAttribute("offset", offset);
+        request.getSession().setAttribute("limit", limit);
+        request.getSession().setAttribute("num_of_movies", num_of_movies);
+        request.getSession().setAttribute("orderby", orderby);
         
+        request.getSession().setAttribute("title", title);
+
+		request.getSession().setAttribute("year", year);
+		request.getSession().setAttribute("director", director);
+		request.getSession().setAttribute("first_name", fName);
+		request.getSession().setAttribute("last_name", lName);
+		request.getSession().setAttribute("adv", advance);
+
+		out.print(num_of_movies+";");
+		out.print(new Gson().toJson(movies));
+		
 	    } catch (Exception e)
 	    {
 	    	out.print("false");
@@ -145,3 +147,4 @@ public class AndroidSearch extends HttpServlet {
 	}
 
 }
+
