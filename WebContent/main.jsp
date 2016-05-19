@@ -110,12 +110,18 @@
         		}
         	});
         	
-        	$("#searchInput").keypress(function(e) {
+/*         	$("#searchInput").keypress(function(e) {
         		if(e.keyCode == 13) {
 					e.preventDefault();
 					window.location.href = './Search?adv=true&limit=10&offset=0&title='+$(this).val()+'&orderby=asc_t&year=&director=&first_name=&last_name=';
         		}
-       		});
+       		}); */
+       		
+        	$("#searchInput").keydown(function(event){
+        	    if(event.keyCode == 13) {
+					window.location.href = './Search?adv=true&limit=10&offset=0&title='+document.getElementById('searchInput').value+'&orderby=asc_t&year=&director=&first_name=&last_name=';
+        	    }
+        	});
     	});
 
 	</script>

@@ -15,9 +15,9 @@
 
 
 
-	<display-name>project3</display-name>
+	<display-name>project4</display-name>
 	<description>
-		project3
+		project4
 	</description>
 	<filter>
 		<filter-name>LoginCheck</filter-name>
@@ -285,7 +285,7 @@
 		<location>/notFound.jsp</location>
 	</error-page>
 
-<!-- <security-constraint>
+<!--  <security-constraint>
  <web-resource-collection>
     <web-resource-name>HTTPSOnly</web-resource-name>
     <url-pattern>/*</url-pattern>
@@ -293,7 +293,6 @@
  <user-data-constraint>
     <transport-guarantee>CONFIDENTIAL</transport-guarantee>
  </user-data-constraint>
-<<<<<<< Updated upstream
-</security-constraint>  -->
+</security-constraint> -->  
 
 </web-app>
