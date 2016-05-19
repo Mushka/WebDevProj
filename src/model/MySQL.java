@@ -62,7 +62,7 @@ public class MySQL {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 			Statement update = db_connection.createStatement();
-
+			
 			int n = update.executeUpdate(query);
 
 			update.close();
@@ -76,7 +76,31 @@ public class MySQL {
 			return -1;
 		}
 	}
-	
+	public static boolean createFunction(String query) throws Exception {
+
+		try {
+
+			String loginUser = Credentials.admin;
+			String loginPasswd = Credentials.password;
+			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			Statement update = db_connection.createStatement();
+			
+			boolean n = update.execute(query);
+
+			update.close();
+			db_connection.close();
+
+			return n;
+
+		} catch (Exception e) {
+
+			System.out.println("Invalid SQL Command. [MySql.createFunction()]\n\n" + e.toString());
+			return false;
+		}
+	}
 
 	public static String getMetaData() throws Exception {
 

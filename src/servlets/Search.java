@@ -75,6 +75,7 @@ public class Search extends HttpServlet {
 		String count_query= "";
 		String wordsToSearch[] = title.split(" ");
 		String partsOfTitles = "";
+		String fuzzyCheck = request.getParameter("fuzzy_search");
 		for(int k = 0; k < wordsToSearch.length; k++){	
 			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
 				partsOfTitles += "%"+wordsToSearch[k] +"%";
@@ -87,18 +88,42 @@ public class Search extends HttpServlet {
 		}
 		else
 		{	
-			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
+			if(fuzzyCheck == null){
+				System.out.println(fuzzyCheck);
+				query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
+							+ "FROM movies as m, stars_in_movies as sm, stars as s "
+							+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
+							+ "AND m.title like '" + partsOfTitles + "'";
+				if (!"".equals(year))
+					query += " AND m.year like '%" + year + "'";
+				if (!"".equals(director))
+					query += " AND m.director like '%" + director + "%'";
+				if (!"".equals(fName)) 
+					query += " AND s.first_name like '%" + fName + "%'";
+				if (!"".equals(lName))
+					query += " AND s.last_name like '%" + lName + "%'";
+			}else{
+				query += "DROP FUNCTION IF EXISTS edth; ";
+				MySQL.createFunction(query);
+				query = "CREATE FUNCTION edth RETURNS INTEGER SONAME 'libedth.so';";
+				MySQL.createFunction(query);
+				query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
 						+ "FROM movies as m, stars_in_movies as sm, stars as s "
-						+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
-						+ "AND m.title like '" + partsOfTitles + "'";
-			if (year != null)
-				query += " AND m.year like '%" + year + "'";
-			if (director != null)
-				query += " AND m.director like '%" + director + "%'";
-			if (fName != null) 
-				query += " AND s.first_name like '%" + fName + "%'";
-			if (lName != null)
-				query += " AND s.last_name like '%" + lName + "%'";
+						+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id ";
+				if (!"".equals(title))
+					query += "AND edth(title, '" + title + "',3)";
+				else
+					query += "AND title like '" + partsOfTitles + "'";;
+				if (!"".equals(year))
+					query += " AND m.year like '%" + year + "'";
+				if (!"".equals(director))
+					query += " AND edth(m.director, '" + director + "',2)";
+				if (!"".equals(fName)) 
+					query += " AND edth(s.first_name, '" + fName + "',2)";
+				if (!"".equals(lName))
+					query += " AND edth(s.last_name, '" + lName + "',2)";
+			}
+			
 		}
 		count_query = query;
 		switch(orderby)
@@ -138,6 +163,7 @@ public class Search extends HttpServlet {
 		request.getSession().setAttribute("first_name", fName);
 		request.getSession().setAttribute("last_name", lName);
 		request.getSession().setAttribute("adv", advance);
+		request.getSession().setAttribute("fuzzy_search", fuzzyCheck);
 
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/search.jsp");
