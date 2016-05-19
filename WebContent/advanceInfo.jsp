@@ -76,6 +76,7 @@
 				<input type="text" name="director" class="searchItem" placeholder="Director">
 				<input type="text" name="first_name" class="searchItem" placeholder="Actor first name">
 				<input type="text" name="last_name" class="searchItem" placeholder="Actor last name">
+				<input type="checkbox" name="fuzzy_search" value="true"> Fuzzy Search<br>
 				<input type="submit" class="searchItem" value="Search">
 			</form>
 		</div>
