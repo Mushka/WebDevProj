@@ -33,13 +33,6 @@
 			flex-direction: column;
 			justify-content: flex-start;
 		}
-		
-		.fuzzySearch {
-		    font-size: 18px;
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-		}
 
 	</style>
 
