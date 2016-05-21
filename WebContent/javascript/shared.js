@@ -117,26 +117,30 @@ $(document).ready(function() {
         reloadMeYear();
 
     });
+   
     
-    if(orderby === "asc_y")
-    {
-        toggleYear = true;
-        $('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
-    }
-    else if(orderby === "desc_y") 
-    {
-        $('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
-    }
+    if (typeof orderby !== 'undefined') {
     
-
-    if(orderby === "asc_t")
-    {
-        toggleTitle = true;
-        $('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
-    }
-    else if(orderby === "desc_t")
-    {
-        $('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
+	    if(orderby === "asc_y")
+	    {
+	        toggleYear = true;
+	        $('#yearArrow').removeClass("arrow-flat").addClass("arrow-up");
+	    }
+	    else if(orderby === "desc_y") 
+	    {
+	        $('#yearArrow').removeClass("arrow-flat").addClass("arrow-down");
+	    }
+	    
+	
+	    if(orderby === "asc_t")
+	    {
+	        toggleTitle = true;
+	        $('#titleArrow').removeClass("arrow-flat").addClass("arrow-up");
+	    }
+	    else if(orderby === "desc_t")
+	    {
+	        $('#titleArrow').removeClass("arrow-flat").addClass("arrow-down");
+	    }
     }
     
 
