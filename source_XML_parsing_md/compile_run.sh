@@ -1,8 +1,10 @@
 #! /bin/bash
 
 echo "Creating Tables"
-mysql --user="classta" --password="classta" < createtable.sql
+mysql --user="root" --password="password234" < createtable_fts.sql
 echo "COMPLETE"
+echo "Loading data.sql"
+mysql --user="root" --password="password234" -D moviedb < data.sql
 echo "Compiling Java Resources"
 mkdir -p ./bin
 javac ./src/*.java -d ./bin/

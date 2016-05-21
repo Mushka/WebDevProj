@@ -19,7 +19,7 @@ public class MySQL {
 		try {
 			String loginUser = Credentials.admin;
 			String loginPasswd = Credentials.password;
-			String loginUrl = "jdbc:mysql://localhost:3306/moviedb_project3_grading";
+			String loginUrl = Credentials.url;
 
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -55,7 +55,7 @@ public class MySQL {
 
 			String loginUser = Credentials.admin;
 			String loginPasswd = Credentials.password;
-			String loginUrl = "jdbc:mysql://localhost:3306/moviedb_project3_grading";
+			String loginUrl = Credentials.url;
 
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -83,7 +83,7 @@ public class MySQL {
 		try {
 			String loginUser = Credentials.admin;
 			String loginPasswd = Credentials.password;
-			String loginUrl = "jdbc:mysql://localhost:3306/moviedb_project3_grading";
+			String loginUrl = Credentials.url;
 
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
