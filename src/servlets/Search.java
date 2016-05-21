@@ -64,26 +64,26 @@ public class Search extends HttpServlet {
 		String query = "";
 		String count_query= "";
 		String wordsToSearch[] = title.split(" ");
-		String partsOfTitles = "";
 		String fuzzyCheck = request.getParameter("fuzzy_search");
 		for(int k = 0; k < wordsToSearch.length; k++){	
 			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
-				partsOfTitles += "%"+wordsToSearch[k] +"%";
+				wordsToSearch[k] = "%"+wordsToSearch[k] +"%";
 			else
-				partsOfTitles += " "+wordsToSearch[k] +"%";
+				wordsToSearch[k] = "% "+wordsToSearch[k] +"%";
     	}
-		if(advance == null || !advance.equals("true") || "".equals(wordsToSearch) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
+		if(advance == null || !advance.equals("true") || "".equals(title) || (wordsToSearch.length <= 1 && wordsToSearch[0].length() <= 1))
 		{
 			query = "SELECT * FROM movies as m WHERE title like '"+title+"%'";
 		}
 		else
 		{	
 			if(fuzzyCheck == null){
-				System.out.println(fuzzyCheck);
 				query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
 							+ "FROM movies as m, stars_in_movies as sm, stars as s "
-							+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
-							+ "AND m.title like '" + partsOfTitles + "'";
+							+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id AND "
+							+ "MATCH(m.title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
+				for(String s: wordsToSearch)
+					query += " AND m.title like '" + s + "'";
 				if (!"".equals(year))
 					query += " AND m.year like '%" + year + "'";
 				if (!"".equals(director))
@@ -102,8 +102,10 @@ public class Search extends HttpServlet {
 						+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id ";
 				if (!"".equals(title))
 					query += "AND edth(title, '" + title + "',3)";
-				else
-					query += "AND title like '" + partsOfTitles + "'";;
+				else{
+					for(String s: wordsToSearch)
+						query += " AND m.title like '" + s + "'";
+				}
 				if (!"".equals(year))
 					query += " AND m.year like '%" + year + "'";
 				if (!"".equals(director))
@@ -134,6 +136,7 @@ public class Search extends HttpServlet {
 		query += " LIMIT "+ limit +" OFFSET "+offset;
 		
         List<Movie> movies = new ArrayList<Movie>();
+        System.out.println(query);
         movies = Movie.getMovies(query);
         if(advance == null)
     		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));

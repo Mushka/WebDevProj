@@ -1,7 +1,11 @@
-DROP DATABASE IF EXISTS fts;
-CREATE DATABASE fts;
+DROP DATABASE IF EXISTS moviedb;
+CREATE DATABASE moviedb;
 
-USE fts;
+USE moviedb;
+CREATE TABLE my_stopwords(value VARCHAR(30)) ENGINE = INNODB;
+
+SET GLOBAL Innodb_ft_enable_stopword = 'OFF';
+SET GLOBAL Innodb_ft_server_stopword_table = 'moviedb/my_stopwords';
 
 CREATE TABLE movies(
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -11,7 +15,7 @@ CREATE TABLE movies(
     banner_url varchar(200),
     trailer_url varchar(200),
     FULLTEXT(title) 
-) ENGINE=InnoDB;
+) ENGINE=Innodb;
 
 CREATE TABLE stars(
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -77,6 +81,3 @@ CREATE TABLE employees(
 
 INSERT INTO employees()
 VALUES ('classta@course.edu', 'classta', 'TA CS122B');
-
-SELECT title FROM movies WHERE MATCH(title) AGAINST ('hour people' IN NATURAL LANGUAGE MODE) and title like '2%';
-
