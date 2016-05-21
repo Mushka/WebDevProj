@@ -55,6 +55,13 @@ img {
 	margin-top: 10px;
 }
 
+.fuzzySearch {
+    font-size: 18px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
 .margin40T {
 	margin-top: 25px;
 }
