@@ -64,30 +64,32 @@ public class SearchAjax extends HttpServlet {
 		String query = "";
 		String count_query= "";
 		String wordsToSearch[] = title.split(" ");
-		String partsOfTitles = "";
+		String fuzzyCheck = request.getParameter("fuzzy_search");
 		for(int k = 0; k < wordsToSearch.length; k++){	
 			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
-				partsOfTitles += "%"+wordsToSearch[k] +"%";
+				wordsToSearch[k] = "%"+wordsToSearch[k] +"%";
 			else
-				partsOfTitles += " "+wordsToSearch[k] +"%";
+				wordsToSearch[k] = "% "+wordsToSearch[k] +"%";
     	}
-		if(advance == null || !advance.equals("true") || "".equals(wordsToSearch) || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
+		if(advance == null || !advance.equals("true") || "".equals(title) || (wordsToSearch.length <= 1 && wordsToSearch[0].length() <= 1))
 		{
 			query = "SELECT * FROM movies as m WHERE title like '"+title+"%'";
 		}
 		else
 		{	
 			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
-						+ "FROM movies as m, stars_in_movies as sm, stars as s "
-						+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id "
-						+ "AND m.title like '" + partsOfTitles + "'";
-			if (year != null)
+					+ "FROM movies as m, stars_in_movies as sm, stars as s "
+					+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id AND "
+					+ "MATCH(title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
+			for(String s: wordsToSearch)
+				query += " AND m.title like '" + s + "'";
+			if (!"".equals(year))
 				query += " AND m.year like '%" + year + "'";
-			if (director != null)
+			if (!"".equals(director))
 				query += " AND m.director like '%" + director + "%'";
-			if (fName != null) 
+			if (!"".equals(fName)) 
 				query += " AND s.first_name like '%" + fName + "%'";
-			if (lName != null)
+			if (!"".equals(lName))
 				query += " AND s.last_name like '%" + lName + "%'";
 		}
 		count_query = query;
