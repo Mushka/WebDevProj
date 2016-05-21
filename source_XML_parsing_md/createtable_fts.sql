@@ -1,6 +1,11 @@
-DROP DATABASE IF EXISTS moviedb; 
-CREATE DATABASE IF NOT EXISTS moviedb; 
+DROP DATABASE IF EXISTS moviedb;
+CREATE DATABASE moviedb;
+
 USE moviedb;
+CREATE TABLE my_stopwords(value VARCHAR(30)) ENGINE = INNODB;
+
+SET GLOBAL Innodb_ft_enable_stopword = 'OFF';
+SET GLOBAL Innodb_ft_server_stopword_table = 'moviedb/my_stopwords';
 
 CREATE TABLE movies(
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -8,8 +13,9 @@ CREATE TABLE movies(
     year integer NOT NULL,
     director varchar(100) NOT NULL,
     banner_url varchar(200),
-    trailer_url varchar(200)
-);
+    trailer_url varchar(200),
+    FULLTEXT(title) 
+) ENGINE=Innodb;
 
 CREATE TABLE stars(
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -72,3 +78,6 @@ CREATE TABLE employees(
     password varchar(20) NOT NULL,
     fullname varchar(100)
 );
+
+INSERT INTO employees()
+VALUES ('classta@course.edu', 'classta', 'TA CS122B');

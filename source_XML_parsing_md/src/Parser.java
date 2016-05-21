@@ -429,7 +429,7 @@ public class Parser extends DefaultHandler{
 	public void insertIntoDataBase() throws Exception{
 		String loginUser = Credentials.admin;
 		String loginPasswd = Credentials.password;
-		String loginUrl = "jdbc:mysql://localhost:3306/moviedb_project3_grading";		
+		String loginUrl = Credentials.url;		
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			this.dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
