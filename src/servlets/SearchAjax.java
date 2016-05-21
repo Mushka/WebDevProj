@@ -65,11 +65,14 @@ public class SearchAjax extends HttpServlet {
 		String count_query= "";
 		String wordsToSearch[] = title.split(" ");
 		String fuzzyCheck = request.getParameter("fuzzy_search");
+		ArrayList<String> fixedWords = new ArrayList<String>();
 		for(int k = 0; k < wordsToSearch.length; k++){	
 			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
-				wordsToSearch[k] = "%"+wordsToSearch[k] +"%";
-			else
-				wordsToSearch[k] = "% "+wordsToSearch[k] +"%";
+				fixedWords.add("%"+wordsToSearch[k] +"%");
+			else{
+				fixedWords.add("% "+wordsToSearch[k] +"%");
+				fixedWords.add(wordsToSearch[k] +"%");
+			}
     	}
 		if(advance == null || !advance.equals("true") || "".equals(title) || (wordsToSearch.length <= 1 && wordsToSearch[0].length() <= 1))
 		{
@@ -80,9 +83,16 @@ public class SearchAjax extends HttpServlet {
 			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
 					+ "FROM movies as m, stars_in_movies as sm, stars as s "
 					+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id AND "
-					+ "MATCH(title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
-			for(String s: wordsToSearch)
-				query += " AND m.title like '" + s + "'";
+					+ "MATCH(m.title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
+			for(int i = 0; i < fixedWords.size() -1; i++){
+				if(i != fixedWords.size() - 2)
+					query += " AND m.title like '" + fixedWords.get(i) + "'";
+				else{
+					query += " AND (m.title like '" + fixedWords.get(i) + "'";
+					query += " OR m.title like '" + fixedWords.get(i+1) + "')";
+					break;
+				}
+			}
 			if (!"".equals(year))
 				query += " AND m.year like '%" + year + "'";
 			if (!"".equals(director))
