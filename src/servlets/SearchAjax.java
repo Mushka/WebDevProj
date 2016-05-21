@@ -45,10 +45,10 @@ public class SearchAjax extends HttpServlet {
 			String orderby = request.getParameter("orderby");
 
 			String title = request.getParameter("title");
-			String year = request.getParameter("year");
-			String director = request.getParameter("director");
-			String fName = request.getParameter("first_name");
-			String lName = request.getParameter("last_name");
+			String year = request.getParameter("year").trim();
+			String director = request.getParameter("director").trim();
+			String fName = request.getParameter("first_name").trim();
+			String lName = request.getParameter("last_name").trim();
 
 			String advance =  request.getParameter("adv");
 					
@@ -74,7 +74,7 @@ public class SearchAjax extends HttpServlet {
 				fixedWords.add(wordsToSearch[k] +"%");
 			}
     	}
-		if(advance == null || !advance.equals("true") || "".equals(title) || (wordsToSearch.length <= 1 && wordsToSearch[0].length() <= 1))
+		if(advance == null || !advance.equals("true") || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
 		{
 			query = "SELECT * FROM movies as m WHERE title like '"+title+"%'";
 		}
@@ -82,8 +82,9 @@ public class SearchAjax extends HttpServlet {
 		{	
 			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
 					+ "FROM movies as m, stars_in_movies as sm, stars as s "
-					+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id AND "
-					+ "MATCH(m.title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
+					+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id ";
+			if(!"".equals(title))
+				query += "AND MATCH(m.title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
 			for(int i = 0; i < fixedWords.size() -1; i++){
 				if(i != fixedWords.size() - 2)
 					query += " AND m.title like '" + fixedWords.get(i) + "'";
