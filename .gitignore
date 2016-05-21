@@ -8,6 +8,7 @@
 !/other/
 !README.md
 !source_XML_parsing
+!source_XML_parsing_md
 
 #	export
 #	importCredentials.java
