@@ -79,3 +79,7 @@ order by g.name, m.title, m.year, m.director;
 INSERT INTO employees()
 VALUES ('classta@course.edu', 'classta', 'TA CS122B');
 
+-- full text search example
+
+SELECT title FROM movies WHERE MATCH(title) AGAINST ('zoo*' IN BOOLEAN MODE);
+
