@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
+import com.mysql.jdbc.PreparedStatement;
 
 
 public class Movie {
@@ -187,6 +188,52 @@ public class Movie {
 		}
 		
 		return m;
+	}
+	
+	public static ArrayList<Movie> getMoviesPrepare(String query, ArrayList<String> values) {
+
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		ArrayList<Map<String, Object>> results;
+		try {
+			//results = MySQL.select(query);
+			results = MySQL.selectPrepare(query, values);
+			for (Map<String, Object> row : results)
+			{
+				
+				int id = ((Integer) row.get("id")).intValue();
+				String title = row.get("title").toString();
+				int year = ((Integer)row.get("year")).intValue();
+				String director = row.get("director").toString();
+				
+				String banner_url = "";
+				if(row.get("banner_url") != null)
+					banner_url = row.get("banner_url").toString();
+				
+				String trailer_url = "";
+				if(row.get("trailer_url") != null)
+					trailer_url = row.get("trailer_url").toString();
+				
+
+				Movie m = new Movie(id, title, year, 
+						director, banner_url, trailer_url);
+			
+		        m.setGenres(Movie.getGenres(m.getId()));
+		        m.setStars(Movie.getStars(m.getId()));
+		        
+				movies.add(m);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		    System.out.println("Invalid SQL Command. [Movie.getMovies()]\n\n" + e.toString());
+		    
+		    movies = new ArrayList<Movie>();
+
+		}
+
+		return movies;
 	}
 
 	public static ArrayList<Movie> getMovies(String query) {

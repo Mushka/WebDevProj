@@ -3,10 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
@@ -44,6 +44,58 @@ public class MySQL {
 			db_connection.close();
 		} catch (Exception e) {
 			System.out.println("Invalid SQL Command. [MySql.select()]\n\n" + e.toString());
+			rows = null;
+		} finally {
+			return rows;
+		}
+
+	}
+	
+	@SuppressWarnings("finally")
+	//last two have to be a limit and offset
+	public static ArrayList<Map<String, Object>> selectPrepare(String query, ArrayList<String> values) throws Exception {
+
+		ArrayList<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+
+		try {
+			String loginUser = Credentials.admin;
+			String loginPasswd = Credentials.password;
+			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);			
+			PreparedStatement selectStmt = db_connection.prepareStatement(query);
+			for(int i = 0; i < values.size(); i++){
+				if(i < values.size()-2)
+					selectStmt.setString(i+1, values.get(i));
+				else{
+					try{
+						selectStmt.setInt(i+1, Integer.parseInt(values.get(i)));
+					}
+					catch(Exception e ){
+						System.out.println("No Limit and Offset set: " + query);
+						selectStmt.setString(i+1, values.get(i));
+					}
+				}
+			}
+			System.out.println("This one " + selectStmt.toString());
+			ResultSet results = selectStmt.executeQuery();
+
+			ResultSetMetaData metadata = results.getMetaData();
+
+			while (results.next()) {
+				Map<String, Object> row = new HashMap<String, Object>();
+				for (int i = 1; i <= metadata.getColumnCount(); ++i)
+					row.put(metadata.getColumnName(i), results.getObject(i));
+
+				rows.add(row);
+			}
+
+			results.close();
+			selectStmt.close();
+			db_connection.close();
+		} catch (Exception e) {
+			System.out.println("Invalid SQL Command. [MySql.selectPrepare()]\n\n" + e.toString());
 			rows = null;
 		} finally {
 			return rows;
