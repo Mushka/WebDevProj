@@ -83,3 +83,22 @@ VALUES ('classta@course.edu', 'classta', 'TA CS122B');
 
 SELECT title FROM movies WHERE MATCH(title) AGAINST ('zoo*' IN BOOLEAN MODE);
 
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+-- userful master/slave commands:
+
+-- Delete user:
+DROP USER 'repl'@'%';
+
+-- Fix slave:
+STOP SLAVE;
+SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;
+START SLAVE;
+
+-- need to do the following to allow user repl to insert into moviedb and use stored procedures for master from slave
+-- grants repl access to all stored procedures in all databases (including source code).
+GRANT SELECT ON mysql.proc TO 'repl'@'%';
+
+-- grants repl access to use moviedb
+GRANT ALL ON moviedb.* TO 'repl'@'%'
+
