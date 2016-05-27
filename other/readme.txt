@@ -29,6 +29,11 @@ Useful mysql commands:
 - describe <dbname>.<tablename>; (ex. describe moviedb.movies;)
 
 
+Useful webapp commands
+(1) View logs (System.out.print):
+	- shell> tail -f /var/log/tomcat7/catalina.out 
+	
+
 Commands to use terminal interface
 (1) To compile:
 	- shell> make 
