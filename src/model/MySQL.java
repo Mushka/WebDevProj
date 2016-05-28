@@ -3,6 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -22,9 +27,19 @@ public class MySQL {
 			String loginUser = Credentials.admin;
 			String loginPasswd = Credentials.password;
 			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+			
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			Connection db_connection = null;
+			
+			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else
+				db_connection = datasource.getConnection();
+			
 			Statement selectStmt = db_connection.createStatement();
 
 			ResultSet results = selectStmt.executeQuery(query);
@@ -61,21 +76,33 @@ public class MySQL {
 			String loginUser = Credentials.admin;
 			String loginPasswd = Credentials.password;
 			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
+			Connection db_connection = null;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);			
+			if(datasource == null){
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else{
+				db_connection = datasource.getConnection();
+			}
 			PreparedStatement selectStmt = db_connection.prepareStatement(query);
+			System.out.println("7");
 			for(int i = 0; i < values.size(); i++){
-				if(i < values.size()-2)
-					selectStmt.setString(i+1, values.get(i));
-				else{
-					try{
-						selectStmt.setInt(i+1, Integer.parseInt(values.get(i)));
-					}
-					catch(Exception e ){
-						System.out.println("No Limit and Offset set: " + query);
+				if(!values.get(i).equals("")){
+					if(i < values.size()-2)
 						selectStmt.setString(i+1, values.get(i));
+					else{
+						try{
+							selectStmt.setInt(i+1, Integer.parseInt(values.get(i)));
+						}
+						catch(Exception e ){
+							System.out.println("No Limit and Offset set: " + query);
+							selectStmt.setString(i+1, values.get(i));
+						}
 					}
+				}else{
+					System.out.println("This is a problem");
 				}
 			}
 			System.out.println("This one " + selectStmt.toString());
@@ -113,8 +140,16 @@ public class MySQL {
 			String loginUrl = "jdbc:mysql://" + Credentials.masterUrl + ":3306/moviedb";
 
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
+
+			Connection db_connection = null;
+			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else
+				db_connection = datasource.getConnection();
 			Statement update = db_connection.createStatement();
 			
 			int n = update.executeUpdate(query);
@@ -137,9 +172,17 @@ public class MySQL {
 			String loginUser = Credentials.admin;
 			String loginPasswd = Credentials.password;
 			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+			
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			Connection db_connection = null;
+			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else
+				db_connection = datasource.getConnection();
 			Statement update = db_connection.createStatement();
 			
 			boolean n = update.execute(query);
@@ -165,8 +208,16 @@ public class MySQL {
 			String loginPasswd = Credentials.password;
 			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
+
+			Connection db_connection = null;
+			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else
+				db_connection = datasource.getConnection();
 			DatabaseMetaData databaseMetaData = db_connection.getMetaData();
 
 			String catalog = null;
