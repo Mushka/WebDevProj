@@ -7,13 +7,12 @@
 	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
 	the specific language governing permissions and limitations under the License. -->
 
+
+
 <!DOCTYPE web-app
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
-
 <web-app>
-
-
 
 	<display-name>project4</display-name>
 	<description>
@@ -40,10 +39,11 @@
 		<url-pattern>/_dashboard/*</url-pattern>
 	</filter-mapping>
 
-
 	<!-- Define servlets that are included in the example application -->
-
-
+<!--	<listener>
+        <listener-class> com.onjava.dbcp.DBCPoolingListener</listener-class>
+	</listener>
+-->	
 	<servlet>
 		<servlet-name>Search</servlet-name>
 		<display-name>Search</display-name>
@@ -280,10 +280,18 @@
 		<servlet-name>AndroidSearch</servlet-name>
 		<url-pattern>/AndroidSearch</url-pattern>
 	</servlet-mapping>
+	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/notFound.jsp</location>
 	</error-page>
+
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/moviedb</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
 
 <!--  <security-constraint>
  <web-resource-collection>
