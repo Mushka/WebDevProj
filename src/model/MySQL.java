@@ -80,14 +80,13 @@ public class MySQL {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
 			Connection db_connection = null;
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 			}else{
 				db_connection = datasource.getConnection();
 			}
 			PreparedStatement selectStmt = db_connection.prepareStatement(query);
-			System.out.println("7");
 			for(int i = 0; i < values.size(); i++){
 				if(!values.get(i).equals("")){
 					if(i < values.size()-2)
