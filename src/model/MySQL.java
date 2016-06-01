@@ -149,6 +149,7 @@ public class MySQL {
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 			}else
 				db_connection = datasource.getConnection();
+			
 			Statement update = db_connection.createStatement();
 			
 			int n = update.executeUpdate(query);
