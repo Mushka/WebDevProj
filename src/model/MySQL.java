@@ -141,7 +141,7 @@ public class MySQL {
 
 			Context initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
-			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/master_moviedb");
 
 			Connection db_connection = null;
 			if(datasource == null){
@@ -195,6 +195,60 @@ public class MySQL {
 
 			System.out.println("Invalid SQL Command. [MySql.createFunction()]\n\n" + e.toString());
 			return false;
+		}
+	}
+
+	@SuppressWarnings("finally")
+	public static String loginCheck(String username, String password, String table)
+	{
+
+			String user_id = "", selectValue = "id";
+			
+			if("employees".equalsIgnoreCase(table))
+			{
+				selectValue = "email";
+			}
+
+			String query = "select " + selectValue + " from " + table + " where email like '"+username+"' and password like '"+password+"'";
+			
+			try {
+			String loginUser = Credentials.admin;
+			String loginPasswd = Credentials.password;
+			String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+			
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
+
+			Connection db_connection = null;
+			
+			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else
+				db_connection = datasource.getConnection();
+			
+			Statement selectStmt = db_connection.createStatement();
+			ResultSet results = selectStmt.executeQuery(query);
+		
+			while(results.next()){
+				
+				if("employees".equalsIgnoreCase(table))
+					user_id = results.getString("email");
+				else
+					user_id = results.getString("id");
+				
+				break;
+			}
+			
+			results.close();
+			selectStmt.close();
+			db_connection.close();
+		} catch (Exception e) {
+			System.out.println("Invalid SQL Command. [MySql.loginCheck()]\n\n" + e.toString());
+			user_id = "";
+		} finally {
+			return user_id;
 		}
 	}
 
