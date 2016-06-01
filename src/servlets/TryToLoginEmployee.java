@@ -54,38 +54,16 @@ public class TryToLoginEmployee extends HttpServlet
 			{
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
+				
+				String emp_email = MySQL.loginCheck(email, password, "employees");
 
-				String query = "select email from employees where email like '"+email+"' and password like '"+password+"'";
-
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-				Statement selectStmt = db_connection.createStatement();
-				ResultSet results = selectStmt.executeQuery(query);
-
-				boolean empty = true;
-
-				String emp_email = "";
-
-				while(results.next()){
-
-					empty = false;
-
-					emp_email = results.getString("email");
-
-					break;
-				}
-
-				results.close();
-				selectStmt.close();
-				db_connection.close();
-
-				if(empty)
+				if("".equalsIgnoreCase(emp_email))
 				{
 					out.print("false");
 				}
 				else
 				{
-					//this prints out to the AJAX call
+                    //this prints out to the AJAX call
 					out.print(emp_email); 
 					System.out.println("Logged in employee id: " + emp_email); 
 

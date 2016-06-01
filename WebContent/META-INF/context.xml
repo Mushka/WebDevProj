@@ -38,7 +38,13 @@ reloadable="true" crossContext="true">
 	   type="javax.sql.DataSource" removeAbandoned="true"
 	   removeAbandonedTimeout="30" maxActive="100"
 	   maxIdle="30" maxWait="10000" username="root" 
-	   password="password234" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/moviedb"/>
+	   password="" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/moviedb"/>
+
+  <Resource name="jdbc/master_moviedb" auth="Container"
+     type="javax.sql.DataSource" removeAbandoned="true"
+     removeAbandonedTimeout="30" maxActive="100"
+     maxIdle="30" maxWait="10000" username="root" 
+     password="" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://172.31.31.47:3306/moviedb"/>
 
 </Context>
 <!--

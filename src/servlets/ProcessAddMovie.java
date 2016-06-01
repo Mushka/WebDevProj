@@ -11,10 +11,13 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -136,10 +139,20 @@ public class ProcessAddMovie extends HttpServlet {
 			
 			String loginUser = Credentials.masterAdmin;
 			String loginPasswd = Credentials.masterPassword;
+			//String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 			String loginUrl = "jdbc:mysql://" + Credentials.masterUrl + ":3306/moviedb";
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource datasource = (DataSource) envContext.lookup("jdbc/master_moviedb");
+
+			Connection db_connection = null;
+			if(datasource == null){
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+			}else
+				db_connection = datasource.getConnection();
 
 		    CallableStatement stmt = db_connection.prepareCall("{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 		    stmt.setString(1, title_m);
