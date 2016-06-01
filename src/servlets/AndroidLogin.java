@@ -39,31 +39,9 @@ public class AndroidLogin extends HttpServlet
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 
-			String query = "select id from customers where email like '"+username+"' and password like '"+password+"'";
+			String user_id = MySQL.loginCheck(username, password, "customers");
 
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			Statement selectStmt = db_connection.createStatement();
-			ResultSet results = selectStmt.executeQuery(query);
-
-			boolean empty = true;
-
-			String user_id = "";
-
-			while(results.next()){
-
-				empty = false;
-
-				user_id = results.getString("id");
-
-				break;
-			}
-
-			results.close();
-			selectStmt.close();
-			db_connection.close();
-
-			if(empty)
+			if("".equalsIgnoreCase(user_id))
 			{
 				out.print("false");
 			}
