@@ -30,6 +30,12 @@
 		<description></description>
 		<filter-class>filters.EmployeeCheck</filter-class>
 	</filter>
+	<filter>
+		<filter-name>StatsLogging</filter-name>
+		<display-name>StatsLogging</display-name>
+		<description></description>
+		<filter-class>filters.StatsLogging</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>LoginCheck</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -37,6 +43,10 @@
 	<filter-mapping>
 		<filter-name>EmployeeCheck</filter-name>
 		<url-pattern>/_dashboard/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>StatsLogging</filter-name>
+		<url-pattern>/Search</url-pattern>
 	</filter-mapping>
 
 	<!-- Define servlets that are included in the example application -->
@@ -307,7 +317,6 @@
  </web-resource-collection>
  <user-data-constraint>
     <transport-guarantee>CONFIDENTIAL</transport-guarantee>
- </user-data-constraint>
-</security-constraint> -->  
+ </user-data-constraint> -->
 
 </web-app>

@@ -171,12 +171,23 @@ public class Search extends HttpServlet {
     		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
         else
     		count_query = "SELECT COUNT(distinct m.id) as count " + count_query.substring(count_query.indexOf("FROM"));
+        
+        long startTime;
+		long endTime;
+
+	    startTime = System.currentTimeMillis();
+        
         String num_of_movies = MySQL.selectPrepare(count_query, values).get(0).get("count").toString();     
 		values.add(limit);
 		values.add(offset);
         List<Movie> movies = new ArrayList<Movie>();
         System.out.println(query);
-        movies = Movie.getMoviesPrepare(query, values);   
+        movies = Movie.getMoviesPrepare(query, values);
+        
+        endTime = System.currentTimeMillis();
+        
+        Logging.appendLogTJ("" + (endTime - startTime));
+        
         request.getSession().setAttribute("movies", movies);
         request.getSession().setAttribute("offset", offset);
         request.getSession().setAttribute("limit", limit);
