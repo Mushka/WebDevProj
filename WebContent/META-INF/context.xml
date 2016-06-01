@@ -35,6 +35,7 @@ reloadable="true" crossContext="true">
 
 
 	<Resource name="jdbc/moviedb" auth="Container"
+<<<<<<< HEAD
 	   type="javax.sql.DataSource" removeAbandoned="true"
 	   removeAbandonedTimeout="30" maxActive="100"
 	   maxIdle="30" maxWait="10000" username="root" 
@@ -45,6 +46,18 @@ reloadable="true" crossContext="true">
      removeAbandonedTimeout="30" maxActive="100"
      maxIdle="30" maxWait="10000" username="root" 
      password="" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://172.31.31.47:3306/moviedb"/>
+=======
+		type="javax.sql.DataSource" removeAbandoned="true"
+		removeAbandonedTimeout="30" maxActive="100"
+		maxIdle="30" maxWait="10000" username="root" 
+		password="" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/moviedb"/>
+
+	<Resource name="jdbc/master_moviedb" auth="Container"
+		type="javax.sql.DataSource" removeAbandoned="true"
+		removeAbandonedTimeout="30" maxActive="100"
+		maxIdle="30" maxWait="10000" username="root" 
+		password="" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/moviedb"/> <!-- //172.31.31.47:3306/moviedb"/> -->
+>>>>>>> 2d4c91a8b137e3858ada96a79740322372e2fb2f
 
 </Context>
 <!--
