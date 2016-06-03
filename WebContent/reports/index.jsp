@@ -1,3 +1,5 @@
 - <a href="./reports/readme">Readme</a><br>
 - <a href="./reports/like-predicate">Like Predicate</a><br>
-- <a href="./reports/xml_parsing_optimization">XML Parsing Optimization</a>
+- <a href="./reports/xml_parsing_optimization">XML Parsing Optimization</a><br>
+- <a href="./reports/connection_pooling">Connection Pooling</a><br>
+- <a href="./reports/jmeter_report">JMeter</a><br>

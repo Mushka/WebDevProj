@@ -19,6 +19,18 @@ if(report_page != null){
 		<title>XML Parsing Optimization</title>
 	<%
 		}
+	
+	else if("connection_pooling".equalsIgnoreCase(report_page)) {
+		%>
+		<title>XML Parsing Optimization</title>
+	<%
+		}
+	
+	else if("jmeter_report".equalsIgnoreCase(report_page)) {
+		%>
+		<title>XML Parsing Optimization</title>
+	<%
+		}
 	else {
 %>
 	<title>Reports</title>
@@ -141,6 +153,16 @@ if(report_page != null){
 						<span id="titleFont">XML Parsing Optimization</span>
 <%
 					}
+					else if("connection_pooling".equalsIgnoreCase(report_page)) {
+%>
+						<span id="titleFont">Connection Pooling</span>
+<%
+					}
+					else if("jmeter_report".equalsIgnoreCase(report_page)) {
+%>
+						<span id="titleFont">JMeter</span>
+<%
+					}
 					else {
 %>
 						<span id="titleFont">Index</span>
@@ -173,6 +195,18 @@ if(report_page != null){
 				        <%@ include file="../reports/xml_parsing_optimization.jsp" %>
 <%
 					}
+					else if("connection_pooling".equalsIgnoreCase(report_page))
+					{
+%>	
+				        <%@ include file="../reports/connection_pooling.jsp" %>
+<%
+					}
+					else if("jmeter_report".equalsIgnoreCase(report_page))
+					{
+%>	
+				        <%@ include file="../reports/jmeter_report.jsp" %>
+<%
+					}
 					else
 					{
 %>	
@@ -190,7 +224,7 @@ if(report_page != null){
 				
 			<div id="reportNavBox">
 <%
-				if("like-predicate".equalsIgnoreCase(report_page) || "readme".equalsIgnoreCase(report_page) || "xml_parsing_optimization".equalsIgnoreCase(report_page))
+				if("like-predicate".equalsIgnoreCase(report_page) || "readme".equalsIgnoreCase(report_page) || "xml_parsing_optimization".equalsIgnoreCase(report_page) || "connection_pooling".equalsIgnoreCase(report_page) || "jmeter_report".equalsIgnoreCase(report_page))
 				{	
 %>	
 				<input type="button" class="margin40T homeButton" onclick="location.href='<%=request.getContextPath()%>/reports';" value="Back to Index" />

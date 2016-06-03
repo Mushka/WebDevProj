@@ -61,6 +61,8 @@ public class Reports extends HttpServlet {
 				report_page = path_info.substring(path_info.lastIndexOf('/')+1);
 //				System.out.println(report_page);
 				
+				if(report_page.startsWith("jmeter_report"))
+					report_page = "jmeter_report";
 				
 			}
 			else
