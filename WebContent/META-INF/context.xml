@@ -50,6 +50,20 @@ reloadable="true" crossContext="true">
         -->
         
         
+       <Resource name="jdbc/master_moviedb" auth="Container" type="javax.sql.DataSource"
+               maxActive="1000" maxIdle="300" maxWait="10000"
+               maxAge="20000" 
+               testOnBorrow="true" 
+               testWhileIdle="true"
+               validationInterval="0"
+               validationQuery="Select 1" 
+               removeAbandoned="true"
+       		   removeAbandonedTimeout="30"
+       		   initialSize="5"
+               username="repl" password="slavepassword" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://172.31.31.47:3306/moviedb"
+               closeMethod="close" />
+        
 	<Resource name="jdbc/moviedb" auth="Container" type="javax.sql.DataSource"
                maxActive="1000" maxIdle="300" maxWait="10000"
                maxAge="20000" 
@@ -57,23 +71,18 @@ reloadable="true" crossContext="true">
                testWhileIdle="true"
                validationInterval="0"
                validationQuery="Select 1" 
+               removeAbandoned="true"
+       		   removeAbandonedTimeout="30"
+       		   initialSize="5"
                username="root" password="password234" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/moviedb?autoReconnect=true" />
+               url="jdbc:mysql://localhost:3306/moviedb" 
+               closeMethod="close"/>
                
-    <Resource name="jdbc/master_moviedb" auth="Container" type="javax.sql.DataSource"
-               maxActive="1000" maxIdle="300" maxWait="10000"
-               maxAge="20000" 
-               testOnBorrow="true" 
-               testWhileIdle="true"
-               validationInterval="0"
-               validationQuery="Select 1" 
-               username="repl" password="slavepassword" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://172.31.31.47:3306/moviedb?autoReconnect=true" />
 
-       
-       
-      
-
+               
+<!--                               url="jdbc:mysql://localhost:3306/moviedb?autoReconnect=true"
+ -->               
+               
 </Context>
 <!--
     <Resource name="jdbc/moviedb" auth="Container" type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000" username="root" password="theend06" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/moviedb"/>
