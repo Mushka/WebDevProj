@@ -1,26 +1,114 @@
-<h2><strong>122B Spring 2016 </strong></h2>
+ <!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-color: linen;
+}
 
-<p><strong><em>Josh Angelesberg </br>
-Max Ushkalov</br>
-Josh Alpert</em></strong> </p>
+td {
+    border-top-style: solid;
+}
+</style>
+</head>
+<body>
 
-<p><strong>How to compile:</strong></p>
+<table style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Single-instance version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="../images/graph_results_case1.png" alt="Graph Results Screenshot Case 1" style="width:304px;height:228px;"></td>
+    <td>54</td>
+    <td>8.57</td>
+    <td>8.23</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="../images/graph_results_case2.png" alt="Graph Results Screenshot Case 2" style="width:304px;height:228px;"></td>
+    <td>86</td>
+    <td>38.11</td>
+    <td>37.88</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTPS/10 threads</td>
+    <td><img src="../images/graph_results_case3.png" alt="Graph Results Screenshot Case 3" style="width:304px;height:228px;"></td>
+    <td>95</td>
+    <td>39.75</td>
+    <td>39.45</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No prepared statements</td>
+    <td><img src="../images/graph_results_case4.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>87</td>
+    <td>34.32</td>
+    <td>34.15</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 5: HTTP/10 threads/No connection pooling</td>
+    <td><img src="../images/graph_results_case5.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>279</td>
+    <td>221.69</td>
+    <td>220.78</td>
+    <td>--</td>
+  </tr>
 
-<p>	NOTE: We used eclipse and exported as a WAR file so all the compilation is done in eclipse
-	BUT to compile manually </p>
+</table> 
 
-<p>	1. cd /var/lib/tomcat7/webapps/fabflix/WEB-INF/sources</br>
-	2. sudo javac -classpath .:../lib/mysql-connector-java-5.0.8-bin.jar:../lib/servlet-api.jar ./servlets/*.java ./filters/*.java ./model/*java -d ../classes/</br>
-	3. Open tomcat7 manager and reload the fabflix directory </p>
-<p>
-<strong>How to create war file</strong></p>
 
-<p>	1. cd /var/lib/tomcat7/webapps/fabflix/</br>
-	2. sudo jar -cvf fabflix.war *</p>
+<table style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Scaled version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="../images/graph_results_case6.png" alt="Graph Results Screenshot Case 6" style="width:304px;height:228px;"></td>
+    <td>51</td>
+    <td>3.68</td>
+    <td>3.36</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="../images/graph_results_case7.png" alt="Graph Results Screenshot Case 7" style="width:304px;height:228px;"></td>
+    <td>88</td>
+    <td>35.17</td>
+    <td>34.98</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTP/10 threads/No prepared statements</td>
+    <td><img src="../images/graph_results_case8.png" alt="Graph Results Screenshot Case 8" style="width:304px;height:228px;"></td>
+    <td>63</td>
+    <td>8.89</td>
+    <td>8.64</td>
+    <td>--</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No connection pooling</td>
+    <td><img src="../images/graph_results_case9.png" alt="Graph Results Screenshot Case 9" style="width:304px;height:228px;"></td>
+    <td>246</td>
+    <td>184.48</td>
+    <td>183.20</td>
+    <td>--</td>
+  </tr>
 
-<p><strong>How to deploy a war file</strong></p>
+</table> 
 
-<p>	1. Open tomcat7 manager </br>
-	2. choose file from select WAR file to upload</br>
-	3. Upload fabflix.war and Deploy</br>
-	4. And if application not already started then click start</p>
+</body>
+</html>
