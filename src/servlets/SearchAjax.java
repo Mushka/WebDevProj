@@ -64,7 +64,7 @@ public class SearchAjax extends HttpServlet {
 		String query = "";
 		String count_query= "";
 		String wordsToSearch[] = title.split(" ");
-		ArrayList<String> values = new ArrayList<String>();
+		String fuzzyCheck = request.getParameter("fuzzy_search");
 		ArrayList<String> fixedWords = new ArrayList<String>();
 		for(int k = 0; k < wordsToSearch.length; k++){	
 			if((k != wordsToSearch.length -1)||(wordsToSearch.length == 1))
@@ -76,46 +76,32 @@ public class SearchAjax extends HttpServlet {
     	}
 		if(advance == null || !advance.equals("true") || (wordsToSearch.length == 1 && wordsToSearch[0].length() == 1))
 		{
-			query = "SELECT * FROM movies as m WHERE title like ?";
-			values.add(title+"%");
+			query = "SELECT * FROM movies as m WHERE title like '"+title+"%'";
 		}
 		else
 		{	
 			query = "SELECT distinct m.id, title, year, director, banner_url, trailer_url "
 					+ "FROM movies as m, stars_in_movies as sm, stars as s "
 					+ "WHERE sm.star_id = s.id AND m.id = sm.movie_id ";
-			if(!"".equals(title.trim())){
-				query += "AND MATCH(m.title) AGAINST (? IN BOOLEAN MODE)";
-				values.add(title+"*");
-			}
+			if(!"".equals(title))
+				query += "AND MATCH(m.title) AGAINST ('"+title+"*' IN BOOLEAN MODE)";
 			for(int i = 0; i < fixedWords.size() -1; i++){
-				if(i != fixedWords.size() - 2){
-					query += " AND m.title like ?";
-					values.add(fixedWords.get(i));
-				}else{
-					query += " AND (m.title like ?";
-					values.add(fixedWords.get(i));
-					query += " OR m.title like ?)";
-					values.add(fixedWords.get(i+1));
+				if(i != fixedWords.size() - 2)
+					query += " AND m.title like '" + fixedWords.get(i) + "'";
+				else{
+					query += " AND (m.title like '" + fixedWords.get(i) + "'";
+					query += " OR m.title like '" + fixedWords.get(i+1) + "')";
 					break;
 				}
 			}
-			if (!"".equals(year)){
-				query += " AND m.year like ?";
-				values.add("%"+ year);
-			}
-			if (!"".equals(director)){
-				query += " AND m.director like ?";
-				values.add("%"+director+"%");
-			}
-			if (!"".equals(fName)){ 
-				query += " AND s.first_name like ?";
-				values.add("%"+fName+"%");
-			}
-			if (!"".equals(lName)){
-				query += " AND s.last_name like ?";
-				values.add("%"+lName+"%");
-			}
+			if (!"".equals(year))
+				query += " AND m.year like '%" + year + "'";
+			if (!"".equals(director))
+				query += " AND m.director like '%" + director + "%'";
+			if (!"".equals(fName)) 
+				query += " AND s.first_name like '%" + fName + "%'";
+			if (!"".equals(lName))
+				query += " AND s.last_name like '%" + lName + "%'";
 		}
 		count_query = query;
 		switch(orderby)
@@ -133,17 +119,15 @@ public class SearchAjax extends HttpServlet {
 			query += " order by year DESC, title";
 			break;
 		}
-		query += " LIMIT ? OFFSET ?";
+		query += " LIMIT "+ limit +" OFFSET "+offset;
+		
+        List<Movie> movies = new ArrayList<Movie>();
+        movies = Movie.getMovies(query);
         if(advance == null)
     		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
         else
     		count_query = "SELECT COUNT(distinct m.id) as count " + count_query.substring(count_query.indexOf("FROM"));
-        String num_of_movies = MySQL.selectPrepare(count_query, values).get(0).get("count").toString();     
-		values.add(limit);
-		values.add(offset);
-        List<Movie> movies = new ArrayList<Movie>();
-        System.out.println(query);
-        movies = Movie.getMoviesPrepare(query, values);  
+        String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
         request.getSession().setAttribute("movies", movies);
         request.getSession().setAttribute("offset", offset);
         request.getSession().setAttribute("limit", limit);
