@@ -4,27 +4,26 @@
 Max Ushkalov</br>
 Josh Alpert</em></strong> </p>
 
-<strong>Master Public IP:</strong> 52.39.228.78 <br>
-<strong>Master Internal IP:</strong> 172.31.31.47 <br>
-
-<strong>Slave Public IP:</strong> 52.40.73.138 <br>
-<strong>Slave Internal IP:</strong> 172.31.29.128 <br>
-
+<strong>Master </strong><br>
+&nbsp;&nbsp;Public IP: 52.39.228.78 <br>
+&nbsp;&nbsp;Internal IP: 172.31.31.47 <br>
 <br>
+<strong>Slave </strong><br>
+&nbsp;&nbsp;Public IP: 52.40.73.138<br>
+&nbsp;&nbsp;Internal IP: 172.31.29.128 <br>
 
-<p><strong>How to use python script:</strong></p>
+<p><strong>The python script:</strong></p>
 
-<p>This script prints the average of all the TS and TJ values inside the logFile.txt and then clears the log file.<br> 
+<p>This script prints the average of all the TS and TJ values inside the logFile.txt and then clears the log file. The log file is accessed via an absolute url; therefore, you can run this script from any location. The logFile.txt is located at: /home/ubuntu/logFile.txt</p>
 
-This script access the log file via an absolute url. Therefore, you can run this script from any location.<br>
-The logFile.txt is located at: /home/ubuntu/logFile.txt<br>
+<p> NOTE: once you run this python script, the log will be cleared.</p>
 
-BEWARE: once you run this python script, the log will be cleared.<br><br>
+<p><strong>How to use the python script:</strong></p>
 
-To print the output of the script, run:<br>
-shell> python avg.py <br>
+<p>To print the output of the script, run:<br>
+shell> python avg.py </p>
 
-To store the output into a file, run: <br>
+<p>To store the output into a file, run: <br>
 shell> python avg.py >> output</p>
 
 

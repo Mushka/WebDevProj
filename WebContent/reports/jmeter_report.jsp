@@ -3,12 +3,16 @@
 <head>
 <style>
 body {
-    background-color: linen;
 }
 
 td {
     border-top-style: solid;
 }
+
+#content {
+  width: 100%;
+}
+
 </style>
 </head>
 <body>
