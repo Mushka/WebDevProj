@@ -4,6 +4,30 @@
 Max Ushkalov</br>
 Josh Alpert</em></strong> </p>
 
+<strong>Master Public IP:</strong> 52.39.228.78 <br>
+<strong>Master Internal IP:</strong> 172.31.31.47 <br>
+
+<strong>Slave Public IP:</strong> 52.40.73.138 <br>
+<strong>Slave Internal IP:</strong> 172.31.29.128 <br>
+
+<br>
+
+<p><strong>How to use python script:</strong></p>
+
+<p>This script prints the average of all the TS and TJ values inside the logFile.txt and then clears the log file.<br> 
+
+This script access the log file via an absolute url. Therefore, you can run this script from any location.<br>
+The logFile.txt is located at: /home/ubuntu/logFile.txt<br>
+
+BEWARE: once you run this python script, the log will be cleared.<br><br>
+
+To print the output of the script, run:<br>
+shell> python avg.py <br>
+
+To store the output into a file, run: <br>
+shell> python avg.py >> output</p>
+
+
 <p><strong>How to compile:</strong></p>
 
 <p>	NOTE: We used eclipse and exported as a WAR file so all the compilation is done in eclipse
