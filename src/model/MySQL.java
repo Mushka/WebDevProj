@@ -34,11 +34,11 @@ public class MySQL {
 
 			Connection db_connection = null;
 			
-			if(datasource == null){
+			//if(datasource == null){
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			}else
-				db_connection = datasource.getConnection();
+			//}else
+			//	db_connection = datasource.getConnection();
 			
 			Statement selectStmt = db_connection.createStatement();
 
@@ -80,12 +80,12 @@ public class MySQL {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
 			Connection db_connection = null;
-			if(datasource == null){
+			//if(datasource == null){
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			}else{
-				db_connection = datasource.getConnection();
-			}
+			//}else{
+			//	db_connection = datasource.getConnection();
+			//}
 			PreparedStatement selectStmt = db_connection.prepareStatement(query);
 			for(int i = 0; i < values.size(); i++){
 				if(!values.get(i).equals("")){
@@ -144,11 +144,11 @@ public class MySQL {
 			DataSource datasource = (DataSource) envContext.lookup("jdbc/master_moviedb");
 
 			Connection db_connection = null;
-			if(datasource == null){
+			//if(datasource == null){
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			}else
-				db_connection = datasource.getConnection();
+			//}else
+			//	db_connection = datasource.getConnection();
 			
 			Statement update = db_connection.createStatement();
 			
@@ -178,11 +178,11 @@ public class MySQL {
 			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
 
 			Connection db_connection = null;
-			if(datasource == null){
+			//if(datasource == null){
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			}else
-				db_connection = datasource.getConnection();
+			//}else
+			//	db_connection = datasource.getConnection();
 			Statement update = db_connection.createStatement();
 			
 			boolean n = update.execute(query);
@@ -223,11 +223,11 @@ public class MySQL {
 
 			Connection db_connection = null;
 			
-			if(datasource == null){
+			//if(datasource == null){
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			}else
-				db_connection = datasource.getConnection();
+			//}else
+			//	db_connection = datasource.getConnection();
 			
 			Statement selectStmt = db_connection.createStatement();
 			ResultSet results = selectStmt.executeQuery(query);
@@ -267,11 +267,11 @@ public class MySQL {
 			DataSource datasource = (DataSource) envContext.lookup("jdbc/moviedb");
 
 			Connection db_connection = null;
-			if(datasource == null){
+			//if(datasource == null){
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				db_connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-			}else
-				db_connection = datasource.getConnection();
+			//}else
+			//	db_connection = datasource.getConnection();
 			DatabaseMetaData databaseMetaData = db_connection.getMetaData();
 
 			String catalog = null;
