@@ -122,12 +122,23 @@ public class SearchAjax extends HttpServlet {
 		query += " LIMIT "+ limit +" OFFSET "+offset;
 		
         List<Movie> movies = new ArrayList<Movie>();
+        
+        long startTime;
+		long endTime;
+        
+	    startTime = System.currentTimeMillis();
+	    
         movies = Movie.getMovies(query);
         if(advance == null)
     		count_query = "SELECT COUNT(*) as count " + count_query.substring(count_query.indexOf("FROM"));
         else
     		count_query = "SELECT COUNT(distinct m.id) as count " + count_query.substring(count_query.indexOf("FROM"));
         String num_of_movies = MySQL.select(count_query).get(0).get("count").toString();
+        
+        endTime = System.currentTimeMillis();
+
+        Logging.appendLogTJ("" + (endTime - startTime));
+        
         request.getSession().setAttribute("movies", movies);
         request.getSession().setAttribute("offset", offset);
         request.getSession().setAttribute("limit", limit);
